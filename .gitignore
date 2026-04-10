@@ -1,0 +1,11 @@
+# Minimal .gitignore for fw_audit
+# Only ignore artifacts that are commonly generated locally and not part of the repo content.
+
+# Python caches / virtualenvs
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.env
+.pytest_cache/
