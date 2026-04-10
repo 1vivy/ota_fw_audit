@@ -51,9 +51,17 @@
     "boot_chain_changed": true,
     "arb_changed": true,
     "arb_incremented": true,
+    "root_cert_hash_changed": false,
+    "oem_id_changed": false,
+    "soc_hw_version_changed": false,
+    "binding_changed": false,
+    "signing_changed": false,
+    "lifecycle_changed": false,
     "cert_chain_changed": false,
     "avb_key_changed": false,
     "avb_rollback_changed": true,
+    "gbl_exploit_lost": false,
+    "gbl_exploit_gained": false,
     "edl_risk_partitions": [
       "hyp",
       "tz",
@@ -900,11 +908,24 @@
       "size_change": 0,
       "format_a": "elf64",
       "format_b": "elf64",
-      "arb_change": {
-        "anti_rollback": {
-          "old": 0,
-          "new": 1
-        }
+      "qualcomm_metadata_change": {
+        "changed_fields": [
+          {
+            "section": "oem_metadata",
+            "field": "anti_rollback_version",
+            "old": 0,
+            "new": 1
+          }
+        ],
+        "arb_changed": true,
+        "arb_incremented": true,
+        "root_cert_hash_changed": false,
+        "oem_id_changed": false,
+        "soc_hw_version_changed": false,
+        "binding_changed": false,
+        "signing_changed": false,
+        "lifecycle_changed": false,
+        "changed": true
       },
       "risk": {
         "role": "boot_chain",

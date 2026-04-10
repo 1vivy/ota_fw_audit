@@ -33,6 +33,8 @@ import yaml
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__))))
 
 from lib import elf_parser, xbl_config, cert_extractor, version_strings, avb_parser, ota_metadata
+from lib import androidtool_parser
+from lib import gbl_detector
 
 
 def sha256_file(path: str) -> str:
@@ -119,32 +121,26 @@ def analyze_image(name: str, path: str) -> dict:
     result["qc_image_version"] = vinfo["qc_image_version"]
     result["oem_image_version"] = vinfo["oem_image_version"]
 
-    # ELF-specific: hash segment metadata + cert extraction
+    # Qualcomm metadata via androidtool (primary source for ELF images)
+    # This gives us structured OEM metadata, binding flags, root cert hashes,
+    # signature properties, and cert chain breakdown.
+    qc_meta = androidtool_parser.inspect_image(path)
+    if qc_meta is not None:
+        result["qualcomm_metadata"] = qc_meta
+
+    # ELF-specific fallback: our own cert extraction + xbl_config ARB
     if fmt == "elf64":
-        phdrs = elf_parser.parse_elf64_phdrs(data)
-        hash_phdr = elf_parser.find_hash_segment(phdrs) if phdrs else None
-        if hash_phdr is not None:
-            segment = elf_parser.read_hash_segment(data, hash_phdr)
-            hdr = elf_parser.locate_hash_table_header(segment)
-            if hdr is not None:
-                result["hash_segment"] = {
-                    "phdr_index": hash_phdr["index"],
-                    "file_offset": hash_phdr["p_offset"],
-                    "size": hash_phdr["p_filesz"],
-                    "header_version": hdr["hash_header_version"],
-                    "oem_metadata_size": hdr["oem_metadata_size"],
-                    "oem_signature_size": hdr.get("oem_signature_size", 0),
-                    "oem_cert_chain_size": hdr.get("oem_cert_chain_size", 0),
-                    "qti_metadata_size": hdr["qti_metadata_size"],
-                    "qti_signature_size": hdr.get("qti_signature_size", 0),
-                    "qti_cert_chain_size": hdr.get("qti_cert_chain_size", 0),
-                }
+        # Only add our cert_chain if androidtool didn't provide cert data
+        if qc_meta is None or qc_meta.get("oem_root_cert") is None:
+            certs = cert_extractor.extract_certs_from_image(data)
+            if certs:
+                result["cert_chain"] = certs
 
-        certs = cert_extractor.extract_certs_from_image(data)
-        result["cert_chain"] = certs
-
-        # xbl_config-specific: ARB
-        if name == "xbl_config":
+        # xbl_config ARB fallback (in case androidtool fails)
+        if name == "xbl_config" and (
+            qc_meta is None
+            or qc_meta.get("oem_metadata") is None
+        ):
             arb = xbl_config.extract_arb(data)
             if arb:
                 result["arb"] = arb
@@ -155,6 +151,11 @@ def analyze_image(name: str, path: str) -> dict:
         if avb:
             result["avb"] = avb
 
+    # GBL vulnerability check for ABL images
+    if name == "abl":
+        gbl = gbl_detector.detect_gbl_vulnerability(data)
+        result["gbl"] = gbl
+
     return result
 
 
@@ -163,8 +164,11 @@ def main():
         description="Analyze firmware images in an OTA and produce a JSON manifest.")
     parser.add_argument("--profile", required=True,
                         help="Path to device profile YAML")
-    parser.add_argument("--ota", required=True,
+    parser.add_argument("--ota", default=None,
                         help="Path to OTA zip file")
+    parser.add_argument("--images-dir", default=None,
+                        help="Path to directory of already-extracted .img files "
+                             "(use instead of --ota)")
     parser.add_argument("--out", required=True,
                         help="Path for output JSON manifest")
     parser.add_argument("--name", default=None,
@@ -173,6 +177,10 @@ def main():
     parser.add_argument("--keep-extracted", default=None,
                         help="If set, keep extracted images in this directory")
     args = parser.parse_args()
+
+    if not args.ota and not args.images_dir:
+        print("ERROR: Must provide either --ota or --images-dir", file=sys.stderr)
+        sys.exit(1)
 
     # Load profile
     with open(args.profile) as f:
@@ -184,11 +192,12 @@ def main():
         all_partitions.extend(profile.get("partitions", {}).get(group, []))
 
     # Read OTA metadata
-    print(f"Reading OTA metadata from {args.ota}...")
-    meta = ota_metadata.extract_ota_metadata(args.ota)
-    if meta is None:
-        meta = {}
-        print("WARNING: Could not read OTA metadata from zip", file=sys.stderr)
+    meta = {}
+    if args.ota:
+        print(f"Reading OTA metadata from {args.ota}...")
+        meta = ota_metadata.extract_ota_metadata(args.ota) or {}
+        if not meta:
+            print("WARNING: Could not read OTA metadata from zip", file=sys.stderr)
 
     # Determine OTA label
     ota_label = (args.name
@@ -203,11 +212,18 @@ def main():
 
     print(f"OTA label: {ota_label}")
 
-    # Find dumper
-    dumper = find_payload_dumper()
+    # If --images-dir, skip extraction entirely
+    use_images_dir = args.images_dir is not None
+
+    if not use_images_dir:
+        # Find dumper
+        dumper = find_payload_dumper()
 
     # Extract partitions
-    if args.keep_extracted:
+    if use_images_dir:
+        extract_dir = args.images_dir
+        cleanup = False
+    elif args.keep_extracted:
         extract_dir = args.keep_extracted
         os.makedirs(extract_dir, exist_ok=True)
         cleanup = False
@@ -216,9 +232,18 @@ def main():
         cleanup = True
 
     try:
-        print(f"Extracting {len(all_partitions)} partitions...")
-        extracted = extract_partitions(args.ota, all_partitions, extract_dir, dumper)
-        print(f"Extracted {len(extracted)} images.")
+        if use_images_dir:
+            # Map existing images from directory
+            extracted = {}
+            for name in all_partitions:
+                p = os.path.join(extract_dir, f"{name}.img")
+                if os.path.isfile(p):
+                    extracted[name] = p
+            print(f"Found {len(extracted)} images in {extract_dir}.")
+        else:
+            print(f"Extracting {len(all_partitions)} partitions...")
+            extracted = extract_partitions(args.ota, all_partitions, extract_dir, dumper)
+            print(f"Extracted {len(extracted)} images.")
 
         # Analyze each image
         partitions_data = {}

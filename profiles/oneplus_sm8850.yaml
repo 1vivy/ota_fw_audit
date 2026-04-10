@@ -1,0 +1,76 @@
+# Device profile: OnePlus SM8850 family (OP15 CPH2747 / infiniti)
+# Seeded from LineageOS android_device_oneplus_infiniti proprietary-firmware.txt
+# https://github.com/OnePlus-SM8850-Development/android_device_oneplus_infiniti
+# Firmware list pinned from CPH2745_16.0.5.700(EX01)
+
+device_family: oneplus_sm8850
+codename: infiniti
+lineage_device_repo: OnePlus-SM8850-Development/android_device_oneplus_infiniti
+soc: sm8850
+
+known_devices:
+  - model: CPH2747
+    name: "OnePlus 15"
+    short: OP15
+  - model: CPH2745
+    name: "OnePlus 15 (CN)"
+    short: OP15_CN
+
+partitions:
+  boot_chain:
+    - xbl
+    - xbl_config
+    - xbl_ac_config
+    - abl
+    - uefi
+    - tz
+    - tz_ac_config
+    - tz_qti_config
+    - hyp
+    - hyp_ac_config
+    - aop
+    - aop_config
+    - devcfg
+    - engineering_cdt
+    - keymaster
+    - uefisecapp
+    - oplus_sec
+    - pvmfw
+    - secretkeeper
+
+  subsystem_firmware:
+    - modem
+    - bluetooth
+    - dsp
+    - qupfw
+    - cpucp
+    - cpucp_dtb
+    - soccp
+    - soccp_debug
+    - soccp_dcd
+    - shrm
+    - pdp
+    - pdp_cdb
+    - dcp
+    - tme_fw
+    - tme_config
+    - tme_seq_patch
+    - multiimgqti
+    - multiimgoem
+    - spuservice
+    - imagefv
+    - featenabler
+
+  low_priority:
+    - splash
+    - xbl_ramdump
+
+  boundary:
+    - boot
+    - init_boot
+    - vendor_boot
+    - dtbo
+    - vbmeta
+    - vbmeta_system
+    - vbmeta_vendor
+    - recovery

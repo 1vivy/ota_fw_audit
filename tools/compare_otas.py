@@ -87,6 +87,113 @@ def compare_avb(avb_a: dict, avb_b: dict) -> dict:
     return result
 
 
+def compare_qualcomm_metadata(qm_a: dict, qm_b: dict) -> dict:
+    """Compare qualcomm_metadata blocks from androidtool.
+
+    Returns dict with changed_fields list and boolean flags for
+    interoperability-critical changes.
+    """
+    result = {
+        "changed_fields": [],
+        "arb_changed": False,
+        "arb_incremented": False,
+        "root_cert_hash_changed": False,
+        "oem_id_changed": False,
+        "soc_hw_version_changed": False,
+        "binding_changed": False,
+        "signing_changed": False,
+        "lifecycle_changed": False,
+        "changed": False,
+    }
+
+    # Compare OEM metadata fields
+    oem_a = qm_a.get("oem_metadata", {}) or {}
+    oem_b = qm_b.get("oem_metadata", {}) or {}
+
+    # Interoperability-critical OEM metadata keys
+    for key in [
+        "anti_rollback_version", "root_certificate_index",
+        "soc_hw_version", "product_segment_id", "jtag_id",
+        "oem_id", "oem_product_id", "oem_lifecycle_state",
+        "oem_root_cert_hash_algo",
+        "bound_to_soc_hardware_versions", "bound_to_product_segment_id",
+        "bound_to_jtag_id", "bound_to_serial_numbers",
+        "bound_to_oem_id", "bound_to_oem_product_id",
+        "bound_to_soc_lifecycle_state", "bound_to_oem_lifecycle_state",
+        "bound_to_oem_root_certificate_hash",
+        "jtag_debug", "transfer_root",
+        "major_version", "minor_version",
+    ]:
+        va = oem_a.get(key)
+        vb = oem_b.get(key)
+        if va != vb:
+            result["changed_fields"].append({
+                "section": "oem_metadata",
+                "field": key,
+                "old": va,
+                "new": vb,
+            })
+            if key == "anti_rollback_version":
+                result["arb_changed"] = True
+                if va is not None and vb is not None and vb > va:
+                    result["arb_incremented"] = True
+            if key == "oem_id":
+                result["oem_id_changed"] = True
+            if key == "soc_hw_version":
+                result["soc_hw_version_changed"] = True
+            if key == "oem_lifecycle_state":
+                result["lifecycle_changed"] = True
+            if key.startswith("bound_to_"):
+                result["binding_changed"] = True
+
+    # Compare root cert hashes
+    root_a = qm_a.get("oem_root_cert", {}) or {}
+    root_b = qm_b.get("oem_root_cert", {}) or {}
+    for key in ["root_cert_hash_sha256", "root_cert_hash_sha384"]:
+        va = root_a.get(key)
+        vb = root_b.get(key)
+        if va != vb and va is not None and vb is not None:
+            result["changed_fields"].append({
+                "section": "oem_root_cert",
+                "field": key,
+                "old": va,
+                "new": vb,
+            })
+            result["root_cert_hash_changed"] = True
+
+    # Compare signature properties
+    sig_a = qm_a.get("oem_signature", {}) or {}
+    sig_b = qm_b.get("oem_signature", {}) or {}
+    for key in ["algorithm", "hash_algorithm", "curve", "key_size"]:
+        va = sig_a.get(key)
+        vb = sig_b.get(key)
+        if va != vb and va is not None and vb is not None:
+            result["changed_fields"].append({
+                "section": "oem_signature",
+                "field": key,
+                "old": va,
+                "new": vb,
+            })
+            result["signing_changed"] = True
+
+    # Compare common metadata
+    cm_a = qm_a.get("common_metadata", {}) or {}
+    cm_b = qm_b.get("common_metadata", {}) or {}
+    for key in ["software_id", "secondary_software_id", "hash_algorithm"]:
+        va = cm_a.get(key)
+        vb = cm_b.get(key)
+        if va != vb and va is not None and vb is not None:
+            result["changed_fields"].append({
+                "section": "common_metadata",
+                "field": key,
+                "old": va,
+                "new": vb,
+            })
+
+    result["changed"] = bool(result["changed_fields"])
+    return result
+
+
 def compare_partition(name: str, pa: dict, pb: dict) -> dict:
     """Compare metadata for a single partition across two manifests."""
     diff = {
@@ -107,20 +214,29 @@ def compare_partition(name: str, pa: dict, pb: dict) -> dict:
     if oem_a != oem_b:
         diff["oem_version_change"] = {"old": oem_a, "new": oem_b}
 
-    # ARB
-    arb_a = pa.get("arb", {})
-    arb_b = pb.get("arb", {})
-    if arb_a or arb_b:
-        arb_diff = {}
-        for key in ["oem_major", "oem_minor", "anti_rollback"]:
-            va = arb_a.get(key)
-            vb = arb_b.get(key)
-            if va != vb:
-                arb_diff[key] = {"old": va, "new": vb}
-        if arb_diff:
-            diff["arb_change"] = arb_diff
+    # Qualcomm metadata (primary interoperability comparison)
+    qm_a = pa.get("qualcomm_metadata")
+    qm_b = pb.get("qualcomm_metadata")
+    if qm_a and qm_b:
+        qm_diff = compare_qualcomm_metadata(qm_a, qm_b)
+        if qm_diff["changed"]:
+            diff["qualcomm_metadata_change"] = qm_diff
 
-    # Cert chain
+    # Legacy ARB fallback (if qualcomm_metadata not available)
+    if not (qm_a and qm_b):
+        arb_a = pa.get("arb", {})
+        arb_b = pb.get("arb", {})
+        if arb_a or arb_b:
+            arb_diff = {}
+            for key in ["oem_major", "oem_minor", "anti_rollback"]:
+                va = arb_a.get(key)
+                vb = arb_b.get(key)
+                if va != vb:
+                    arb_diff[key] = {"old": va, "new": vb}
+            if arb_diff:
+                diff["arb_change"] = arb_diff
+
+    # Legacy cert chain fallback
     certs_a = pa.get("cert_chain", [])
     certs_b = pb.get("cert_chain", [])
     if certs_a or certs_b:
@@ -135,6 +251,20 @@ def compare_partition(name: str, pa: dict, pb: dict) -> dict:
         avb_diff = compare_avb(avb_a, avb_b)
         if avb_diff["changed"]:
             diff["avb_change"] = avb_diff
+
+    # GBL vulnerability (ABL only)
+    gbl_a = pa.get("gbl")
+    gbl_b = pb.get("gbl")
+    if gbl_a is not None and gbl_b is not None:
+        va = gbl_a.get("gbl_vulnerable")
+        vb = gbl_b.get("gbl_vulnerable")
+        if va != vb:
+            diff["gbl_change"] = {
+                "old_vulnerable": va,
+                "new_vulnerable": vb,
+                "lost": va and not vb,
+                "gained": not va and vb,
+            }
 
     return diff
 
@@ -169,9 +299,17 @@ def main():
             "boot_chain_changed": False,
             "arb_changed": False,
             "arb_incremented": False,
+            "root_cert_hash_changed": False,
+            "oem_id_changed": False,
+            "soc_hw_version_changed": False,
+            "binding_changed": False,
+            "signing_changed": False,
+            "lifecycle_changed": False,
             "cert_chain_changed": False,
             "avb_key_changed": False,
             "avb_rollback_changed": False,
+            "gbl_exploit_lost": False,
+            "gbl_exploit_gained": False,
             "edl_risk_partitions": [],
         },
         "partition_diffs": {},
@@ -218,12 +356,35 @@ def main():
         # Update summary flags
         if risk.get("role") == "boot_chain":
             report["summary"]["boot_chain_changed"] = True
+
+        # Qualcomm metadata interoperability flags (primary)
+        qm_diff = diff.get("qualcomm_metadata_change", {})
+        if qm_diff:
+            if qm_diff.get("arb_changed"):
+                report["summary"]["arb_changed"] = True
+            if qm_diff.get("arb_incremented"):
+                report["summary"]["arb_incremented"] = True
+            if qm_diff.get("root_cert_hash_changed"):
+                report["summary"]["root_cert_hash_changed"] = True
+            if qm_diff.get("oem_id_changed"):
+                report["summary"]["oem_id_changed"] = True
+            if qm_diff.get("soc_hw_version_changed"):
+                report["summary"]["soc_hw_version_changed"] = True
+            if qm_diff.get("binding_changed"):
+                report["summary"]["binding_changed"] = True
+            if qm_diff.get("signing_changed"):
+                report["summary"]["signing_changed"] = True
+            if qm_diff.get("lifecycle_changed"):
+                report["summary"]["lifecycle_changed"] = True
+
+        # Legacy ARB fallback
         if "arb_change" in diff:
             report["summary"]["arb_changed"] = True
             arb_old = diff["arb_change"].get("anti_rollback", {}).get("old")
             arb_new = diff["arb_change"].get("anti_rollback", {}).get("new")
             if arb_old is not None and arb_new is not None and arb_new > arb_old:
                 report["summary"]["arb_incremented"] = True
+
         if "cert_change" in diff:
             report["summary"]["cert_chain_changed"] = True
         if "avb_change" in diff:
@@ -233,6 +394,14 @@ def main():
                     report["summary"]["avb_key_changed"] = True
                 if fc["field"] == "rollback_index":
                     report["summary"]["avb_rollback_changed"] = True
+        # GBL exploit status change
+        gbl_change = diff.get("gbl_change")
+        if gbl_change:
+            if gbl_change.get("lost"):
+                report["summary"]["gbl_exploit_lost"] = True
+            if gbl_change.get("gained"):
+                report["summary"]["gbl_exploit_gained"] = True
+
         if risk.get("edl_risk_if_mismatched"):
             report["summary"]["edl_risk_partitions"].append(name)
 
@@ -248,8 +417,24 @@ def main():
           file=sys.stderr)
     if s["arb_incremented"]:
         print("*** ARB INCREMENTED ***", file=sys.stderr)
+    if s["root_cert_hash_changed"]:
+        print("*** ROOT CERT HASH CHANGED (key rotation) ***", file=sys.stderr)
+    if s["oem_id_changed"]:
+        print("*** OEM ID CHANGED ***", file=sys.stderr)
+    if s["soc_hw_version_changed"]:
+        print("*** SoC HW VERSION CHANGED ***", file=sys.stderr)
+    if s["binding_changed"]:
+        print("*** BINDING FLAGS CHANGED ***", file=sys.stderr)
+    if s["signing_changed"]:
+        print("*** SIGNING METHOD CHANGED ***", file=sys.stderr)
+    if s["lifecycle_changed"]:
+        print("*** LIFECYCLE STATE CHANGED ***", file=sys.stderr)
     if s["cert_chain_changed"]:
         print("*** CERT CHAIN CHANGED ***", file=sys.stderr)
+    if s["gbl_exploit_lost"]:
+        print("*** GBL EXPLOIT LOST (efisp removed from new ABL) ***", file=sys.stderr)
+    if s["gbl_exploit_gained"]:
+        print("*** GBL EXPLOIT GAINED (efisp present in new ABL) ***", file=sys.stderr)
     if s["avb_key_changed"]:
         print("*** AVB PUBLIC KEY CHANGED ***", file=sys.stderr)
     if s["edl_risk_partitions"]:
