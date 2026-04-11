@@ -1,26 +1,15 @@
-# Device profile: OnePlus SM8750 family (OP13 CPH2653)
-# Seeded from LineageOS android_device_oneplus_dodge proprietary-firmware.txt
-# and android_device_oneplus_sm8750-common
-
-device_family: oneplus_sm8750
+profile_id: oneplus_dodge_sm8750
+manufacturer: OnePlus
+device_name: OnePlus 13
 codename: dodge
-lineage_device_repo: LineageOS/android_device_oneplus_dodge
-lineage_common_repo: LineageOS/android_device_oneplus_sm8750-common
 soc: sm8750
-
-known_devices:
-    - model: CPH2653
-      name: "OnePlus 13"
-      short: dodge
-    - model: CPH2747
-      name: "OnePlus 13T"
-      short: OP15
-
-# Partitions grouped by role.
-# These are the partitions tracked by the framework.
-# "firmware" = non-HLOS images that the bootloader/TEE/subsystem use directly.
-# "boundary" = images at the handoff between firmware and Android (kernel, vbmeta, etc.)
-# "hlos" = Android userspace partitions (not tracked for firmware audit purposes).
+model_numbers:
+    - CPH2653
+source_references:
+    - https://github.com/LineageOS/android_device_oneplus_dodge
+    - https://github.com/LineageOS/android_device_oneplus_sm8750-common
+notes:
+    - Seeded from LineageOS proprietary-firmware.txt and common device trees.
 
 partitions:
     boot_chain:

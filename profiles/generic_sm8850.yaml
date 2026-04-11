@@ -1,0 +1,65 @@
+profile_id: generic_sm8850
+manufacturer: Generic
+device_name: Generic Snapdragon 8 Elite Device
+codename: generic-sm8850
+soc: sm8850
+model_numbers: []
+source_references:
+    - Common SM8850 partition overlap observed across OnePlus and Xiaomi full OTAs
+notes:
+    - This is a conservative starting profile for unknown SM8850 devices.
+    - Vendor-specific profiles should override or extend this with extra firmware partitions.
+
+partitions:
+    boot_chain:
+        - xbl
+        - xbl_config
+        - xbl_ac_config
+        - abl
+        - uefi
+        - tz
+        - tz_ac_config
+        - tz_qti_config
+        - hyp
+        - hyp_ac_config
+        - aop
+        - aop_config
+        - devcfg
+        - keymaster
+        - uefisecapp
+        - pvmfw
+        - secretkeeper
+
+    subsystem_firmware:
+        - modem
+        - bluetooth
+        - dsp
+        - qupfw
+        - cpucp
+        - cpucp_dtb
+        - soccp
+        - soccp_dcd
+        - soccp_debug
+        - shrm
+        - pdp
+        - pdp_cdb
+        - dcp
+        - imagefv
+        - featenabler
+        - spuservice
+        - multiimgqti
+        - tme_fw
+        - tme_config
+        - tme_seq_patch
+
+    low_priority:
+        - xbl_ramdump
+
+    boundary:
+        - boot
+        - init_boot
+        - vendor_boot
+        - dtbo
+        - vbmeta
+        - vbmeta_system
+        - recovery

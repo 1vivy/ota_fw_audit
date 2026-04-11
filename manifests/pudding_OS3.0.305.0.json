@@ -1,48 +1,30 @@
 {
-  "ota_label": "CPH2653_16.0.5.701(EX01)",
+  "ota_label": "16OS3.1.260320.042739869.QCPECN.S",
   "ota_metadata": {
-    "android_version": "16",
-    "build_type": "user",
-    "display_os_version": "16.0.5",
-    "forbid_ota_local_update": "false",
-    "google_patch": "20260301",
-    "oplus_disable_postinstall": "no",
-    "oplus_hex_nv_id": "A7",
-    "oplus_project_numbers": "23893",
-    "os_version": "V16.0.0",
-    "ota-id": "CPH2653_11.F.86_2860_202603061817",
-    "ota-property-files": "payload_metadata.bin:2921:295005,payload.bin:2921:8089228292,payload_properties.txt:8089231271:372,care_map.pb:2350:504,metadata:69:1180,metadata.pb:1317:986",
+    "ota-property-files": "payload_metadata.bin:5086:301063,payload.bin:5086:8048790201,payload_properties.txt:8048795345:156,apex_info.pb:2573:1299,care_map.pb:3919:1100,metadata:69:725,metadata.pb:862:1663",
     "ota-required-cache": "0",
-    "ota-streaming-property-files": "payload.bin:2921:8089228292,payload_properties.txt:8089231271:372,care_map.pb:2350:504,metadata:69:1180,metadata.pb:1317:986",
+    "ota-streaming-property-files": "payload.bin:5086:8048790201,payload_properties.txt:8048795345:156,apex_info.pb:2573:1299,care_map.pb:3919:1100,metadata:69:725,metadata.pb:862:1663",
     "ota-type": "AB",
-    "ota_root_or_debug": "false",
-    "ota_version": "CPH2653_11.F.86_2860_202603061817",
-    "patch_type": "1",
-    "post-build": "OnePlus/CPH2653/OP5D55L1:16/BP2A.250605.015/V.R4T3.45a1268-22c76c3-22e1011:user/release-keys",
-    "post-build-incremental": "V.R4T3.45a1268-22c76c3-22e1011",
+    "post-build": "Xiaomi/pudding/pudding:16/BP2A.250605.031.A3/16OS3.1.260320.042739869.QCPECN.S:user/release-keys",
+    "post-build-incremental": "16OS3.1.260320.042739869.QCPECN.S",
     "post-sdk-level": "36",
-    "post-security-patch-level": "2026-03-01",
-    "post-timestamp": "1772783799",
-    "pre-device": "OP5D55L1",
-    "product_name": "CPH2653",
-    "reserve-image-size": "0",
-    "security_patch": "2026-03-01",
-    "security_patch_vendor": "2026-03-01",
-    "version_name": "CPH2653_16.0.5.701(EX01)",
-    "version_name_show": "CPH2653_16.0.5.701(EX01)",
-    "wipe": "0"
+    "post-security-patch-level": "2026-02-01",
+    "post-timestamp": "1773956933",
+    "pre-device": "pudding"
   },
-  "profile_id": "oneplus_dodge_sm8750",
-  "profile_file": "oneplus_dodge_sm8750.yaml",
-  "manufacturer": "OnePlus",
-  "device_name": "OnePlus 13",
-  "device_codename": "dodge",
-  "device_aliases": [],
-  "soc": "sm8750",
-  "model_numbers": [
-    "CPH2653"
+  "profile_id": "xiaomi_pudding_sm8850",
+  "profile_file": "xiaomi_pudding_sm8850.yaml",
+  "manufacturer": "Xiaomi",
+  "device_name": "Xiaomi 17s",
+  "device_codename": "pudding",
+  "device_aliases": [
+    "puddy"
   ],
-  "source_ota": "/home/vivy/OTA_kitchen/OP13_OTAs/2f4d07a40bc0445d954c746a086d74c6.zip",
+  "soc": "sm8850",
+  "model_numbers": [
+    "pudding"
+  ],
+  "source_ota": "/home/vivy/OTA_kitchen/pudding-ota_full-OS3.0.305.0.WPCCNXM-user-16.0-d00584dfa0.zip",
   "base_ota": null,
   "ota_kind": "full",
   "uefi_setup_mode": {
@@ -56,7 +38,7 @@
     "per_image": {
       "uefi.img": {
         "signature_lists_found": [],
-        "der_certs_in_code": 0,
+        "der_certs_in_code": 1,
         "key_varnames_found": [],
         "enroll_strings": [],
         "has_pk_data": false,
@@ -83,18 +65,96 @@
     },
     "gbl_loadimage_ok": true
   },
-  "partitions_analyzed": 39,
+  "partitions_analyzed": 51,
   "partitions": {
     "xbl": {
-      "sha256": "7a871d364232b8c9b7cd6b8c7da9c0b86f148e390a7b4c94751ba2b6c32390ef",
-      "size": 1191936,
-      "format": "opaque_blob",
-      "qc_image_version": "BOOT.MXF.2.5.1-00265-PAKALA-1.104700.25",
-      "oem_image_version": "ip-10-195-201-50"
+      "sha256": "d1bd70f71dbf06ea3680c7a51689e399497d512b4b1e74ccf424355afdfeba56",
+      "size": 1171456,
+      "format": "elf64",
+      "qc_image_version": "BOOT.MXF.2.5.3-00131-KAANAPALI-1.121482.43",
+      "oem_image_version": "ip-10-195-201-111",
+      "qualcomm_metadata": {
+        "common_metadata": {
+          "major_version": 0,
+          "minor_version": 0,
+          "software_id": "0x25",
+          "secondary_software_id": "0x0",
+          "hash_algorithm": "SHA384",
+          "measurement_register_target": "Measurement not to be recorded"
+        },
+        "oem_metadata": {
+          "major_version": 3,
+          "minor_version": 0,
+          "anti_rollback_version": 0,
+          "root_certificate_index": 0,
+          "soc_hw_version": "0xa01b",
+          "product_segment_id": "0x0",
+          "jtag_id": "0x0",
+          "oem_id": "0x51",
+          "oem_product_id": "0x0",
+          "oem_lifecycle_state": "0x0",
+          "oem_root_cert_hash_algo": "NA",
+          "bound_to_soc_hardware_versions": true,
+          "bound_to_product_segment_id": false,
+          "bound_to_jtag_id": false,
+          "bound_to_serial_numbers": false,
+          "bound_to_oem_id": true,
+          "bound_to_oem_product_id": true,
+          "bound_to_soc_lifecycle_state": false,
+          "bound_to_oem_lifecycle_state": false,
+          "bound_to_oem_root_certificate_hash": false,
+          "jtag_debug": "Nop",
+          "transfer_root": false
+        },
+        "oem_signature": {
+          "algorithm": "ECDSA",
+          "hash_algorithm": "SHA384",
+          "curve": "secp384r1",
+          "key_size": 384
+        },
+        "oem_cert_chain": {
+          "total_certs": 3,
+          "attest_certs": 1,
+          "ca_certs": 1,
+          "root_certs": 1
+        },
+        "oem_attest_cert": {
+          "extended_key_usage": "Code Signing",
+          "signature_algorithm": "ECDSA",
+          "hash_algorithm": "SHA384",
+          "curve": "secp384r1",
+          "key_size": 384
+        },
+        "oem_ca_cert": {
+          "signature_algorithm": "ECDSA",
+          "hash_algorithm": "SHA384",
+          "curve": "secp384r1",
+          "key_size": 384
+        },
+        "oem_root_cert": {
+          "root_cert_hash_sha256": "0x51a5acc6bfee42dfe62a8ef1ee0c5e04912037005a7c9658dcc91e500ffcdb0e",
+          "root_cert_hash_sha384": "0x31313ec6f0c237b69004d153b2ec2d3ddf1d826d0f60a952d039d5ded862ab0e515e4819d1844fdc91242304c685f202",
+          "signature_algorithm": "ECDSA",
+          "hash_algorithm": "SHA384",
+          "curve": "secp384r1",
+          "key_size": 384
+        },
+        "hash_table_header": {
+          "version": 7,
+          "common_metadata_size": 24,
+          "qti_metadata_size": 0,
+          "oem_metadata_size": 224,
+          "hash_table_size": 432,
+          "qti_signature_size": 0,
+          "qti_cert_chain_size": 0,
+          "oem_signature_size": 104,
+          "oem_cert_chain_size": 3360
+        }
+      }
     },
     "xbl_config": {
-      "sha256": "1b83b73a1276c5323d2faeaeeffb28672dfd3171bb89aa1f569db64016af57a3",
-      "size": 360448,
+      "sha256": "c71997abe6f47b9c1e9bdb113a5628591ea19a2f001166e8c0ff207447a05400",
+      "size": 389120,
       "format": "elf64",
       "qc_image_version": null,
       "oem_image_version": null,
@@ -169,7 +229,92 @@
           "common_metadata_size": 24,
           "qti_metadata_size": 0,
           "oem_metadata_size": 224,
-          "hash_table_size": 672,
+          "hash_table_size": 336,
+          "qti_signature_size": 0,
+          "qti_cert_chain_size": 0,
+          "oem_signature_size": 104,
+          "oem_cert_chain_size": 3360
+        }
+      }
+    },
+    "xbl_ac_config": {
+      "sha256": "fe281b15d5f8eefde660fd6fedb150b75e8d49d7a2ea5b0fa340489f5714d754",
+      "size": 45056,
+      "format": "elf64",
+      "qc_image_version": "ACPOLICY.XF.1.0-00302-KAANAPALI-1.121482.2",
+      "oem_image_version": "san-w175-ma3-2-01",
+      "qualcomm_metadata": {
+        "common_metadata": {
+          "major_version": 0,
+          "minor_version": 0,
+          "software_id": "0x25",
+          "secondary_software_id": "0x0",
+          "hash_algorithm": "SHA384",
+          "measurement_register_target": "Measurement not to be recorded"
+        },
+        "oem_metadata": {
+          "major_version": 3,
+          "minor_version": 0,
+          "anti_rollback_version": 0,
+          "root_certificate_index": 0,
+          "soc_hw_version": "0xa01b",
+          "product_segment_id": "0x0",
+          "jtag_id": "0x0",
+          "oem_id": "0x51",
+          "oem_product_id": "0x0",
+          "oem_lifecycle_state": "0x0",
+          "oem_root_cert_hash_algo": "NA",
+          "bound_to_soc_hardware_versions": true,
+          "bound_to_product_segment_id": false,
+          "bound_to_jtag_id": false,
+          "bound_to_serial_numbers": false,
+          "bound_to_oem_id": true,
+          "bound_to_oem_product_id": true,
+          "bound_to_soc_lifecycle_state": false,
+          "bound_to_oem_lifecycle_state": false,
+          "bound_to_oem_root_certificate_hash": false,
+          "jtag_debug": "Nop",
+          "transfer_root": false
+        },
+        "oem_signature": {
+          "algorithm": "ECDSA",
+          "hash_algorithm": "SHA384",
+          "curve": "secp384r1",
+          "key_size": 384
+        },
+        "oem_cert_chain": {
+          "total_certs": 3,
+          "attest_certs": 1,
+          "ca_certs": 1,
+          "root_certs": 1
+        },
+        "oem_attest_cert": {
+          "extended_key_usage": "Code Signing",
+          "signature_algorithm": "ECDSA",
+          "hash_algorithm": "SHA384",
+          "curve": "secp384r1",
+          "key_size": 384
+        },
+        "oem_ca_cert": {
+          "signature_algorithm": "ECDSA",
+          "hash_algorithm": "SHA384",
+          "curve": "secp384r1",
+          "key_size": 384
+        },
+        "oem_root_cert": {
+          "root_cert_hash_sha256": "0x51a5acc6bfee42dfe62a8ef1ee0c5e04912037005a7c9658dcc91e500ffcdb0e",
+          "root_cert_hash_sha384": "0x31313ec6f0c237b69004d153b2ec2d3ddf1d826d0f60a952d039d5ded862ab0e515e4819d1844fdc91242304c685f202",
+          "signature_algorithm": "ECDSA",
+          "hash_algorithm": "SHA384",
+          "curve": "secp384r1",
+          "key_size": 384
+        },
+        "hash_table_header": {
+          "version": 7,
+          "common_metadata_size": 24,
+          "qti_metadata_size": 0,
+          "oem_metadata_size": 224,
+          "hash_table_size": 144,
           "qti_signature_size": 0,
           "qti_cert_chain_size": 0,
           "oem_signature_size": 104,
@@ -178,8 +323,8 @@
       }
     },
     "abl": {
-      "sha256": "c2b8946a27e3d7b6bcc45a86cdaa9f49dc929c5adc53964ccd2692c01df2c3f0",
-      "size": 278528,
+      "sha256": "383acac4635c7f1149245830ebacb0e16ceab9c9f98987221226cafe41eecd9a",
+      "size": 335872,
       "format": "opaque_blob",
       "qc_image_version": null,
       "oem_image_version": null,
@@ -190,10 +335,180 @@
       }
     },
     "uefi": {
-      "sha256": "70e94e5d1734bfd80c215df8e3636ada12762f29a612feb7c91b6126ed87d686",
+      "sha256": "f8e4f20ffdee4ec7242bc831c2029b67345a3495e717c4ed0a6ab710a18450ca",
       "size": 2797568,
       "format": "elf64",
-      "qc_image_version": "BOOT.MXF.2.5.1-00265-PAKALA-1.104700.16",
+      "qc_image_version": "BOOT.MXF.2.5.3-00131-KAANAPALI-1.121482.43",
+      "oem_image_version": null,
+      "qualcomm_metadata": {
+        "common_metadata": {
+          "major_version": 0,
+          "minor_version": 0,
+          "software_id": "0x25",
+          "secondary_software_id": "0x0",
+          "hash_algorithm": "SHA384",
+          "measurement_register_target": "Measurement not to be recorded"
+        },
+        "oem_metadata": {
+          "major_version": 3,
+          "minor_version": 0,
+          "anti_rollback_version": 1,
+          "root_certificate_index": 0,
+          "soc_hw_version": "0xa01b",
+          "product_segment_id": "0x0",
+          "jtag_id": "0x0",
+          "oem_id": "0x51",
+          "oem_product_id": "0x0",
+          "oem_lifecycle_state": "0x0",
+          "oem_root_cert_hash_algo": "NA",
+          "bound_to_soc_hardware_versions": true,
+          "bound_to_product_segment_id": false,
+          "bound_to_jtag_id": false,
+          "bound_to_serial_numbers": false,
+          "bound_to_oem_id": true,
+          "bound_to_oem_product_id": true,
+          "bound_to_soc_lifecycle_state": false,
+          "bound_to_oem_lifecycle_state": false,
+          "bound_to_oem_root_certificate_hash": false,
+          "jtag_debug": "Nop",
+          "transfer_root": false
+        },
+        "oem_signature": {
+          "algorithm": "ECDSA",
+          "hash_algorithm": "SHA384",
+          "curve": "secp384r1",
+          "key_size": 384
+        },
+        "oem_cert_chain": {
+          "total_certs": 3,
+          "attest_certs": 1,
+          "ca_certs": 1,
+          "root_certs": 1
+        },
+        "oem_attest_cert": {
+          "extended_key_usage": "Code Signing",
+          "signature_algorithm": "ECDSA",
+          "hash_algorithm": "SHA384",
+          "curve": "secp384r1",
+          "key_size": 384
+        },
+        "oem_ca_cert": {
+          "signature_algorithm": "ECDSA",
+          "hash_algorithm": "SHA384",
+          "curve": "secp384r1",
+          "key_size": 384
+        },
+        "oem_root_cert": {
+          "root_cert_hash_sha256": "0x51a5acc6bfee42dfe62a8ef1ee0c5e04912037005a7c9658dcc91e500ffcdb0e",
+          "root_cert_hash_sha384": "0x31313ec6f0c237b69004d153b2ec2d3ddf1d826d0f60a952d039d5ded862ab0e515e4819d1844fdc91242304c685f202",
+          "signature_algorithm": "ECDSA",
+          "hash_algorithm": "SHA384",
+          "curve": "secp384r1",
+          "key_size": 384
+        },
+        "hash_table_header": {
+          "version": 7,
+          "common_metadata_size": 24,
+          "qti_metadata_size": 0,
+          "oem_metadata_size": 224,
+          "hash_table_size": 144,
+          "qti_signature_size": 0,
+          "qti_cert_chain_size": 0,
+          "oem_signature_size": 104,
+          "oem_cert_chain_size": 3360
+        }
+      }
+    },
+    "tz": {
+      "sha256": "627a8184fd3cbfc3e3dd6214583cdfe165c8428f76e8db8f4f1b3b1da4f77412",
+      "size": 4214784,
+      "format": "elf64",
+      "qc_image_version": "TZ.XF.5.33-00048-KAANAPALI-1.121482.26",
+      "oem_image_version": "ip-10-195-202-160",
+      "qualcomm_metadata": {
+        "common_metadata": {
+          "major_version": 0,
+          "minor_version": 0,
+          "software_id": "0x25",
+          "secondary_software_id": "0x0",
+          "hash_algorithm": "SHA384",
+          "measurement_register_target": "Measurement not to be recorded"
+        },
+        "oem_metadata": {
+          "major_version": 3,
+          "minor_version": 0,
+          "anti_rollback_version": 0,
+          "root_certificate_index": 0,
+          "soc_hw_version": "0xa01b",
+          "product_segment_id": "0x0",
+          "jtag_id": "0x0",
+          "oem_id": "0x51",
+          "oem_product_id": "0x0",
+          "oem_lifecycle_state": "0x0",
+          "oem_root_cert_hash_algo": "NA",
+          "bound_to_soc_hardware_versions": true,
+          "bound_to_product_segment_id": false,
+          "bound_to_jtag_id": false,
+          "bound_to_serial_numbers": false,
+          "bound_to_oem_id": true,
+          "bound_to_oem_product_id": true,
+          "bound_to_soc_lifecycle_state": false,
+          "bound_to_oem_lifecycle_state": false,
+          "bound_to_oem_root_certificate_hash": false,
+          "jtag_debug": "Nop",
+          "transfer_root": false
+        },
+        "oem_signature": {
+          "algorithm": "ECDSA",
+          "hash_algorithm": "SHA384",
+          "curve": "secp384r1",
+          "key_size": 384
+        },
+        "oem_cert_chain": {
+          "total_certs": 3,
+          "attest_certs": 1,
+          "ca_certs": 1,
+          "root_certs": 1
+        },
+        "oem_attest_cert": {
+          "extended_key_usage": "Code Signing",
+          "signature_algorithm": "ECDSA",
+          "hash_algorithm": "SHA384",
+          "curve": "secp384r1",
+          "key_size": 384
+        },
+        "oem_ca_cert": {
+          "signature_algorithm": "ECDSA",
+          "hash_algorithm": "SHA384",
+          "curve": "secp384r1",
+          "key_size": 384
+        },
+        "oem_root_cert": {
+          "root_cert_hash_sha256": "0x51a5acc6bfee42dfe62a8ef1ee0c5e04912037005a7c9658dcc91e500ffcdb0e",
+          "root_cert_hash_sha384": "0x31313ec6f0c237b69004d153b2ec2d3ddf1d826d0f60a952d039d5ded862ab0e515e4819d1844fdc91242304c685f202",
+          "signature_algorithm": "ECDSA",
+          "hash_algorithm": "SHA384",
+          "curve": "secp384r1",
+          "key_size": 384
+        },
+        "hash_table_header": {
+          "version": 7,
+          "common_metadata_size": 24,
+          "qti_metadata_size": 0,
+          "oem_metadata_size": 224,
+          "hash_table_size": 2160,
+          "qti_signature_size": 0,
+          "qti_cert_chain_size": 0,
+          "oem_signature_size": 104,
+          "oem_cert_chain_size": 3360
+        }
+      }
+    },
+    "tz_ac_config": {
+      "sha256": "273c22889f2cadb94aa19931a9c43854068e56911a3a873ad7e866aad927f2ee",
+      "size": 65536,
+      "format": "elf64",
+      "qc_image_version": null,
       "oem_image_version": null,
       "qualcomm_metadata": {
         "common_metadata": {
@@ -274,12 +589,12 @@
         }
       }
     },
-    "tz": {
-      "sha256": "fa6537b87235e73f161932f18c72e2753fc093e037bf9cc3e79e5f61cabcc5ae",
-      "size": 4173824,
+    "tz_qti_config": {
+      "sha256": "eacc2a9fa11cf721b0fa54e3af84db4b3ef8797060ef9fce378ed7550cd93cf8",
+      "size": 139264,
       "format": "elf64",
-      "qc_image_version": "TZ.XF.5.29-00450-PAKALA-1.104700.16",
-      "oem_image_version": "ip-10-195-203-241",
+      "qc_image_version": null,
+      "oem_image_version": null,
       "qualcomm_metadata": {
         "common_metadata": {
           "major_version": 0,
@@ -351,7 +666,7 @@
           "common_metadata_size": 24,
           "qti_metadata_size": 0,
           "oem_metadata_size": 224,
-          "hash_table_size": 1920,
+          "hash_table_size": 144,
           "qti_signature_size": 0,
           "qti_cert_chain_size": 0,
           "oem_signature_size": 104,
@@ -360,11 +675,11 @@
       }
     },
     "hyp": {
-      "sha256": "a7b606b38f56ca1fef7d2913fab6846a50b4da218a35644baa8fcd66994b22e7",
-      "size": 1744896,
+      "sha256": "1c68824b14f5e0379759c4b415accd4d9d73cc0b8a02eeaf97ed25038a96dd98",
+      "size": 1523712,
       "format": "elf64",
-      "qc_image_version": "TZ.XF.5.29-00450-PAKALA-1.104700.16",
-      "oem_image_version": "ip-10-195-203-241",
+      "qc_image_version": "TZ.XF.5.33-00048-KAANAPALI-1.121482.26",
+      "oem_image_version": "ip-10-195-202-160",
       "qualcomm_metadata": {
         "common_metadata": {
           "major_version": 0,
@@ -444,26 +759,12 @@
         }
       }
     },
-    "aop": {
-      "sha256": "f2d5de68c9f7992adb32842cdbc2f122a5bfb8e272035b35552506c60078dcce",
-      "size": 372736,
-      "format": "opaque_blob",
-      "qc_image_version": "AOP.HO.6.0-00234-PAKALA_E-1.104700.5",
-      "oem_image_version": "ip-10-195-200-59"
-    },
-    "aop_config": {
-      "sha256": "d9a438cce36874b2d68b6500dd0970291e5f678dd3d3b6b3c339058ca4fdf4a6",
-      "size": 32768,
-      "format": "opaque_blob",
-      "qc_image_version": null,
-      "oem_image_version": null
-    },
-    "devcfg": {
-      "sha256": "53d01a445c94c0c4ed3134773ca469f1c61a0cf8532156bba531afcb3b6ab6d9",
-      "size": 61440,
+    "hyp_ac_config": {
+      "sha256": "b6f69715fd2422fd93b33d6ecdcbb73dea1433f30d21c0e045b89e4ef6335ce7",
+      "size": 77824,
       "format": "elf64",
-      "qc_image_version": null,
-      "oem_image_version": null,
+      "qc_image_version": "ACPOLICY.XF.1.0-00302-KAANAPALI-1.121482.2",
+      "oem_image_version": "san-w175-ma3-2-01",
       "qualcomm_metadata": {
         "common_metadata": {
           "major_version": 0,
@@ -535,6 +836,105 @@
           "common_metadata_size": 24,
           "qti_metadata_size": 0,
           "oem_metadata_size": 224,
+          "hash_table_size": 144,
+          "qti_signature_size": 0,
+          "qti_cert_chain_size": 0,
+          "oem_signature_size": 104,
+          "oem_cert_chain_size": 3360
+        }
+      }
+    },
+    "aop": {
+      "sha256": "ae6955dae4464d08e8c170f22166efc05ce8fee1bcc73b8a0c3db23060597247",
+      "size": 389120,
+      "format": "opaque_blob",
+      "qc_image_version": "AOP.HO.7.0-00223-KAANAPALI_E-1.121482.13",
+      "oem_image_version": "ip-10-195-204-55"
+    },
+    "aop_config": {
+      "sha256": "762c48b8312e5946c45dcefbebe6058fc2654ddf491a645f2ac0b3a18fefde68",
+      "size": 28672,
+      "format": "opaque_blob",
+      "qc_image_version": null,
+      "oem_image_version": null
+    },
+    "devcfg": {
+      "sha256": "512677b2f2c504604c976e205d3bc7360d0b6a457a844c31ee0db39cdac736f5",
+      "size": 61440,
+      "format": "elf64",
+      "qc_image_version": "TZ.XF.5.33-00048-KAANAPALI-1",
+      "oem_image_version": "pangu-build-bp-189127-w919t-s42sp-qxx8w",
+      "qualcomm_metadata": {
+        "common_metadata": {
+          "major_version": 0,
+          "minor_version": 0,
+          "software_id": "0x25",
+          "secondary_software_id": "0x0",
+          "hash_algorithm": "SHA384",
+          "measurement_register_target": "Measurement not to be recorded"
+        },
+        "oem_metadata": {
+          "major_version": 3,
+          "minor_version": 0,
+          "anti_rollback_version": 1,
+          "root_certificate_index": 0,
+          "soc_hw_version": "0xa01b",
+          "product_segment_id": "0x0",
+          "jtag_id": "0x0",
+          "oem_id": "0x51",
+          "oem_product_id": "0x0",
+          "oem_lifecycle_state": "0x0",
+          "oem_root_cert_hash_algo": "NA",
+          "bound_to_soc_hardware_versions": true,
+          "bound_to_product_segment_id": false,
+          "bound_to_jtag_id": false,
+          "bound_to_serial_numbers": false,
+          "bound_to_oem_id": true,
+          "bound_to_oem_product_id": true,
+          "bound_to_soc_lifecycle_state": false,
+          "bound_to_oem_lifecycle_state": false,
+          "bound_to_oem_root_certificate_hash": false,
+          "jtag_debug": "Nop",
+          "transfer_root": false
+        },
+        "oem_signature": {
+          "algorithm": "ECDSA",
+          "hash_algorithm": "SHA384",
+          "curve": "secp384r1",
+          "key_size": 384
+        },
+        "oem_cert_chain": {
+          "total_certs": 3,
+          "attest_certs": 1,
+          "ca_certs": 1,
+          "root_certs": 1
+        },
+        "oem_attest_cert": {
+          "extended_key_usage": "Code Signing",
+          "signature_algorithm": "ECDSA",
+          "hash_algorithm": "SHA384",
+          "curve": "secp384r1",
+          "key_size": 384
+        },
+        "oem_ca_cert": {
+          "signature_algorithm": "ECDSA",
+          "hash_algorithm": "SHA384",
+          "curve": "secp384r1",
+          "key_size": 384
+        },
+        "oem_root_cert": {
+          "root_cert_hash_sha256": "0x51a5acc6bfee42dfe62a8ef1ee0c5e04912037005a7c9658dcc91e500ffcdb0e",
+          "root_cert_hash_sha384": "0x31313ec6f0c237b69004d153b2ec2d3ddf1d826d0f60a952d039d5ded862ab0e515e4819d1844fdc91242304c685f202",
+          "signature_algorithm": "ECDSA",
+          "hash_algorithm": "SHA384",
+          "curve": "secp384r1",
+          "key_size": 384
+        },
+        "hash_table_header": {
+          "version": 7,
+          "common_metadata_size": 24,
+          "qti_metadata_size": 0,
+          "oem_metadata_size": 224,
           "hash_table_size": 192,
           "qti_signature_size": 0,
           "qti_cert_chain_size": 0,
@@ -543,16 +943,9 @@
         }
       }
     },
-    "engineering_cdt": {
-      "sha256": "268a4075ce08880553fb502f04c2e65c3121971a4afe6521c2299096082bd44c",
-      "size": 1048576,
-      "format": "opaque_blob",
-      "qc_image_version": null,
-      "oem_image_version": null
-    },
     "keymaster": {
-      "sha256": "1c3dda7c7a2d167e3f4349f3257d39662bef7074c0d18bbdd6e4fec3ae1ef9cd",
-      "size": 458752,
+      "sha256": "a2c594f0e451ef677df474a850ef68043a9eea48c6a16a222ccf403f7dad05a9",
+      "size": 3145728,
       "format": "elf64",
       "qc_image_version": null,
       "oem_image_version": null,
@@ -568,7 +961,7 @@
         "oem_metadata": {
           "major_version": 3,
           "minor_version": 0,
-          "anti_rollback_version": 0,
+          "anti_rollback_version": 1,
           "root_certificate_index": 0,
           "soc_hw_version": "0xa01b",
           "product_segment_id": "0x0",
@@ -636,7 +1029,7 @@
       }
     },
     "uefisecapp": {
-      "sha256": "d3b0e2c19d8317726dea3ab43399e0797e0c22e13174418e0d6346cf3ad7fcd3",
+      "sha256": "630bf670fb78d1629660d6ed23b833314114661e95341e4d2fb0c7b15d047196",
       "size": 204800,
       "format": "elf64",
       "qc_image_version": null,
@@ -653,92 +1046,7 @@
         "oem_metadata": {
           "major_version": 3,
           "minor_version": 0,
-          "anti_rollback_version": 0,
-          "root_certificate_index": 0,
-          "soc_hw_version": "0xa01b",
-          "product_segment_id": "0x0",
-          "jtag_id": "0x0",
-          "oem_id": "0x51",
-          "oem_product_id": "0x0",
-          "oem_lifecycle_state": "0x0",
-          "oem_root_cert_hash_algo": "NA",
-          "bound_to_soc_hardware_versions": true,
-          "bound_to_product_segment_id": false,
-          "bound_to_jtag_id": false,
-          "bound_to_serial_numbers": false,
-          "bound_to_oem_id": true,
-          "bound_to_oem_product_id": true,
-          "bound_to_soc_lifecycle_state": false,
-          "bound_to_oem_lifecycle_state": false,
-          "bound_to_oem_root_certificate_hash": false,
-          "jtag_debug": "Nop",
-          "transfer_root": false
-        },
-        "oem_signature": {
-          "algorithm": "ECDSA",
-          "hash_algorithm": "SHA384",
-          "curve": "secp384r1",
-          "key_size": 384
-        },
-        "oem_cert_chain": {
-          "total_certs": 3,
-          "attest_certs": 1,
-          "ca_certs": 1,
-          "root_certs": 1
-        },
-        "oem_attest_cert": {
-          "extended_key_usage": "Code Signing",
-          "signature_algorithm": "ECDSA",
-          "hash_algorithm": "SHA384",
-          "curve": "secp384r1",
-          "key_size": 384
-        },
-        "oem_ca_cert": {
-          "signature_algorithm": "ECDSA",
-          "hash_algorithm": "SHA384",
-          "curve": "secp384r1",
-          "key_size": 384
-        },
-        "oem_root_cert": {
-          "root_cert_hash_sha256": "0x51a5acc6bfee42dfe62a8ef1ee0c5e04912037005a7c9658dcc91e500ffcdb0e",
-          "root_cert_hash_sha384": "0x31313ec6f0c237b69004d153b2ec2d3ddf1d826d0f60a952d039d5ded862ab0e515e4819d1844fdc91242304c685f202",
-          "signature_algorithm": "ECDSA",
-          "hash_algorithm": "SHA384",
-          "curve": "secp384r1",
-          "key_size": 384
-        },
-        "hash_table_header": {
-          "version": 7,
-          "common_metadata_size": 24,
-          "qti_metadata_size": 0,
-          "oem_metadata_size": 224,
-          "hash_table_size": 432,
-          "qti_signature_size": 0,
-          "qti_cert_chain_size": 0,
-          "oem_signature_size": 104,
-          "oem_cert_chain_size": 3360
-        }
-      }
-    },
-    "oplus_sec": {
-      "sha256": "19406037b9077ef8cfca58accdb01a53b64b0d793da70013db52972a5a65938d",
-      "size": 991232,
-      "format": "elf64",
-      "qc_image_version": null,
-      "oem_image_version": null,
-      "qualcomm_metadata": {
-        "common_metadata": {
-          "major_version": 0,
-          "minor_version": 0,
-          "software_id": "0x25",
-          "secondary_software_id": "0x0",
-          "hash_algorithm": "SHA384",
-          "measurement_register_target": "Measurement not to be recorded"
-        },
-        "oem_metadata": {
-          "major_version": 3,
-          "minor_version": 0,
-          "anti_rollback_version": 0,
+          "anti_rollback_version": 1,
           "root_certificate_index": 0,
           "soc_hw_version": "0xa01b",
           "product_segment_id": "0x0",
@@ -806,43 +1114,135 @@
       }
     },
     "pvmfw": {
-      "sha256": "479b8b396113a0014db3ca17f86dab18061ff582ea319c012b7378278911f10a",
-      "size": 1011712,
+      "sha256": "8ca509d85d1966324f874fba03c5df5cadfbac98e0ed65de66503b97100f8489",
+      "size": 1048576,
       "format": "android_bootimg",
       "qc_image_version": null,
       "oem_image_version": null
     },
+    "secretkeeper": {
+      "sha256": "8329b5ae8353a03463e93a37a004a48b23e41773d0adfa3e2789e063edaa0d1b",
+      "size": 1056768,
+      "format": "elf64",
+      "qc_image_version": null,
+      "oem_image_version": null,
+      "qualcomm_metadata": {
+        "common_metadata": {
+          "major_version": 0,
+          "minor_version": 0,
+          "software_id": "0x25",
+          "secondary_software_id": "0x0",
+          "hash_algorithm": "SHA384",
+          "measurement_register_target": "Measurement not to be recorded"
+        },
+        "oem_metadata": {
+          "major_version": 3,
+          "minor_version": 0,
+          "anti_rollback_version": 1,
+          "root_certificate_index": 0,
+          "soc_hw_version": "0xa01b",
+          "product_segment_id": "0x0",
+          "jtag_id": "0x0",
+          "oem_id": "0x51",
+          "oem_product_id": "0x0",
+          "oem_lifecycle_state": "0x0",
+          "oem_root_cert_hash_algo": "NA",
+          "bound_to_soc_hardware_versions": true,
+          "bound_to_product_segment_id": false,
+          "bound_to_jtag_id": false,
+          "bound_to_serial_numbers": false,
+          "bound_to_oem_id": true,
+          "bound_to_oem_product_id": true,
+          "bound_to_soc_lifecycle_state": false,
+          "bound_to_oem_lifecycle_state": false,
+          "bound_to_oem_root_certificate_hash": false,
+          "jtag_debug": "Nop",
+          "transfer_root": false
+        },
+        "oem_signature": {
+          "algorithm": "ECDSA",
+          "hash_algorithm": "SHA384",
+          "curve": "secp384r1",
+          "key_size": 384
+        },
+        "oem_cert_chain": {
+          "total_certs": 3,
+          "attest_certs": 1,
+          "ca_certs": 1,
+          "root_certs": 1
+        },
+        "oem_attest_cert": {
+          "extended_key_usage": "Code Signing",
+          "signature_algorithm": "ECDSA",
+          "hash_algorithm": "SHA384",
+          "curve": "secp384r1",
+          "key_size": 384
+        },
+        "oem_ca_cert": {
+          "signature_algorithm": "ECDSA",
+          "hash_algorithm": "SHA384",
+          "curve": "secp384r1",
+          "key_size": 384
+        },
+        "oem_root_cert": {
+          "root_cert_hash_sha256": "0x51a5acc6bfee42dfe62a8ef1ee0c5e04912037005a7c9658dcc91e500ffcdb0e",
+          "root_cert_hash_sha384": "0x31313ec6f0c237b69004d153b2ec2d3ddf1d826d0f60a952d039d5ded862ab0e515e4819d1844fdc91242304c685f202",
+          "signature_algorithm": "ECDSA",
+          "hash_algorithm": "SHA384",
+          "curve": "secp384r1",
+          "key_size": 384
+        },
+        "hash_table_header": {
+          "version": 7,
+          "common_metadata_size": 24,
+          "qti_metadata_size": 0,
+          "oem_metadata_size": 224,
+          "hash_table_size": 432,
+          "qti_signature_size": 0,
+          "qti_cert_chain_size": 0,
+          "oem_signature_size": 104,
+          "oem_cert_chain_size": 3360
+        }
+      }
+    },
     "modem": {
-      "sha256": "e94f1c97d0052ca723e6e798494e56cb9aad418aa1494be126d20741df3ce8a1",
-      "size": 248016896,
+      "sha256": "8e72d0c3f16b111964c3b584e69020e8da93a359db5b13690f0c598245c7e421",
+      "size": 167772160,
       "format": "fat_mbr",
-      "qc_image_version": "WLAN.HMT.2.0-02991-QCAHMTSWPL_V1.0_V2.0_SILICONZ-1.114413.19",
-      "oem_image_version": "ip-10-195-202-124"
+      "qc_image_version": "WLAN.GNG.2.0-01294.3-QCAGNGSWPL_V2_TO_SILICONZ-1.121647.30.128404.2",
+      "oem_image_version": "ip-10-195-201-123"
+    },
+    "modemfirmware": {
+      "sha256": "1ee7d834dcb540cf11be0f07a491800dae2cbc8323d5f23045865a82f25ae3da",
+      "size": 173158400,
+      "format": "fat_mbr",
+      "qc_image_version": "MPSS.DE.9.0-01805.10-KAANAPALI_GEN_PACK-2.121444.55.124572.64",
+      "oem_image_version": "OEM_VER_USER"
     },
     "bluetooth": {
-      "sha256": "e314a3692ca5c8fe17296ef394d9e363446a368c8e6d3b13a9c3c0a77ca93ac4",
-      "size": 5500928,
+      "sha256": "4a8dfbd083047a2740a965a3bd0612ed80829e9a8e6269323743fd59bc7e3514",
+      "size": 8388608,
       "format": "fat_mbr",
       "qc_image_version": null,
       "oem_image_version": null
     },
     "dsp": {
-      "sha256": "2d53259c489d339a4cc384ff42f88489ab7ad96ff537ed70f09f3b4680b641f7",
-      "size": 67108864,
+      "sha256": "61a019a319249796b52288f0e53ae2dd05f0493979019bef81629764e6a8cb20",
+      "size": 77594624,
       "format": "opaque_blob",
       "qc_image_version": null,
       "oem_image_version": null
     },
     "qupfw": {
-      "sha256": "ff0c97cb223d766b9911bb15100628f0bf5067736bd959748754c39308d32a3f",
-      "size": 65536,
+      "sha256": "cf592439b5fc8ed9cd0870bd3e7b737a219b20731b4f8cede7a32664c9988825",
+      "size": 69632,
       "format": "opaque_blob",
       "qc_image_version": null,
       "oem_image_version": null
     },
     "cpucp": {
-      "sha256": "71d507b48b461a96c935ef64896f4c791749195540189045b4740374d4055c53",
-      "size": 319488,
+      "sha256": "5cd36fe148b64677c961e18ed7007ffb37f0ce630c8b2acc8e2ecde8633fba14",
+      "size": 425984,
       "format": "elf64",
       "qc_image_version": null,
       "oem_image_version": null,
@@ -926,7 +1326,7 @@
       }
     },
     "cpucp_dtb": {
-      "sha256": "6db677c8cab5d2c6d5fbf3979f4ee141f10118c08e0cea707068dc76e2726fb7",
+      "sha256": "45c2dda8203aebd341424c788ec41d67c14a96156c3fca4db2006e7448332d8f",
       "size": 16384,
       "format": "elf64",
       "qc_image_version": null,
@@ -943,7 +1343,7 @@
         "oem_metadata": {
           "major_version": 3,
           "minor_version": 0,
-          "anti_rollback_version": 0,
+          "anti_rollback_version": 1,
           "root_certificate_index": 0,
           "soc_hw_version": "0xa01b",
           "product_segment_id": "0x0",
@@ -1010,43 +1410,85 @@
         }
       }
     },
-    "shrm": {
-      "sha256": "f0b0bdbb62ed191f38d315d0ee179d942eb36ac783d6ef9dcd5b8a504ff4ac8b",
-      "size": 151552,
-      "format": "opaque_blob",
-      "qc_image_version": null,
-      "oem_image_version": null
+    "soccp": {
+      "sha256": "98bcd7b94ce2a0dd1338411215d929ca1f6e8ed5dbdfdbc1e3e85a97573520ff",
+      "size": 8388608,
+      "format": "fat_mbr",
+      "qc_image_version": "SOCCP.FW.2.1-00165-KAANAPALI_SOCCP_PACK-1.121482.3",
+      "oem_image_version": "pangu-build-bp-189127-w919t-s42sp-qxx8w"
     },
-    "pdp": {
-      "sha256": "11188f53bca72c38b01fbadf8ebba5fd0d154ec71ca30cf03379cfb0e11d6f64",
-      "size": 212992,
+    "soccp_debug": {
+      "sha256": "bb5196a045993e6a37c7cec473955d4e1eefe797885775272f25e2f786ac1dd1",
+      "size": 73728,
       "format": "opaque_blob",
-      "qc_image_version": null,
-      "oem_image_version": null
+      "qc_image_version": "SOCCP.FW.2.1-00165-KAANAPALI_SOCCP_PACK-1.121482.3",
+      "oem_image_version": "1aee69de8cb3"
     },
-    "pdp_cdb": {
-      "sha256": "e7626ab1b4ddd6599272b222d60cc26cbdce1795296a912d2b4eff436024bd48",
+    "soccp_dcd": {
+      "sha256": "426165f6a07abc09cb3a1fe124550d468c7f1aa22268ceb55fd77e7f63222c0e",
       "size": 16384,
       "format": "opaque_blob",
       "qc_image_version": null,
       "oem_image_version": null
     },
-    "soccp_debug": {
-      "sha256": "be031638f1e8737cb2c0216cf8190d5294ee6305052f0498a5eccac989b6c884",
-      "size": 147456,
+    "shrm": {
+      "sha256": "79ee7b864b88fe67a326ea3ff5a97c3ca30f2aebf0364f2ce26b1ba339d5d7b8",
+      "size": 184320,
       "format": "opaque_blob",
-      "qc_image_version": "SOCCP.FW.1.0-00171-PAKALA_SOCCP_PACK-1",
-      "oem_image_version": "ip-10-195-203-153"
+      "qc_image_version": null,
+      "oem_image_version": null
     },
-    "soccp_dcd": {
-      "sha256": "456474bd8ae3989951e4f5fa3ec7e05a8ca02a43f928f7be9716f3180bcf1cf4",
-      "size": 20480,
+    "pdp": {
+      "sha256": "b921ad6a7f119cd182d19182ad4cffb907810f30e2f36ae9f97f9b143ba15d0d",
+      "size": 323584,
+      "format": "opaque_blob",
+      "qc_image_version": null,
+      "oem_image_version": null
+    },
+    "pdp_cdb": {
+      "sha256": "a1012afd88375d7bf1823e873b1bfe10761c4bee50a8ff770e534b3af2c62064",
+      "size": 16384,
+      "format": "opaque_blob",
+      "qc_image_version": null,
+      "oem_image_version": null
+    },
+    "dcp": {
+      "sha256": "3e371fe1d15b2fcf72b7b29d98a3a6de8f78d9d385974258d18d1551d0566efc",
+      "size": 8388608,
+      "format": "fat_mbr",
+      "qc_image_version": "DCP.FW.1.1-00127-KAANAPALI_DCP_PACK-1",
+      "oem_image_version": "31ad7efcda03"
+    },
+    "tme_fw": {
+      "sha256": "b7df5293f656f5d18874cbb9e6c2a4220e81b7cd74f9711dd67cfd8bb4c234db",
+      "size": 204800,
+      "format": "opaque_blob",
+      "qc_image_version": null,
+      "oem_image_version": null
+    },
+    "tme_config": {
+      "sha256": "08d6ede52f8a419f8b02319e6db14ec89d1e83f9222037a55e0e888134de50e9",
+      "size": 45056,
+      "format": "opaque_blob",
+      "qc_image_version": "ACPOLICY.XF.1.0-00302-KAANAPALI-1.131183.3",
+      "oem_image_version": "san-w170-s5-2-01"
+    },
+    "tme_seq_patch": {
+      "sha256": "35d85544a793890932c877a5da14c63a6a539223c9929e00055318fe03063b9b",
+      "size": 8192,
+      "format": "opaque_blob",
+      "qc_image_version": null,
+      "oem_image_version": null
+    },
+    "imagefv": {
+      "sha256": "04929602d73bfb387505166f3614468a57d55e40e058f16a9905138d6527931d",
+      "size": 6299648,
       "format": "opaque_blob",
       "qc_image_version": null,
       "oem_image_version": null
     },
     "featenabler": {
-      "sha256": "02f5f41ef2d2fd0ccf17026c7fae31a32a2335493545c39e01a8ceb558c4f1e8",
+      "sha256": "02c1c0f4ff44aa48cfe3c5dae237911d23610383424222fb8ea9aaefc22bb079",
       "size": 106496,
       "format": "elf64",
       "qc_image_version": null,
@@ -1131,7 +1573,7 @@
       }
     },
     "spuservice": {
-      "sha256": "cbc8007b9d19674dfc839688c7e650e1c8e9be8feb07ec3d556029ea4082c28b",
+      "sha256": "0d30391f7d846829ecf09d4e6557126a7e2ce85bafd25b1952630f38aacd1e72",
       "size": 94208,
       "format": "elf64",
       "qc_image_version": null,
@@ -1148,7 +1590,7 @@
         "oem_metadata": {
           "major_version": 3,
           "minor_version": 0,
-          "anti_rollback_version": 0,
+          "anti_rollback_version": 1,
           "root_certificate_index": 0,
           "soc_hw_version": "0xa01b",
           "product_segment_id": "0x0",
@@ -1215,26 +1657,81 @@
         }
       }
     },
-    "imagefv": {
-      "sha256": "052d547a99ec4986270caab4550204030be845cd728c7e7603560366f1968a18",
-      "size": 114688,
-      "format": "opaque_blob",
-      "qc_image_version": null,
-      "oem_image_version": null
-    },
-    "splash": {
-      "sha256": "94ab315f5f6558ecbaee0e7d61be326fc3f8d060f70331ded2a2fa867d3c964d",
-      "size": 15073280,
-      "format": "opaque_blob",
-      "qc_image_version": null,
-      "oem_image_version": null
-    },
-    "xbl_ramdump": {
-      "sha256": "32bfbc5a3ebacd8ddfb579b9489539aedcf86857e537ca141d412d23373e334d",
-      "size": 884736,
+    "multiimgqti": {
+      "sha256": "be72a774274a42d1a6ce04f85bc752f3081e90c0fbdeb32fee1d4d11c777f374",
+      "size": 12288,
       "format": "elf64",
-      "qc_image_version": "BOOT.MXF.2.5.1-00265-PAKALA-1.104700.16",
-      "oem_image_version": "kvm-slave-build-s-bp-09495288",
+      "qc_image_version": null,
+      "oem_image_version": null,
+      "qualcomm_metadata": {
+        "common_metadata": {
+          "major_version": 0,
+          "minor_version": 0,
+          "software_id": "0x25",
+          "secondary_software_id": "0x0",
+          "hash_algorithm": "SHA384",
+          "measurement_register_target": "Measurement not to be recorded"
+        },
+        "oem_metadata": null,
+        "oem_signature": {
+          "algorithm": "ECDSA",
+          "hash_algorithm": "SHA384",
+          "curve": "secp384r1",
+          "key_size": 384
+        },
+        "oem_cert_chain": {
+          "total_certs": 3,
+          "attest_certs": 1,
+          "ca_certs": 1,
+          "root_certs": 1
+        },
+        "oem_attest_cert": {
+          "extended_key_usage": "Code Signing",
+          "signature_algorithm": "ECDSA",
+          "hash_algorithm": "SHA384",
+          "curve": "secp384r1",
+          "key_size": 384
+        },
+        "oem_ca_cert": {
+          "signature_algorithm": "ECDSA",
+          "hash_algorithm": "SHA384",
+          "curve": "secp384r1",
+          "key_size": 384
+        },
+        "oem_root_cert": {
+          "root_cert_hash_sha256": "0x51a5acc6bfee42dfe62a8ef1ee0c5e04912037005a7c9658dcc91e500ffcdb0e",
+          "root_cert_hash_sha384": "0x31313ec6f0c237b69004d153b2ec2d3ddf1d826d0f60a952d039d5ded862ab0e515e4819d1844fdc91242304c685f202",
+          "signature_algorithm": "ECDSA",
+          "hash_algorithm": "SHA384",
+          "curve": "secp384r1",
+          "key_size": 384
+        },
+        "hash_table_header": {
+          "version": 7,
+          "common_metadata_size": 24,
+          "qti_metadata_size": 0,
+          "oem_metadata_size": 0,
+          "hash_table_size": 144,
+          "qti_signature_size": 0,
+          "qti_cert_chain_size": 0,
+          "oem_signature_size": 104,
+          "oem_cert_chain_size": 3360
+        }
+      }
+    },
+    "countrycode": {
+      "sha256": "86acf939541d36db30efea96e13d2dc63747787bbad5606ad7bd993989730c7c",
+      "size": 1048576,
+      "format": "opaque_blob",
+      "qc_image_version": null,
+      "oem_image_version": null
+    },
+    "idmanager": {
+      "sha256": "ea89858e76da6af69bde0db2d37cf450b6f521eb8a97560b76929a267ea668d9",
+      "size": 69632,
+      "format": "elf64",
+      "qc_image_version": null,
+      "oem_image_version": null,
       "qualcomm_metadata": {
         "common_metadata": {
           "major_version": 0,
@@ -1247,7 +1744,99 @@
         "oem_metadata": {
           "major_version": 3,
           "minor_version": 0,
-          "anti_rollback_version": 0,
+          "anti_rollback_version": 1,
+          "root_certificate_index": 0,
+          "soc_hw_version": "0xa01b",
+          "product_segment_id": "0x0",
+          "jtag_id": "0x0",
+          "oem_id": "0x51",
+          "oem_product_id": "0x0",
+          "oem_lifecycle_state": "0x0",
+          "oem_root_cert_hash_algo": "NA",
+          "bound_to_soc_hardware_versions": true,
+          "bound_to_product_segment_id": false,
+          "bound_to_jtag_id": false,
+          "bound_to_serial_numbers": false,
+          "bound_to_oem_id": true,
+          "bound_to_oem_product_id": true,
+          "bound_to_soc_lifecycle_state": false,
+          "bound_to_oem_lifecycle_state": false,
+          "bound_to_oem_root_certificate_hash": false,
+          "jtag_debug": "Nop",
+          "transfer_root": false
+        },
+        "oem_signature": {
+          "algorithm": "ECDSA",
+          "hash_algorithm": "SHA384",
+          "curve": "secp384r1",
+          "key_size": 384
+        },
+        "oem_cert_chain": {
+          "total_certs": 3,
+          "attest_certs": 1,
+          "ca_certs": 1,
+          "root_certs": 1
+        },
+        "oem_attest_cert": {
+          "extended_key_usage": "Code Signing",
+          "signature_algorithm": "ECDSA",
+          "hash_algorithm": "SHA384",
+          "curve": "secp384r1",
+          "key_size": 384
+        },
+        "oem_ca_cert": {
+          "signature_algorithm": "ECDSA",
+          "hash_algorithm": "SHA384",
+          "curve": "secp384r1",
+          "key_size": 384
+        },
+        "oem_root_cert": {
+          "root_cert_hash_sha256": "0x51a5acc6bfee42dfe62a8ef1ee0c5e04912037005a7c9658dcc91e500ffcdb0e",
+          "root_cert_hash_sha384": "0x31313ec6f0c237b69004d153b2ec2d3ddf1d826d0f60a952d039d5ded862ab0e515e4819d1844fdc91242304c685f202",
+          "signature_algorithm": "ECDSA",
+          "hash_algorithm": "SHA384",
+          "curve": "secp384r1",
+          "key_size": 384
+        },
+        "hash_table_header": {
+          "version": 7,
+          "common_metadata_size": 24,
+          "qti_metadata_size": 0,
+          "oem_metadata_size": 224,
+          "hash_table_size": 432,
+          "qti_signature_size": 0,
+          "qti_cert_chain_size": 0,
+          "oem_signature_size": 104,
+          "oem_cert_chain_size": 3360
+        }
+      }
+    },
+    "mi_ext": {
+      "sha256": "5f6629782a471d884d9a4995c7d45418d3c6fb05d8cb1a33f11f70b8831e21c4",
+      "size": 110878720,
+      "format": "opaque_blob",
+      "qc_image_version": null,
+      "oem_image_version": null
+    },
+    "xbl_ramdump": {
+      "sha256": "ade07730118e8578618cd12a8e23827baba3701839966d08b44704d2f858c1c0",
+      "size": 933888,
+      "format": "elf64",
+      "qc_image_version": "BOOT.MXF.2.5.3-00131-KAANAPALI-1.121482.43",
+      "oem_image_version": "pangu-build-bp-189127-w919t-s42sp-qxx8w",
+      "qualcomm_metadata": {
+        "common_metadata": {
+          "major_version": 0,
+          "minor_version": 0,
+          "software_id": "0x25",
+          "secondary_software_id": "0x0",
+          "hash_algorithm": "SHA384",
+          "measurement_register_target": "Measurement not to be recorded"
+        },
+        "oem_metadata": {
+          "major_version": 3,
+          "minor_version": 0,
+          "anti_rollback_version": 1,
           "root_certificate_index": 0,
           "soc_hw_version": "0xa01b",
           "product_segment_id": "0x0",
@@ -1314,43 +1903,50 @@
         }
       }
     },
-    "oplusstanvbk": {
-      "sha256": "57968a92a5cb361e6ad547d9e12a1f0001892a466d8e510692d2e260deda1974",
-      "size": 3731456,
-      "format": "opaque_blob",
-      "qc_image_version": null,
-      "oem_image_version": null
-    },
     "boot": {
-      "sha256": "26710a8eeef37d7bd8efdfa247443f2652454c1a261645f234618147cf6dd107",
+      "sha256": "05d698345cb707e56626227541905af2917d776d30143677a2bf1b3ed7546142",
       "size": 100663296,
       "format": "android_bootimg",
       "qc_image_version": null,
       "oem_image_version": null
     },
     "init_boot": {
-      "sha256": "80e373ee355fe677489913b63b8a46fe9708a9b64a4e761c925ca7b0926b65fc",
+      "sha256": "5d03dc70757ff9671cab32ad2244f61283045405013878e2d292e18226f1fdab",
       "size": 8388608,
       "format": "android_bootimg",
       "qc_image_version": null,
       "oem_image_version": null
     },
     "vendor_boot": {
-      "sha256": "0312e045d71b36eb10b40b83f867c1085418cf9c44bd18874079bd0c5f84c56a",
+      "sha256": "56677a1cc8c1d78464cc303110eb06ee88921f974d2690237ac9b1c6763fafee",
       "size": 100663296,
       "format": "vendor_bootimg",
       "qc_image_version": null,
       "oem_image_version": null
     },
     "dtbo": {
-      "sha256": "4eaa162327cb022c1c44ef6c6847f84c6413a549845b7d4c32415d6dda271164",
-      "size": 25165824,
+      "sha256": "8beee10d2cc1f239017e46a31974ca345ade0ea614614fd33c44e9be50052f22",
+      "size": 23068672,
+      "format": "opaque_blob",
+      "qc_image_version": null,
+      "oem_image_version": null
+    },
+    "qtvm_dtbo": {
+      "sha256": "2f1c1d74cab1f49b2e5e1fa3705ec9771fd637f09a59d9d270ba2046de5f7c61",
+      "size": 5242880,
+      "format": "opaque_blob",
+      "qc_image_version": null,
+      "oem_image_version": null
+    },
+    "vm-bootsys": {
+      "sha256": "533a3fa7c7ef9d18bec76adab939f843095d6cba02b6e616751116eff0a39f11",
+      "size": 34603008,
       "format": "opaque_blob",
       "qc_image_version": null,
       "oem_image_version": null
     },
     "vbmeta": {
-      "sha256": "9695ba3cb1cb91871dd7296fe3d167d5573a8c880b4611faa7a295a7e3471cff",
+      "sha256": "f3170425ed76418b82b85c7594f1af6f8b1f2aef64a5d289cb3465e0ca512581",
       "size": 12288,
       "format": "avb_vbmeta",
       "qc_image_version": null,
@@ -1363,106 +1959,178 @@
         "algorithm": "SHA256_RSA4096",
         "flags": 0,
         "release_string": "avbtool 1.3.0",
-        "public_key_sha256": "1799b97e6a3d4daa0e76710d7492aaccc97ea12d9673fc58e72ce7d3ab16d8c6",
+        "public_key_sha256": "e5c32182629bfa8657708e8cad3e3ef83c9764594a213f8a8824e06386b9c5e1",
         "descriptors": [
           {
             "type": "chain_partition",
             "partition_name": "\u0000\u0000\u0000\u0000",
-            "rollback_index_location": 4,
-            "public_key_sha256": "b48c85acec8400c57f0b60869f0e256fdb3da1a75a9b3c5f932243ee330617ed"
-          },
-          {
-            "type": "chain_partition",
-            "partition_name": "\u0000\u0000\u0000\u0000",
             "rollback_index_location": 3,
-            "public_key_sha256": "e5d310b6138bf1c0a5fb4cbe66584013d0637fc48611997ae84a5c491736f4cf"
+            "public_key_sha256": "516502ac243fbc48bd3d9195e0432729fe17b5ba2e9862fa55defcc21a867ba7"
           },
           {
             "type": "chain_partition",
             "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
             "rollback_index_location": 1,
-            "public_key_sha256": "1d7156fad66106d829f4c36b77e1f6701cf0679b7f5bb3c539b4c302725c0879"
+            "public_key_sha256": "2712df7a0f7971289e3e5b0d51e1379dfc866de19547ad6176615951e40b8180"
           },
           {
             "type": "chain_partition",
             "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
             "rollback_index_location": 2,
-            "public_key_sha256": "f2434a6e4140ec52d95dff5d92408ca99f27335f4c0dc49bc1ee594720e83374"
-          },
-          {
-            "type": "chain_partition",
-            "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
-            "rollback_index_location": 5,
-            "public_key_sha256": "0dc48cee53428eb65be13128e4f1b5f214ba00c3ff8eba7d8edae06944ef94d0"
+            "public_key_sha256": "7839200844eb306980c9173abc0488330ebd0b8d05cd509d35089eec8679aa25"
           },
           {
             "type": "property",
-            "key": "com.android.build.boot.os_version",
-            "value": "15"
-          },
-          {
-            "type": "property",
-            "key": "com.android.build.boot.security_patch",
-            "value": "2026-03-01"
-          },
-          {
-            "type": "property",
-            "key": "com.android.build.boot.security_patch",
-            "value": "2026-03-01"
+            "key": "com.android.build.dtbo.fingerprint",
+            "value": "Xiaomi/pudding/pudding:16/BQ2A.250705.001-BP2A.250605.031.A3/OS3.0.305.0.WPCCNXM:user/release-keys"
           },
           {
             "type": "property",
             "key": "com.android.build.init_boot.os_version",
-            "value": "15"
+            "value": "16"
           },
           {
             "type": "property",
             "key": "com.android.build.init_boot.fingerprint",
-            "value": "qti/sun/sun:15/AP3A.240617.008/1772784089631:user/release-keys"
+            "value": "Xiaomi/pudding/pudding:16/BQ2A.250705.001-BP2A.250605.031.A3/OS3.0.305.0.WPCCNXM:user/release-keys"
           },
           {
             "type": "property",
             "key": "com.android.build.init_boot.security_patch",
-            "value": "2026-03-01"
+            "value": "2026-02-01"
+          },
+          {
+            "type": "property",
+            "key": "com.android.build.mi_ext.os_version",
+            "value": "16"
+          },
+          {
+            "type": "property",
+            "key": "com.android.build.mi_ext.fingerprint",
+            "value": "Xiaomi/pudding/mi_ext:16/BP2A.250605.031.A3/OS3.0.305.0.WPCCNXM:user/release-keys"
+          },
+          {
+            "type": "property",
+            "key": "com.android.build.mi_ext.security_patch",
+            "value": "2026-02-01"
+          },
+          {
+            "type": "property",
+            "key": "com.android.build.odm.os_version",
+            "value": "16"
+          },
+          {
+            "type": "property",
+            "key": "com.android.build.odm.fingerprint",
+            "value": "Xiaomi/pudding/pudding:16/BQ2A.250705.001-BP2A.250605.031.A3/OS3.0.305.0.WPCCNXM:user/release-keys"
+          },
+          {
+            "type": "property",
+            "key": "com.android.build.pvmfw.fingerprint",
+            "value": "Xiaomi/pudding/miproduct:16/BP2A.250605.031.A3/OS3.0.305.0.WPCCNXM:user/release-keys"
+          },
+          {
+            "type": "property",
+            "key": "com.android.build.system_dlkm.os_version",
+            "value": "16"
+          },
+          {
+            "type": "property",
+            "key": "com.android.build.system_dlkm.fingerprint",
+            "value": "Xiaomi/pudding/pudding:16/BQ2A.250705.001-BP2A.250605.031.A3/OS3.0.305.0.WPCCNXM:user/release-keys"
+          },
+          {
+            "type": "property",
+            "key": "com.android.build.vendor.os_version",
+            "value": "16"
+          },
+          {
+            "type": "property",
+            "key": "com.android.build.vendor.fingerprint",
+            "value": "Xiaomi/mivendor/mivendor:16/BQ2A.250705.001-BP2A.250605.031.A3/OS3.0.305.0.WPCCNXM:user/release-keys"
+          },
+          {
+            "type": "property",
+            "key": "com.android.build.vendor.security_patch",
+            "value": "2026-02-01"
           },
           {
             "type": "property",
             "key": "com.android.build.vendor_boot.fingerprint",
-            "value": "qti/sun/sun:15/AP3A.240617.008/1772784089631:user/release-keys"
+            "value": "Xiaomi/pudding/pudding:16/BQ2A.250705.001-BP2A.250605.031.A3/OS3.0.305.0.WPCCNXM:user/release-keys"
           },
           {
             "type": "property",
             "key": "com.android.build.vendor_dlkm.os_version",
-            "value": "15"
+            "value": "16"
           },
           {
             "type": "property",
             "key": "com.android.build.vendor_dlkm.fingerprint",
-            "value": "qti/sun/sun:15/AP3A.240617.008/1772784089631:user/release-keys"
+            "value": "Xiaomi/pudding/pudding:16/BQ2A.250705.001-BP2A.250605.031.A3/OS3.0.305.0.WPCCNXM:user/release-keys"
           },
           {
             "type": "hash",
             "partition_name": "",
-            "image_size": 2727936,
+            "image_size": 32,
             "digest": "",
             "salt": ""
           },
           {
             "type": "hash",
             "partition_name": "",
-            "image_size": 25214976,
+            "image_size": 876520,
+            "digest": "",
+            "salt": ""
+          },
+          {
+            "type": "hash",
+            "partition_name": "",
+            "image_size": 2924544,
+            "digest": "",
+            "salt": ""
+          },
+          {
+            "type": "hash",
+            "partition_name": "",
+            "image_size": 778240,
+            "digest": "",
+            "salt": ""
+          },
+          {
+            "type": "hash",
+            "partition_name": "",
+            "image_size": 22364160,
             "digest": "",
             "salt": ""
           },
           {
             "type": "hashtree",
-            "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000system_dlkm\ufffd\u000f\ufffd\ufffd\u00142\ufffd\ufffd%:\u0016\ufffd\ufffd\ufffdG\ufffdn\ufffd&j\ufffd\ufffdA\ufffd\u000f\ufffd\ufffd\ufffdR+\u0004\ufffd5\ufffd\t\u001b\ufffd%-0+\ufffd\ufffd\u0018h\ufffdG\ufffd6\\\u000e\ufffd\ufffd\u0003\ufffd\u0007\ufffd$f\ufffd\ufffdE\u001aq\u0000",
+            "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000mi_extd\u0017JF\ufffd\ufffdi\ufffd\u007f4O\ufffd\ufffd4 \ufffd\ufffd\ufffd.E\ufffd\ufffd\ufffd\u00150\u0006Y#\ufffd\ufffd1\ufffdItq\ufffd\ufffd\ufffd\u0005%\ufffd\ufffd\ufffd\ufffdv\u0016\ufffd\u0012bS\ufffd+\u0013\r\ufffd\ufffd\u001d\ufffd5\ufffdd)\u0001_\u0000\u0000\u0000\u0000\u0000\u0000",
             "root_digest": "",
             "salt": ""
           },
           {
             "type": "hashtree",
-            "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000vendor_dlkm\ufffdX\ufffd\ufffdB(\ufffd\ufffd\ufffd\ufffd2N\ufffdJDp\ufffd\ufffd\ufffd\ufffdr\rn\ufffd07JO\ufffd\u001b\u00150V\ufffd\ufffd\ufffdP\ufffd\u001f+|\ufffd[\ufffd$\ufffd\u0014}\u000b)x\ufffd\r\u0016o\u0016\ufffd\u000f;\u0015\bd\u0001\ufffd\u0000",
+            "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000odmk\ufffd\ufffd\ufffd\ufffd\n\ufffd\ufffd\ufffd'\ufffdb\ufffd\ufffdyG\ufffdWB\ufffd(\ufffd\u000e\ufffd\u0003C\ufffd\ufffd?/\ufffd?4\ufffd\f\ufffd\ufffd\ufffd\ufffd\ufffdM\ufffd\u0000\ufffd\ufffd\ufffd\b\r\ufffdy\ufffd\u0007\ufffd\u0013@\u0019w\ufffd\ufffd\ufffd\ufffd\ufffd^)\u0000",
+            "root_digest": "",
+            "salt": ""
+          },
+          {
+            "type": "hashtree",
+            "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000system_dlkmk\ufffd\ufffd\ufffd\ufffd\n\ufffd\ufffd\ufffd'\ufffdb\ufffd\ufffdyG\ufffdWB\ufffd(\ufffd\u000e\ufffd\u0003C\ufffd\ufffd?/\ufffd?\ufffdp:|\ufffdw\ufffd\ufffd\ufffd\ufffdy\u000f\u000b\u0002\ufffd\ufffd\ufffd\ufffd\ufffdA\ufffd\u0018wwD\u001fH\u0002\ufffdhui\u0000",
+            "root_digest": "",
+            "salt": ""
+          },
+          {
+            "type": "hashtree",
+            "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000vendor\u0011D>\ufffdb\u0019\u000e\ufffdg\ufffd]Q\ufffdi5\ufffd\ufffd\"\ufffd+\ufffd\ufffdm\ufffdQ\ufffd\ufffd[\ufffd\ufffd\ufffdR\u001a\u0003WI|\ufffdV\ufffd\ufffd\b\ufffd\ufffdFgo\ufffd1\n\ufffd\ufffd1\u0012\ufffd\ufffd\ufffd\ufffd|u1\ufffd\u001f\ufffd\u0000\u0000\u0000\u0000\u0000\u0000",
+            "root_digest": "",
+            "salt": ""
+          },
+          {
+            "type": "hashtree",
+            "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000vendor_dlkmk\ufffd\ufffd\ufffd\ufffd\n\ufffd\ufffd\ufffd'\ufffdb\ufffd\ufffdyG\ufffdWB\ufffd(\ufffd\u000e\ufffd\u0003C\ufffd\ufffd?/\ufffd?\ufffd\u0019\ufffdd\ufffd\ufffd<C\u0016\ufffd5\ufffd\ufffd\ufffd\ufffdC\ufffdHb:\u000bU\ufffd\ufffd}\ufffd$\u000e\ufffd\ufffdY\ufffd\u0000",
             "root_digest": "",
             "salt": ""
           }
@@ -1470,7 +2138,7 @@
       }
     },
     "vbmeta_system": {
-      "sha256": "8d8c0b3d36c4872fc53f5a08d0ab9ab0996dbf0132c3827acf9fd2e1c2932954",
+      "sha256": "106b7e1c9a149671d47156a5577c45ce324276fbb05c4efcbe3cf1b1a3206125",
       "size": 4096,
       "format": "avb_vbmeta",
       "qc_image_version": null,
@@ -1478,115 +2146,73 @@
       "avb": {
         "avb_version_major": 1,
         "avb_version_minor": 0,
-        "rollback_index": 1772323200,
+        "rollback_index": 1769904000,
         "rollback_index_location": 0,
-        "algorithm": "SHA256_RSA2048",
+        "algorithm": "SHA256_RSA4096",
         "flags": 0,
         "release_string": "avbtool 1.3.0",
-        "public_key_sha256": "09e8d4d0cb5a4e81c12bebb632431942ce72a81f91c9e94ef399939a9b3d44bb",
+        "public_key_sha256": "e5c32182629bfa8657708e8cad3e3ef83c9764594a213f8a8824e06386b9c5e1",
         "descriptors": [
           {
             "type": "property",
-            "key": "com.android.build.oplus_custom_images.os_version",
-            "value": "11"
+            "key": "com.android.build.product.os_version",
+            "value": "16"
           },
           {
             "type": "property",
-            "key": "com.android.build.oplus_custom_images.security_patch",
-            "value": "2020-10-05"
+            "key": "com.android.build.product.fingerprint",
+            "value": "Xiaomi/pudding/miproduct:16/BP2A.250605.031.A3/OS3.0.305.0.WPCCNXM:user/release-keys"
           },
           {
             "type": "property",
-            "key": "com.android.build.oplus_custom_images.os_version",
-            "value": "11"
+            "key": "com.android.build.product.security_patch",
+            "value": "2026-02-01"
           },
           {
             "type": "property",
-            "key": "com.android.build.oplus_custom_images.security_patch",
-            "value": "2020-10-05"
+            "key": "com.android.build.system.os_version",
+            "value": "16"
           },
           {
             "type": "property",
-            "key": "com.android.build.oplus_custom_images.os_version",
-            "value": "11"
+            "key": "com.android.build.system.fingerprint",
+            "value": "Xiaomi/missi/missi:16/BP2A.250605.031.A3/16OS3.1.260320.042739869.QCPECN.S:user/release-keys"
           },
           {
             "type": "property",
-            "key": "com.android.build.oplus_custom_images.security_patch",
-            "value": "2020-10-05"
+            "key": "com.android.build.system.security_patch",
+            "value": "2026-02-01"
           },
           {
-            "type": "hash",
-            "partition_name": "",
-            "image_size": 872448,
-            "digest": "",
-            "salt": ""
+            "type": "property",
+            "key": "com.android.build.system_ext.os_version",
+            "value": "16"
+          },
+          {
+            "type": "property",
+            "key": "com.android.build.system_ext.fingerprint",
+            "value": "Xiaomi/missi/missi:16/BP2A.250605.031.A3/16OS3.1.260320.042739869.QCPECN.S:user/release-keys"
+          },
+          {
+            "type": "property",
+            "key": "com.android.build.system_ext.security_patch",
+            "value": "2026-02-01"
           },
           {
             "type": "hashtree",
-            "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000product2%\ufffd\ufffd\u001a\ufffd\ufffd\ufffd\ufffd`\nh\ufffd\ufffd\ufffd\ufffd\ufffdz\ufffd\ufffd\ufffd\ufffd1\ufffd\ufffd\ufffd\ufffd\ufffd\u001fQ\ufffd\ufffd\ufffdc\u0010P\ufffd\ufffdw'\ufffd\ufffd\ufffd\ufffd\ufffdX\ufffdi\u0000\u0000\u0000\u0000\u0000",
+            "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000product%Q\ufffd\ufffd\ufffd_=\ufffd\ufffdl\ufffd*\ufffd(\u0005f\ufffd\ufffd;X\ufffd\ufffde\ufffd\u001dK\ufffd\ufffdb\u0001\ufffd\ufffd\ufffd\ufffdS\ufffd\ufffd\ufffd\ufffd\ufffdG&2\ufffd\ufffd\ufffd\u0011=\ufffd\ufffdv\ufffd/\u0014}\u0016\ufffd\u0006\ufffd\u0000y)n\ufffd\u0000\u0000\u0000\u0000\u0000",
             "root_digest": "",
             "salt": ""
           },
           {
             "type": "hashtree",
-            "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000system\ufffd+\ufffd\ufffd]F[>\ufffd\ufffd\ufffd\ufffd,HB\u0014\ufffd-N\u0005\ufffd\u0017Z\ufffd-(\f\u007f\u001e\ufffd\ufffdk\ufffd\ufffd\ufffdp\ufffdjPqc\u0005\ufffd9\u001e\ufffd\ufffd\u0014\u0000\u0000\u0000\u0000\u0000\u0000",
+            "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000system\ufffdb\ufffd\ufffd\ufffd\u0011\ufffd\ufffdLP\u000fI+ovI$YL]\ufffd\ufffdF;\ufffd\ufffd\ufffd\ufffd\u001b\ufffd\ufffd5~-\ufffd\ufffd=K\ufffd\ufffdY\ufffdIq\ufffd\ufffd\ufffdcU?\ufffd\ufffd\ufffd\ufffd\ufffd\ufffdyO\ufffd\ufffd;>\ufffd\ufffd\u0000\u0000\u0000\u0000\u0000\u0000",
             "root_digest": "",
             "salt": ""
           },
           {
             "type": "hashtree",
-            "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000system_ext6\ufffd\ufffd\ufffdap\ufffd\ufffd\u0003?\ufffd\ufffdW>@\ufffd\u0012\u0010B7*\u00034\ufffd\ufffd{9\ufffd\ufffd\ufffd\ufffd\u0013\ufffd\u00049\u000b{\ufffdE!\ufffdQ\ufffd\f]$\ufffdP\u0000\u0000",
-            "root_digest": "",
-            "salt": ""
-          }
-        ]
-      }
-    },
-    "vbmeta_vendor": {
-      "sha256": "c8091597bf91c555254f53dec86d8fb5540fa9454639afde0d97227757dc84a5",
-      "size": 4096,
-      "format": "avb_vbmeta",
-      "qc_image_version": null,
-      "oem_image_version": null,
-      "avb": {
-        "avb_version_major": 1,
-        "avb_version_minor": 0,
-        "rollback_index": 1772323200,
-        "rollback_index_location": 0,
-        "algorithm": "SHA256_RSA2048",
-        "flags": 0,
-        "release_string": "avbtool 1.3.0",
-        "public_key_sha256": "09e8d4d0cb5a4e81c12bebb632431942ce72a81f91c9e94ef399939a9b3d44bb",
-        "descriptors": [
-          {
-            "type": "property",
-            "key": "com.android.build.vendor.os_version",
-            "value": "15"
-          },
-          {
-            "type": "property",
-            "key": "com.android.build.vendor.fingerprint",
-            "value": "qti/sun/sun:15/AP3A.240617.008/1772784089631:user/release-keys"
-          },
-          {
-            "type": "property",
-            "key": "com.android.build.vendor.security_patch",
-            "value": "2026-03-01"
-          },
-          {
-            "type": "property",
-            "key": "com.android.build.oplus_custom_images.os_version",
-            "value": "11"
-          },
-          {
-            "type": "property",
-            "key": "com.android.build.oplus_custom_images.security_patch",
-            "value": "2020-10-05"
-          },
-          {
-            "type": "hashtree",
-            "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000vendor\ufffd\u0011\ufffd\ufffd\ufffd\ufffd\ufffd\u0004\ufffd\ufffd\ufffd1\ufffdQ*\ufffd\ufffdh#\ufffdx\ufffd\ufffdZ$ \u000fj\ufffd&+\ufffd\ufffd\ufffd3u\ufffd\ufffd\ufffd_6\u0019X\ufffd\ufffdW\ufffd!\u0000\u0000\u0000\u0000\u0000\u0000",
+            "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000system_ext\ufffdb\ufffd\ufffd\ufffd\u0011\ufffd\ufffdLP\u000fI+ovI$YL]\ufffd\ufffdF;\ufffd\ufffd\ufffd\ufffd\u001b\ufffd\ufffd5C\"\u00189\u0013P\ufffd\u0018\ufffd\ufffd(\ufffd,O\ufffdj#i\fgz\ufffd\ufffd\u0002\ufffdg\ufffd\ufffd\ufffd\ufffd\t\ufffd\u0000\u0000",
             "root_digest": "",
             "salt": ""
           }
@@ -1594,7 +2220,7 @@
       }
     },
     "recovery": {
-      "sha256": "be9c0f9baed92c7c96fddbf556cd57dde315e5e638400c791ff3b3577c943f3c",
+      "sha256": "721353924c986fa063c6bbb768649e6ec0fb5aabfdd84b644f3cf1c9ceef7754",
       "size": 104857600,
       "format": "android_bootimg",
       "qc_image_version": null,

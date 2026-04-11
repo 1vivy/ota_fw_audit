@@ -1,0 +1,33 @@
+# Boilerplate fw_audit profile.
+#
+# Copy this file when adding a new device and replace the placeholder values.
+# Prefer codename-centric profile IDs and filenames.
+
+profile_id: vendor_codename_soc
+manufacturer: VendorName
+device_name: Marketing Device Name
+codename: codename
+aliases: []
+soc: soc_name
+model_numbers: []
+source_references: []
+notes:
+    - Describe where the partition list came from.
+    - Mention whether this profile is vendor-specific or a generic starting point.
+
+partitions:
+    boot_chain:
+
+    subsystem_firmware:
+
+    low_priority:
+
+    boundary:
+        - boot
+        - init_boot
+        - vendor_boot
+        - dtbo
+        - vbmeta
+        - vbmeta_system
+        - vbmeta_vendor
+        - recovery

@@ -1,0 +1,73 @@
+profile_id: xiaomi_pudding_sm8850
+manufacturer: Xiaomi
+device_name: Xiaomi 17s
+codename: pudding
+aliases:
+    - puddy
+soc: sm8850
+model_numbers:
+    - pudding
+source_references:
+    - OTA partition lists from pudding HyperOS full packages
+notes:
+    - Uses the canonical codename `pudding`; `puddy` is kept as an alias.
+
+partitions:
+    boot_chain:
+        - xbl
+        - xbl_config
+        - xbl_ac_config
+        - abl
+        - uefi
+        - tz
+        - tz_ac_config
+        - tz_qti_config
+        - hyp
+        - hyp_ac_config
+        - aop
+        - aop_config
+        - devcfg
+        - keymaster
+        - uefisecapp
+        - pvmfw
+        - secretkeeper
+
+    subsystem_firmware:
+        - modem
+        - modemfirmware
+        - bluetooth
+        - dsp
+        - qupfw
+        - cpucp
+        - cpucp_dtb
+        - soccp
+        - soccp_debug
+        - soccp_dcd
+        - shrm
+        - pdp
+        - pdp_cdb
+        - dcp
+        - tme_fw
+        - tme_config
+        - tme_seq_patch
+        - imagefv
+        - featenabler
+        - spuservice
+        - multiimgqti
+        - countrycode
+        - idmanager
+        - mi_ext
+
+    low_priority:
+        - xbl_ramdump
+
+    boundary:
+        - boot
+        - init_boot
+        - vendor_boot
+        - dtbo
+        - qtvm_dtbo
+        - vm-bootsys
+        - vbmeta
+        - vbmeta_system
+        - recovery

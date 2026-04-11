@@ -32,7 +32,58 @@
     "version_name_show": "CPH2747_16.0.5.700(EX01)",
     "wipe": "0"
   },
-  "device_profile": "oneplus_sm8850",
+  "profile_id": "oneplus_infiniti_sm8850",
+  "profile_file": "oneplus_infiniti_sm8850.yaml",
+  "manufacturer": "OnePlus",
+  "device_name": "OnePlus 15",
+  "device_codename": "infiniti",
+  "device_aliases": [],
+  "soc": "sm8850",
+  "model_numbers": [
+    "CPH2745",
+    "CPH2747"
+  ],
+  "source_ota": "/home/vivy/OTA_kitchen/CPH2747_11.A.30_0300_202602270114.zip",
+  "base_ota": null,
+  "ota_kind": "full",
+  "uefi_setup_mode": {
+    "overall_verdict": "setup_mode",
+    "overall_detail": "No PK/KEK enrollment data found in any UEFI image. Platform boots in UEFI Setup Mode \u2014 gBS->LoadImage ACCEPTS unsigned EFI images. GBL exploit is not blocked by UEFI Secure Boot.",
+    "sources_checked": [
+      "uefi.img",
+      "xbl.img",
+      "uefisecapp.img"
+    ],
+    "per_image": {
+      "uefi.img": {
+        "signature_lists_found": [],
+        "der_certs_in_code": 1,
+        "key_varnames_found": [],
+        "enroll_strings": [],
+        "has_pk_data": false,
+        "verdict": "setup_mode",
+        "detail": "No PK enrollment data found in uefi.img \u2014 platform boots in UEFI Setup Mode (LoadImage accepts unsigned images)."
+      },
+      "xbl.img": {
+        "signature_lists_found": [],
+        "key_varnames_found": [],
+        "enroll_strings": [],
+        "has_pk_data": false,
+        "verdict": "setup_mode",
+        "detail": "No PK enrollment data in xbl.img."
+      },
+      "uefisecapp.img": {
+        "signature_lists_found": [],
+        "der_certs_in_code": 0,
+        "key_varnames_found": [],
+        "enroll_strings": [],
+        "has_pk_data": false,
+        "verdict": "setup_mode",
+        "detail": "No PK enrollment data found in uefi.img \u2014 platform boots in UEFI Setup Mode (LoadImage accepts unsigned images)."
+      }
+    },
+    "gbl_loadimage_ok": true
+  },
   "partitions_analyzed": 50,
   "partitions": {
     "xbl": {

@@ -1,6 +1,10 @@
 {
   "ota_a": "CPH2653_15.0.0.850(EX01)",
   "ota_b": "CPH2653_16.0.2.402(EX01)",
+  "profile_id_a": "oneplus_dodge_sm8750",
+  "profile_id_b": "oneplus_dodge_sm8750",
+  "device_codename_a": "dodge",
+  "device_codename_b": "dodge",
   "partitions_compared": 39,
   "changed_partitions": [
     "abl",
@@ -47,6 +51,7 @@
   ],
   "missing_in_a": [],
   "missing_in_b": [],
+  "platform_diffs": {},
   "summary": {
     "boot_chain_changed": true,
     "arb_changed": false,
@@ -60,6 +65,10 @@
     "cert_chain_changed": false,
     "avb_key_changed": false,
     "avb_rollback_changed": true,
+    "setup_mode_changed": false,
+    "unsigned_efi_load_changed": false,
+    "gbl_exploit_lost": false,
+    "gbl_exploit_gained": false,
     "edl_risk_partitions": [
       "hyp",
       "tz",
@@ -86,7 +95,7 @@
         "implications": [
           "Android Boot Loader; handles fastboot, verified boot handoff",
           "Sets androidboot.* cmdline properties",
-          "References 'General OPLUS Use Key'"
+          "Can have tons of OEM customizations. Linuxloader.efi sits in here."
         ]
       }
     },

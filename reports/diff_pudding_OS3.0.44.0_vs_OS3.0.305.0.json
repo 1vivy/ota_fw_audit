@@ -1,36 +1,38 @@
 {
-  "ota_a": "CPH2747_16.0.5.700(EX01)",
-  "ota_b": "CPH2747_17.0.0.12(EX01)",
-  "profile_id_a": "oneplus_infiniti_sm8850",
-  "profile_id_b": "oneplus_infiniti_sm8850",
-  "device_codename_a": "infiniti",
-  "device_codename_b": "infiniti",
-  "partitions_compared": 50,
+  "ota_a": "OS3.0.44.0.WPCCNXM",
+  "ota_b": "16OS3.1.260320.042739869.QCPECN.S",
+  "profile_id_a": "xiaomi_pudding_sm8850",
+  "profile_id_b": "xiaomi_pudding_sm8850",
+  "device_codename_a": "pudding",
+  "device_codename_b": "pudding",
+  "partitions_compared": 51,
   "changed_partitions": [
     "abl",
     "aop",
     "aop_config",
     "bluetooth",
     "boot",
+    "countrycode",
     "cpucp",
     "cpucp_dtb",
     "dcp",
     "devcfg",
     "dsp",
     "dtbo",
-    "engineering_cdt",
     "featenabler",
     "hyp",
     "hyp_ac_config",
+    "idmanager",
     "imagefv",
     "init_boot",
     "keymaster",
+    "mi_ext",
     "modem",
-    "multiimgoem",
-    "multiimgqti",
+    "modemfirmware",
     "pdp",
     "pdp_cdb",
     "pvmfw",
+    "qtvm_dtbo",
     "qupfw",
     "recovery",
     "secretkeeper",
@@ -48,16 +50,15 @@
     "uefisecapp",
     "vbmeta",
     "vbmeta_system",
-    "vbmeta_vendor",
     "vendor_boot",
+    "vm-bootsys",
     "xbl",
     "xbl_ac_config",
     "xbl_config",
     "xbl_ramdump"
   ],
   "unchanged_partitions": [
-    "oplus_sec",
-    "splash",
+    "multiimgqti",
     "tme_seq_patch"
   ],
   "missing_in_a": [],
@@ -75,10 +76,10 @@
     "lifecycle_changed": false,
     "cert_chain_changed": false,
     "avb_key_changed": false,
-    "avb_rollback_changed": false,
+    "avb_rollback_changed": true,
     "setup_mode_changed": false,
     "unsigned_efi_load_changed": false,
-    "gbl_exploit_lost": false,
+    "gbl_exploit_lost": true,
     "gbl_exploit_gained": false,
     "edl_risk_partitions": [
       "hyp",
@@ -93,6 +94,12 @@
       "size_change": 0,
       "format_a": "opaque_blob",
       "format_b": "opaque_blob",
+      "gbl_change": {
+        "old_vulnerable": true,
+        "new_vulnerable": false,
+        "lost": true,
+        "gained": false
+      },
       "risk": {
         "role": "boot_chain",
         "arb_risk": "possible",
@@ -112,17 +119,9 @@
     },
     "aop": {
       "sha256_changed": true,
-      "size_change": 4096,
+      "size_change": 0,
       "format_a": "opaque_blob",
       "format_b": "opaque_blob",
-      "qc_version_change": {
-        "old": "AOP.HO.7.0-00223-KAANAPALI_E-1.124230.13",
-        "new": "AOP.HO.7.0-00285-KAANAPALI_E-1.131443.6"
-      },
-      "oem_version_change": {
-        "old": "ip-10-195-205-64",
-        "new": "ip-10-195-202-87"
-      },
       "risk": {
         "role": "boot_chain",
         "arb_risk": "possible",
@@ -193,9 +192,23 @@
         ]
       }
     },
+    "countrycode": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "opaque_blob",
+      "format_b": "opaque_blob",
+      "risk": {
+        "role": "unknown",
+        "arb_risk": "unknown",
+        "key_rotation_risk": "unknown",
+        "edl_risk_if_mismatched": false,
+        "must_move_with": [],
+        "implications": []
+      }
+    },
     "cpucp": {
       "sha256_changed": true,
-      "size_change": 20480,
+      "size_change": 0,
       "format_a": "elf64",
       "format_b": "elf64",
       "risk": {
@@ -226,14 +239,6 @@
       "size_change": 0,
       "format_a": "fat_mbr",
       "format_b": "fat_mbr",
-      "qc_version_change": {
-        "old": "DCP.FW.1.1-00127-KAANAPALI_DCP_PACK-1",
-        "new": "DCP.FW.1.1-00157-KAANAPALI_DCP_PACK-1"
-      },
-      "oem_version_change": {
-        "old": "31ad7efcda03",
-        "new": "15cf47cbd98b"
-      },
       "risk": {
         "role": "unknown",
         "arb_risk": "unknown",
@@ -248,13 +253,9 @@
       "size_change": 0,
       "format_a": "elf64",
       "format_b": "elf64",
-      "qc_version_change": {
-        "old": "TZ.XF.5.33-00048-KAANAPALI-1",
-        "new": "TZ.XF.5.33-00124-KAANAPALI-1"
-      },
       "oem_version_change": {
-        "old": "kvm-slave-build-s-bp-09339844",
-        "new": "kvm-slave-build-s-bp-09757989"
+        "old": "pangu-build-bp-143522-c59nx-xgt9p-3m135",
+        "new": "pangu-build-bp-189127-w919t-s42sp-qxx8w"
       },
       "risk": {
         "role": "boot_chain",
@@ -299,22 +300,6 @@
         "implications": []
       }
     },
-    "engineering_cdt": {
-      "sha256_changed": true,
-      "size_change": 0,
-      "format_a": "opaque_blob",
-      "format_b": "opaque_blob",
-      "risk": {
-        "role": "boot_chain",
-        "arb_risk": "none_seen",
-        "key_rotation_risk": "none_seen",
-        "edl_risk_if_mismatched": false,
-        "must_move_with": [],
-        "implications": [
-          "Engineering CDT; hardware configuration table"
-        ]
-      }
-    },
     "featenabler": {
       "sha256_changed": true,
       "size_change": 0,
@@ -334,14 +319,6 @@
       "size_change": 0,
       "format_a": "elf64",
       "format_b": "elf64",
-      "qc_version_change": {
-        "old": "TZ.XF.5.33-00048-KAANAPALI-1.124230.29",
-        "new": "TZ.XF.5.33-00124-KAANAPALI-1.131443.16"
-      },
-      "oem_version_change": {
-        "old": "ip-10-195-204-208",
-        "new": "ip-10-195-204-35"
-      },
       "risk": {
         "role": "boot_chain",
         "arb_risk": "possible",
@@ -361,10 +338,20 @@
       "size_change": 0,
       "format_a": "elf64",
       "format_b": "elf64",
-      "qc_version_change": {
-        "old": "ACPOLICY.XF.1.0-00302-KAANAPALI-1.124230.5",
-        "new": "ACPOLICY.XF.1.0-00352-KAANAPALI-1.131443.6"
-      },
+      "risk": {
+        "role": "unknown",
+        "arb_risk": "unknown",
+        "key_rotation_risk": "unknown",
+        "edl_risk_if_mismatched": false,
+        "must_move_with": [],
+        "implications": []
+      }
+    },
+    "idmanager": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "elf64",
+      "format_b": "elf64",
       "risk": {
         "role": "unknown",
         "arb_risk": "unknown",
@@ -422,6 +409,20 @@
         ]
       }
     },
+    "mi_ext": {
+      "sha256_changed": true,
+      "size_change": 110669824,
+      "format_a": "opaque_blob",
+      "format_b": "opaque_blob",
+      "risk": {
+        "role": "unknown",
+        "arb_risk": "unknown",
+        "key_rotation_risk": "unknown",
+        "edl_risk_if_mismatched": false,
+        "must_move_with": [],
+        "implications": []
+      }
+    },
     "modem": {
       "sha256_changed": true,
       "size_change": 0,
@@ -439,25 +440,15 @@
         ]
       }
     },
-    "multiimgoem": {
+    "modemfirmware": {
       "sha256_changed": true,
-      "size_change": 0,
-      "format_a": "elf64",
-      "format_b": "elf64",
-      "risk": {
-        "role": "unknown",
-        "arb_risk": "unknown",
-        "key_rotation_risk": "unknown",
-        "edl_risk_if_mismatched": false,
-        "must_move_with": [],
-        "implications": []
-      }
-    },
-    "multiimgqti": {
-      "sha256_changed": true,
-      "size_change": 0,
-      "format_a": "elf64",
-      "format_b": "elf64",
+      "size_change": 65536,
+      "format_a": "fat_mbr",
+      "format_b": "fat_mbr",
+      "qc_version_change": {
+        "old": "MPSS.DE.9.0-01805.10-KAANAPALI_GEN_PACK-2.121444.55.124572.62",
+        "new": "MPSS.DE.9.0-01805.10-KAANAPALI_GEN_PACK-2.121444.55.124572.64"
+      },
       "risk": {
         "role": "unknown",
         "arb_risk": "unknown",
@@ -469,7 +460,7 @@
     },
     "pdp": {
       "sha256_changed": true,
-      "size_change": 32768,
+      "size_change": 0,
       "format_a": "opaque_blob",
       "format_b": "opaque_blob",
       "risk": {
@@ -497,7 +488,7 @@
     },
     "pvmfw": {
       "sha256_changed": true,
-      "size_change": -98304,
+      "size_change": 0,
       "format_a": "android_bootimg",
       "format_b": "android_bootimg",
       "risk": {
@@ -510,6 +501,20 @@
           "Protected VM firmware; contains AVB verification, DICE chain, rollback logic",
           "defer-rollback-protection property handling"
         ]
+      }
+    },
+    "qtvm_dtbo": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "opaque_blob",
+      "format_b": "opaque_blob",
+      "risk": {
+        "role": "unknown",
+        "arb_risk": "unknown",
+        "key_rotation_risk": "unknown",
+        "edl_risk_if_mismatched": false,
+        "must_move_with": [],
+        "implications": []
       }
     },
     "qupfw": {
@@ -574,8 +579,8 @@
       "format_a": "fat_mbr",
       "format_b": "fat_mbr",
       "oem_version_change": {
-        "old": "kvm-slave-build-s-bp-09339844",
-        "new": "kvm-slave-build-s-bp-09757989"
+        "old": "pangu-build-bp-143522-c59nx-xgt9p-3m135",
+        "new": "pangu-build-bp-189127-w919t-s42sp-qxx8w"
       },
       "risk": {
         "role": "unknown",
@@ -605,10 +610,6 @@
       "size_change": 0,
       "format_a": "opaque_blob",
       "format_b": "opaque_blob",
-      "oem_version_change": {
-        "old": "ea4324c594fa",
-        "new": "d87b0db034b4"
-      },
       "risk": {
         "role": "unknown",
         "arb_risk": "unknown",
@@ -637,14 +638,6 @@
       "size_change": 0,
       "format_a": "opaque_blob",
       "format_b": "opaque_blob",
-      "qc_version_change": {
-        "old": "ACPOLICY.XF.1.0-00302-KAANAPALI-1.121457.2",
-        "new": "ACPOLICY.XF.1.0-00351-KAANAPALI-1"
-      },
-      "oem_version_change": {
-        "old": "crm-ubuntu143",
-        "new": "san-w170-s5-4-02"
-      },
       "risk": {
         "role": "unknown",
         "arb_risk": "unknown",
@@ -670,17 +663,9 @@
     },
     "tz": {
       "sha256_changed": true,
-      "size_change": 12288,
+      "size_change": 0,
       "format_a": "elf64",
       "format_b": "elf64",
-      "qc_version_change": {
-        "old": "TZ.XF.5.33-00048-KAANAPALI-1.124230.29",
-        "new": "TZ.XF.5.33-00124-KAANAPALI-1.131443.16"
-      },
-      "oem_version_change": {
-        "old": "ip-10-195-204-208",
-        "new": "ip-10-195-204-35"
-      },
       "risk": {
         "role": "boot_chain",
         "arb_risk": "likely",
@@ -732,10 +717,6 @@
       "size_change": 0,
       "format_a": "elf64",
       "format_b": "elf64",
-      "qc_version_change": {
-        "old": "BOOT.MXF.2.5.3-00131-KAANAPALI-1.124230.19",
-        "new": "BOOT.MXF.2.5.3-00199-KAANAPALI-1.131443.21"
-      },
       "risk": {
         "role": "boot_chain",
         "arb_risk": "possible",
@@ -754,7 +735,7 @@
     },
     "uefisecapp": {
       "sha256_changed": true,
-      "size_change": 4096,
+      "size_change": 0,
       "format_a": "elf64",
       "format_b": "elf64",
       "risk": {
@@ -787,14 +768,14 @@
             "old": {
               "type": "hash",
               "partition_name": "",
-              "image_size": 25038848,
+              "image_size": 22360064,
               "digest": "",
               "salt": ""
             },
             "new": {
               "type": "hash",
               "partition_name": "",
-              "image_size": 26382336,
+              "image_size": 22364160,
               "digest": "",
               "salt": ""
             }
@@ -802,11 +783,24 @@
           {
             "key": [
               "hashtree",
-              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000system_dlkm-\ufffd\ufffd\ufffdg\u0011\ufffd\ufffd{\ufffd3\ufffd\u0017\t\ufffdv\ufffd2cxD\ufffd\u0000\u0014y\ufffdm\ufffd&\ufffd(\u0015\ufffd\ufffd\f\ufffd-z\ufffd\u0007\ufffd*\ufffd~f\ufffd\f\ufffd\ufffd\ufffd\u0019\ufffd\ufffd(\ufffd\ufffd1Sr\ufffd\ufffd\ufffdf\ufffd\u0000"
+              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000mi_extd\u0017JF\ufffd\ufffdi\ufffd\u007f4O\ufffd\ufffd4 \ufffd\ufffd\ufffd.E\ufffd\ufffd\ufffd\u00150\u0006Y#\ufffd\ufffd1\ufffdItq\ufffd\ufffd\ufffd\u0005%\ufffd\ufffd\ufffd\ufffdv\u0016\ufffd\u0012bS\ufffd+\u0013\r\ufffd\ufffd\u001d\ufffd5\ufffdd)\u0001_\u0000\u0000\u0000\u0000\u0000\u0000"
+            ],
+            "old": null,
+            "new": {
+              "type": "hashtree",
+              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000mi_extd\u0017JF\ufffd\ufffdi\ufffd\u007f4O\ufffd\ufffd4 \ufffd\ufffd\ufffd.E\ufffd\ufffd\ufffd\u00150\u0006Y#\ufffd\ufffd1\ufffdItq\ufffd\ufffd\ufffd\u0005%\ufffd\ufffd\ufffd\ufffdv\u0016\ufffd\u0012bS\ufffd+\u0013\r\ufffd\ufffd\u001d\ufffd5\ufffdd)\u0001_\u0000\u0000\u0000\u0000\u0000\u0000",
+              "root_digest": "",
+              "salt": ""
+            }
+          },
+          {
+            "key": [
+              "hashtree",
+              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000mi_ext\ufffdp[k\ufffd\ufffd\ufffdrl\u001a^Mr^\ufffd\ufffdk\"\ufffd\ufffd\ufffd\ufffd\ufffd\ufffdg`\ufffd\ufffd;\ufffdC\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd]\ufffdF\ufffd\u001f\ufffd\ufffd\ufffde\ufffd\ufffd\ufffd 7\ufffd\ufffdJS-\ufffd\u0017\ufffd\ufffd<\ufffd\ufffd(\u0000\u0000\u0000\u0000\u0000\u0000"
             ],
             "old": {
               "type": "hashtree",
-              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000system_dlkm-\ufffd\ufffd\ufffdg\u0011\ufffd\ufffd{\ufffd3\ufffd\u0017\t\ufffdv\ufffd2cxD\ufffd\u0000\u0014y\ufffdm\ufffd&\ufffd(\u0015\ufffd\ufffd\f\ufffd-z\ufffd\u0007\ufffd*\ufffd~f\ufffd\f\ufffd\ufffd\ufffd\u0019\ufffd\ufffd(\ufffd\ufffd1Sr\ufffd\ufffd\ufffdf\ufffd\u0000",
+              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000mi_ext\ufffdp[k\ufffd\ufffd\ufffdrl\u001a^Mr^\ufffd\ufffdk\"\ufffd\ufffd\ufffd\ufffd\ufffd\ufffdg`\ufffd\ufffd;\ufffdC\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd]\ufffdF\ufffd\u001f\ufffd\ufffd\ufffde\ufffd\ufffd\ufffd 7\ufffd\ufffdJS-\ufffd\u0017\ufffd\ufffd<\ufffd\ufffd(\u0000\u0000\u0000\u0000\u0000\u0000",
               "root_digest": "",
               "salt": ""
             },
@@ -815,12 +809,12 @@
           {
             "key": [
               "hashtree",
-              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000system_dlkm\ufffdT\ufffd\ufffd\ufffdVt\ufffd\u0011\ufffd\ufffd(\ufffd5\u001d\ufffd\ufffd\ufffd(zO\ufffd^\ufffd\ufffdx\ufffdG\ufffd\ufffdT\ufffd'\ufffd\ufffdz\u0017N&\ufffd\ufffd\ufffdK&B\ufffd\ufffd'k\ufffdv\ufffd\ufffd+\u0000\b\ufffd\ufffds\ufffd?K\ufffdf\u0000"
+              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000odmk\ufffd\ufffd\ufffd\ufffd\n\ufffd\ufffd\ufffd'\ufffdb\ufffd\ufffdyG\ufffdWB\ufffd(\ufffd\u000e\ufffd\u0003C\ufffd\ufffd?/\ufffd?4\ufffd\f\ufffd\ufffd\ufffd\ufffd\ufffdM\ufffd\u0000\ufffd\ufffd\ufffd\b\r\ufffdy\ufffd\u0007\ufffd\u0013@\u0019w\ufffd\ufffd\ufffd\ufffd\ufffd^)\u0000"
             ],
             "old": null,
             "new": {
               "type": "hashtree",
-              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000system_dlkm\ufffdT\ufffd\ufffd\ufffdVt\ufffd\u0011\ufffd\ufffd(\ufffd5\u001d\ufffd\ufffd\ufffd(zO\ufffd^\ufffd\ufffdx\ufffdG\ufffd\ufffdT\ufffd'\ufffd\ufffdz\u0017N&\ufffd\ufffd\ufffdK&B\ufffd\ufffd'k\ufffdv\ufffd\ufffd+\u0000\b\ufffd\ufffds\ufffd?K\ufffdf\u0000",
+              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000odmk\ufffd\ufffd\ufffd\ufffd\n\ufffd\ufffd\ufffd'\ufffdb\ufffd\ufffdyG\ufffdWB\ufffd(\ufffd\u000e\ufffd\u0003C\ufffd\ufffd?/\ufffd?4\ufffd\f\ufffd\ufffd\ufffd\ufffd\ufffdM\ufffd\u0000\ufffd\ufffd\ufffd\b\r\ufffdy\ufffd\u0007\ufffd\u0013@\u0019w\ufffd\ufffd\ufffd\ufffd\ufffd^)\u0000",
               "root_digest": "",
               "salt": ""
             }
@@ -828,11 +822,11 @@
           {
             "key": [
               "hashtree",
-              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000vendor_dlkm\ufffd\ufffd\\\u0013\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\u0002\ufffd[\u0004\ufffd\u0013m\ufffd4\ufffd\ufffdv\u0014\ufffdH\u001bh\ufffd1\ufffd^a\ufffd]\ufffdx\ufffd\ufffd\ufffdv'\ufffd\nM\ufffd\ufffd\ufffdP\ufffd7oL\ufffd:?r\ufffd\ufffd/\u0014d\u000f\ufffd=\u0000"
+              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000odm\ufffd\u001e\ufffdxyBn\ufffdw\ufffd$\ufffd\"4H\ufffd\ufffd\ufffd\ufffd\u001d\u001a$\ufffd\u007f\ufffdC\ufffd\ufffd\ufffd\ufffdA\ufffd\u0004>\ufffd\ufffd\ufffdjg,\ufffd\ufffdO\ufffd+\ufffd\ufffd\ufffd\ufffd_\u0006zj\ufffd\ufffd\ufffd\ufffd\u0007\ufffd\ufffd\ufffd\ufffd\u0019\u001f\u0000"
             ],
             "old": {
               "type": "hashtree",
-              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000vendor_dlkm\ufffd\ufffd\\\u0013\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\u0002\ufffd[\u0004\ufffd\u0013m\ufffd4\ufffd\ufffdv\u0014\ufffdH\u001bh\ufffd1\ufffd^a\ufffd]\ufffdx\ufffd\ufffd\ufffdv'\ufffd\nM\ufffd\ufffd\ufffdP\ufffd7oL\ufffd:?r\ufffd\ufffd/\u0014d\u000f\ufffd=\u0000",
+              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000odm\ufffd\u001e\ufffdxyBn\ufffdw\ufffd$\ufffd\"4H\ufffd\ufffd\ufffd\ufffd\u001d\u001a$\ufffd\u007f\ufffdC\ufffd\ufffd\ufffd\ufffdA\ufffd\u0004>\ufffd\ufffd\ufffdjg,\ufffd\ufffdO\ufffd+\ufffd\ufffd\ufffd\ufffd_\u0006zj\ufffd\ufffd\ufffd\ufffd\u0007\ufffd\ufffd\ufffd\ufffd\u0019\u001f\u0000",
               "root_digest": "",
               "salt": ""
             },
@@ -841,15 +835,80 @@
           {
             "key": [
               "hashtree",
-              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000vendor_dlkm\ufffd\ufffd\ufffd\ufffdXX\ufffd\ufffdf\ufffd\ufffd\ufffd\ufffdQ\ufffdW\ufffdx\ufffd\ufffdpy=*V;\ufffd\ufffdiB\ufffd\ufffd\ufffdn\ufffd{\ufffd\ufffd\ufffd\ufffd\ufffdW\ufffd\ufffd\ufffd8n\u001a\ufffd\nt\ufffd\"\ufffd1\ufffd/\ufffdRO\ufffd\ufffd\ufffd]\u0000"
+              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000system_dlkmk\ufffd\ufffd\ufffd\ufffd\n\ufffd\ufffd\ufffd'\ufffdb\ufffd\ufffdyG\ufffdWB\ufffd(\ufffd\u000e\ufffd\u0003C\ufffd\ufffd?/\ufffd?\ufffdp:|\ufffdw\ufffd\ufffd\ufffd\ufffdy\u000f\u000b\u0002\ufffd\ufffd\ufffd\ufffd\ufffdA\ufffd\u0018wwD\u001fH\u0002\ufffdhui\u0000"
             ],
             "old": null,
             "new": {
               "type": "hashtree",
-              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000vendor_dlkm\ufffd\ufffd\ufffd\ufffdXX\ufffd\ufffdf\ufffd\ufffd\ufffd\ufffdQ\ufffdW\ufffdx\ufffd\ufffdpy=*V;\ufffd\ufffdiB\ufffd\ufffd\ufffdn\ufffd{\ufffd\ufffd\ufffd\ufffd\ufffdW\ufffd\ufffd\ufffd8n\u001a\ufffd\nt\ufffd\"\ufffd1\ufffd/\ufffdRO\ufffd\ufffd\ufffd]\u0000",
+              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000system_dlkmk\ufffd\ufffd\ufffd\ufffd\n\ufffd\ufffd\ufffd'\ufffdb\ufffd\ufffdyG\ufffdWB\ufffd(\ufffd\u000e\ufffd\u0003C\ufffd\ufffd?/\ufffd?\ufffdp:|\ufffdw\ufffd\ufffd\ufffd\ufffdy\u000f\u000b\u0002\ufffd\ufffd\ufffd\ufffd\ufffdA\ufffd\u0018wwD\u001fH\u0002\ufffdhui\u0000",
               "root_digest": "",
               "salt": ""
             }
+          },
+          {
+            "key": [
+              "hashtree",
+              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000system_dlkm\ufffd\u001e\ufffdxyBn\ufffdw\ufffd$\ufffd\"4H\ufffd\ufffd\ufffd\ufffd\u001d\u001a$\ufffd\u007f\ufffdC\ufffd\ufffd\ufffd\ufffdA\ufffd8\ufffdABi\u0003\ufffd=2\ufffd\ufffd\u0011`\ufffd\ufffd\ufffd\ufffd<\ufffd(\ufffdeo)S\ufffd_UQ\u000fT\ufffd\u0000"
+            ],
+            "old": {
+              "type": "hashtree",
+              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000system_dlkm\ufffd\u001e\ufffdxyBn\ufffdw\ufffd$\ufffd\"4H\ufffd\ufffd\ufffd\ufffd\u001d\u001a$\ufffd\u007f\ufffdC\ufffd\ufffd\ufffd\ufffdA\ufffd8\ufffdABi\u0003\ufffd=2\ufffd\ufffd\u0011`\ufffd\ufffd\ufffd\ufffd<\ufffd(\ufffdeo)S\ufffd_UQ\u000fT\ufffd\u0000",
+              "root_digest": "",
+              "salt": ""
+            },
+            "new": null
+          },
+          {
+            "key": [
+              "hashtree",
+              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000vendor\u0011D>\ufffdb\u0019\u000e\ufffdg\ufffd]Q\ufffdi5\ufffd\ufffd\"\ufffd+\ufffd\ufffdm\ufffdQ\ufffd\ufffd[\ufffd\ufffd\ufffdR\u001a\u0003WI|\ufffdV\ufffd\ufffd\b\ufffd\ufffdFgo\ufffd1\n\ufffd\ufffd1\u0012\ufffd\ufffd\ufffd\ufffd|u1\ufffd\u001f\ufffd\u0000\u0000\u0000\u0000\u0000\u0000"
+            ],
+            "old": null,
+            "new": {
+              "type": "hashtree",
+              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000vendor\u0011D>\ufffdb\u0019\u000e\ufffdg\ufffd]Q\ufffdi5\ufffd\ufffd\"\ufffd+\ufffd\ufffdm\ufffdQ\ufffd\ufffd[\ufffd\ufffd\ufffdR\u001a\u0003WI|\ufffdV\ufffd\ufffd\b\ufffd\ufffdFgo\ufffd1\n\ufffd\ufffd1\u0012\ufffd\ufffd\ufffd\ufffd|u1\ufffd\u001f\ufffd\u0000\u0000\u0000\u0000\u0000\u0000",
+              "root_digest": "",
+              "salt": ""
+            }
+          },
+          {
+            "key": [
+              "hashtree",
+              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000vendor_dlkmk\ufffd\ufffd\ufffd\ufffd\n\ufffd\ufffd\ufffd'\ufffdb\ufffd\ufffdyG\ufffdWB\ufffd(\ufffd\u000e\ufffd\u0003C\ufffd\ufffd?/\ufffd?\ufffd\u0019\ufffdd\ufffd\ufffd<C\u0016\ufffd5\ufffd\ufffd\ufffd\ufffdC\ufffdHb:\u000bU\ufffd\ufffd}\ufffd$\u000e\ufffd\ufffdY\ufffd\u0000"
+            ],
+            "old": null,
+            "new": {
+              "type": "hashtree",
+              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000vendor_dlkmk\ufffd\ufffd\ufffd\ufffd\n\ufffd\ufffd\ufffd'\ufffdb\ufffd\ufffdyG\ufffdWB\ufffd(\ufffd\u000e\ufffd\u0003C\ufffd\ufffd?/\ufffd?\ufffd\u0019\ufffdd\ufffd\ufffd<C\u0016\ufffd5\ufffd\ufffd\ufffd\ufffdC\ufffdHb:\u000bU\ufffd\ufffd}\ufffd$\u000e\ufffd\ufffdY\ufffd\u0000",
+              "root_digest": "",
+              "salt": ""
+            }
+          },
+          {
+            "key": [
+              "hashtree",
+              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000vendor_dlkm\ufffd\u001e\ufffdxyBn\ufffdw\ufffd$\ufffd\"4H\ufffd\ufffd\ufffd\ufffd\u001d\u001a$\ufffd\u007f\ufffdC\ufffd\ufffd\ufffd\ufffdA\ufffds\ufffd\ufffd\ufffd\u0005C+\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd9\\\ufffd\ufffd\n=j\u001dV\ufffd\ufffdY5iE\ufffd\ufffd\ufffd\u0000"
+            ],
+            "old": {
+              "type": "hashtree",
+              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000vendor_dlkm\ufffd\u001e\ufffdxyBn\ufffdw\ufffd$\ufffd\"4H\ufffd\ufffd\ufffd\ufffd\u001d\u001a$\ufffd\u007f\ufffdC\ufffd\ufffd\ufffd\ufffdA\ufffds\ufffd\ufffd\ufffd\u0005C+\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd9\\\ufffd\ufffd\n=j\u001dV\ufffd\ufffdY5iE\ufffd\ufffd\ufffd\u0000",
+              "root_digest": "",
+              "salt": ""
+            },
+            "new": null
+          },
+          {
+            "key": [
+              "hashtree",
+              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000vendor\ufffd\u001e\ufffdxyBn\ufffdw\ufffd$\ufffd\"4H\ufffd\ufffd\ufffd\ufffd\u001d\u001a$\ufffd\u007f\ufffdC\ufffd\ufffd\ufffd\ufffdA\ufffd\ufffd\f\ufffd#\ufffd&\ufffd\ufffd\ufffd\ufffd\ufffd\ufffdv\ufffdR\ufffd\ufffd\ufffd\u0010\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd-\ufffd8\ufffd)%\ufffd\u0000\u0000\u0000\u0000\u0000\u0000"
+            ],
+            "old": {
+              "type": "hashtree",
+              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000vendor\ufffd\u001e\ufffdxyBn\ufffdw\ufffd$\ufffd\"4H\ufffd\ufffd\ufffd\ufffd\u001d\u001a$\ufffd\u007f\ufffdC\ufffd\ufffd\ufffd\ufffdA\ufffd\ufffd\f\ufffd#\ufffd&\ufffd\ufffd\ufffd\ufffd\ufffd\ufffdv\ufffdR\ufffd\ufffd\ufffd\u0010\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd-\ufffd8\ufffd)%\ufffd\u0000\u0000\u0000\u0000\u0000\u0000",
+              "root_digest": "",
+              "salt": ""
+            },
+            "new": null
           },
           {
             "key": [
@@ -859,12 +918,12 @@
             "old": {
               "type": "property",
               "key": "com.android.build.vendor_dlkm.fingerprint",
-              "value": "qti/canoe/canoe:16/BP2A.250605.015/1770826586321:user/release-keys"
+              "value": "Xiaomi/pudding/pudding:16/BQ2A.250705.001-BP2A.250605.031.A3/OS3.0.44.0.WPCCNXM:user/release-keys"
             },
             "new": {
               "type": "property",
               "key": "com.android.build.vendor_dlkm.fingerprint",
-              "value": "qti/canoe/canoe:16/BP2A.250605.015/1773349929353:user/release-keys"
+              "value": "Xiaomi/pudding/pudding:16/BQ2A.250705.001-BP2A.250605.031.A3/OS3.0.305.0.WPCCNXM:user/release-keys"
             }
           }
         ],
@@ -896,37 +955,23 @@
       "format_a": "avb_vbmeta",
       "format_b": "avb_vbmeta",
       "avb_change": {
-        "changed_fields": [],
+        "changed_fields": [
+          {
+            "field": "rollback_index",
+            "old": 1767225600,
+            "new": 1769904000
+          }
+        ],
         "descriptor_changes": [
           {
             "key": [
-              "hash",
-              ""
-            ],
-            "old": {
-              "type": "hash",
-              "partition_name": "",
-              "image_size": 872448,
-              "digest": "",
-              "salt": ""
-            },
-            "new": {
-              "type": "hash",
-              "partition_name": "",
-              "image_size": 774144,
-              "digest": "",
-              "salt": ""
-            }
-          },
-          {
-            "key": [
               "hashtree",
-              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000productu\ufffd!\u001c\ufffd\ufffd\ufffd\ufffd\u0016\ufffdZ\ufffd\u00110\ufffd,\ufffdm\ufffdq\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd(\ufffd@f\u0003\ufffd\ufffd\ufffd2!\ufffdz\ufffd9\ufffd\u007f\b\ufffd8\ufffd\u001b\u0000\u0000\u0000\u0000\u0000"
+              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000product%Q\ufffd\ufffd\ufffd_=\ufffd\ufffdl\ufffd*\ufffd(\u0005f\ufffd\ufffd;X\ufffd\ufffde\ufffd\u001dK\ufffd\ufffdb\u0001\ufffd\ufffd\ufffd\ufffdS\ufffd\ufffd\ufffd\ufffd\ufffdG&2\ufffd\ufffd\ufffd\u0011=\ufffd\ufffdv\ufffd/\u0014}\u0016\ufffd\u0006\ufffd\u0000y)n\ufffd\u0000\u0000\u0000\u0000\u0000"
             ],
             "old": null,
             "new": {
               "type": "hashtree",
-              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000productu\ufffd!\u001c\ufffd\ufffd\ufffd\ufffd\u0016\ufffdZ\ufffd\u00110\ufffd,\ufffdm\ufffdq\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd(\ufffd@f\u0003\ufffd\ufffd\ufffd2!\ufffdz\ufffd9\ufffd\u007f\b\ufffd8\ufffd\u001b\u0000\u0000\u0000\u0000\u0000",
+              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000product%Q\ufffd\ufffd\ufffd_=\ufffd\ufffdl\ufffd*\ufffd(\u0005f\ufffd\ufffd;X\ufffd\ufffde\ufffd\u001dK\ufffd\ufffdb\u0001\ufffd\ufffd\ufffd\ufffdS\ufffd\ufffd\ufffd\ufffd\ufffdG&2\ufffd\ufffd\ufffd\u0011=\ufffd\ufffdv\ufffd/\u0014}\u0016\ufffd\u0006\ufffd\u0000y)n\ufffd\u0000\u0000\u0000\u0000\u0000",
               "root_digest": "",
               "salt": ""
             }
@@ -934,11 +979,11 @@
           {
             "key": [
               "hashtree",
-              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000product\ufffd\ufffd\u0007\ufffd\ufffd\ufffd)E\ufffd\ufffd\ufffdm\ufffd\u0003\ufffd\ufffdn\ufffd\ufffd\ufffdZv\ufffd\u0001\ufffd\ufffd\ufffdO\u0000\ufffdm\u007fS\ufffd\ufffd?c\ufffd\u0013W\ufffd\"\ufffdar:\ufffd\ufffd\u0000\u0000\u0000\u0000\u0000"
+              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000product\ufffd\u001e\ufffdxyBn\ufffdw\ufffd$\ufffd\"4H\ufffd\ufffd\ufffd\ufffd\u001d\u001a$\ufffd\u007f\ufffdC\ufffd\ufffd\ufffd\ufffdA\ufffd\ufffd\u0017\ufffd;p\ufffd\ufffd\ufffd\ufffd\ufffdY\ufffd.s6M~\ufffd0\ufffd\ufffd\f\ufffdGs\ufffd*\ufffd\ufffd\ufffd\ufffd\ufffd\u0000\u0000\u0000\u0000\u0000"
             ],
             "old": {
               "type": "hashtree",
-              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000product\ufffd\ufffd\u0007\ufffd\ufffd\ufffd)E\ufffd\ufffd\ufffdm\ufffd\u0003\ufffd\ufffdn\ufffd\ufffd\ufffdZv\ufffd\u0001\ufffd\ufffd\ufffdO\u0000\ufffdm\u007fS\ufffd\ufffd?c\ufffd\u0013W\ufffd\"\ufffdar:\ufffd\ufffd\u0000\u0000\u0000\u0000\u0000",
+              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000product\ufffd\u001e\ufffdxyBn\ufffdw\ufffd$\ufffd\"4H\ufffd\ufffd\ufffd\ufffd\u001d\u001a$\ufffd\u007f\ufffdC\ufffd\ufffd\ufffd\ufffdA\ufffd\ufffd\u0017\ufffd;p\ufffd\ufffd\ufffd\ufffd\ufffdY\ufffd.s6M~\ufffd0\ufffd\ufffd\f\ufffdGs\ufffd*\ufffd\ufffd\ufffd\ufffd\ufffd\u0000\u0000\u0000\u0000\u0000",
               "root_digest": "",
               "salt": ""
             },
@@ -947,11 +992,11 @@
           {
             "key": [
               "hashtree",
-              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000system_ext\r\ufffd\u001c\ufffd\ufffd\u0015m;\ufffd_!\ufffdq&\ufffd\ufffdl\ufffd\ufffdO\ufffd\ufffd\u0018\u0017}\n\ufffd\ufffd\ufffd\b\ufffd\ufffd=\u001e\u000f>e\ufffdnp\ufffd\u0013\u001f\ufffd\ufffdCH\ufffd\u0000\u0000"
+              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000system_ext\ufffd\u001e\ufffdxyBn\ufffdw\ufffd$\ufffd\"4H\ufffd\ufffd\ufffd\ufffd\u001d\u001a$\ufffd\u007f\ufffdC\ufffd\ufffd\ufffd\ufffdA\ufffd\ufffd\ufffdv\u000fz\ufffd-gZ\ufffd.2\u000f01D-@ZB;C\ufffd\u0002\ufffd\ufffd.3i,d\ufffd\u0000\u0000"
             ],
             "old": {
               "type": "hashtree",
-              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000system_ext\r\ufffd\u001c\ufffd\ufffd\u0015m;\ufffd_!\ufffdq&\ufffd\ufffdl\ufffd\ufffdO\ufffd\ufffd\u0018\u0017}\n\ufffd\ufffd\ufffd\b\ufffd\ufffd=\u001e\u000f>e\ufffdnp\ufffd\u0013\u001f\ufffd\ufffdCH\ufffd\u0000\u0000",
+              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000system_ext\ufffd\u001e\ufffdxyBn\ufffdw\ufffd$\ufffd\"4H\ufffd\ufffd\ufffd\ufffd\u001d\u001a$\ufffd\u007f\ufffdC\ufffd\ufffd\ufffd\ufffdA\ufffd\ufffd\ufffdv\u000fz\ufffd-gZ\ufffd.2\u000f01D-@ZB;C\ufffd\u0002\ufffd\ufffd.3i,d\ufffd\u0000\u0000",
               "root_digest": "",
               "salt": ""
             },
@@ -960,12 +1005,12 @@
           {
             "key": [
               "hashtree",
-              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000system_ext\ufffd\bv\ufffd\ufffd\ufffdy\ufffd\ufffdU\ufffdF\ufffd\ufffd\ufffd\u0016#\ufffd9N\ufffd/\ufffd\ufffd(!\ufffd\\\ufffd\ufffd\u001d\ufffd\ufffd\ufffd,\ufffd\ufffdk\ufffd\ufffd`\u0012\u0018\ufffdq(\ufffd\ufffd\u0000\u0000"
+              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000system_ext\ufffdb\ufffd\ufffd\ufffd\u0011\ufffd\ufffdLP\u000fI+ovI$YL]\ufffd\ufffdF;\ufffd\ufffd\ufffd\ufffd\u001b\ufffd\ufffd5C\"\u00189\u0013P\ufffd\u0018\ufffd\ufffd(\ufffd,O\ufffdj#i\fgz\ufffd\ufffd\u0002\ufffdg\ufffd\ufffd\ufffd\ufffd\t\ufffd\u0000\u0000"
             ],
             "old": null,
             "new": {
               "type": "hashtree",
-              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000system_ext\ufffd\bv\ufffd\ufffd\ufffdy\ufffd\ufffdU\ufffdF\ufffd\ufffd\ufffd\u0016#\ufffd9N\ufffd/\ufffd\ufffd(!\ufffd\\\ufffd\ufffd\u001d\ufffd\ufffd\ufffd,\ufffd\ufffdk\ufffd\ufffd`\u0012\u0018\ufffdq(\ufffd\ufffd\u0000\u0000",
+              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000system_ext\ufffdb\ufffd\ufffd\ufffd\u0011\ufffd\ufffdLP\u000fI+ovI$YL]\ufffd\ufffdF;\ufffd\ufffd\ufffd\ufffd\u001b\ufffd\ufffd5C\"\u00189\u0013P\ufffd\u0018\ufffd\ufffd(\ufffd,O\ufffdj#i\fgz\ufffd\ufffd\u0002\ufffdg\ufffd\ufffd\ufffd\ufffd\t\ufffd\u0000\u0000",
               "root_digest": "",
               "salt": ""
             }
@@ -973,28 +1018,28 @@
           {
             "key": [
               "hashtree",
-              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000systemh\ufffd\ufffdUeq,?\u0018q\ufffdJ\ufffd\ufffd\ufffd\ufffdSe\ufffdJ\ufffd\u0001\"\ufffd\ufffd\ufffd\u0010\ufffdcH\ufffd\ufffd\u0002\ufffd,\ufffd@\ufffd\ufffd\u0001\ufffd\u0001\ufffdv\ufffd9r`\u0000\u0000\u0000\u0000\u0000\u0000"
-            ],
-            "old": null,
-            "new": {
-              "type": "hashtree",
-              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000systemh\ufffd\ufffdUeq,?\u0018q\ufffdJ\ufffd\ufffd\ufffd\ufffdSe\ufffdJ\ufffd\u0001\"\ufffd\ufffd\ufffd\u0010\ufffdcH\ufffd\ufffd\u0002\ufffd,\ufffd@\ufffd\ufffd\u0001\ufffd\u0001\ufffdv\ufffd9r`\u0000\u0000\u0000\u0000\u0000\u0000",
-              "root_digest": "",
-              "salt": ""
-            }
-          },
-          {
-            "key": [
-              "hashtree",
-              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000system\ufffd\ufffdm\ufffdR\b.Uq\ufffde\ufffd\ufffd\ufffd\ufffd\ufffdU'U8!\u0015c\u0000\u001f\ufffd\ufffd.>\ufffd:\ufffd\ufffd\ufffd=\ufffd\ufffdF\ufffd\ufffd\ufffd$\ufffd\ufffd\ufffdP3\ufffd\u0000\u0000\u0000\u0000\u0000\u0000"
+              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000system\ufffd\u001e\ufffdxyBn\ufffdw\ufffd$\ufffd\"4H\ufffd\ufffd\ufffd\ufffd\u001d\u001a$\ufffd\u007f\ufffdC\ufffd\ufffd\ufffd\ufffdA\ufffd\u007f\ufffd\ufffd\ufffdM/\u001c\n\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\b<\ufffd\ufffd\ufffdikj\ufffd\u0016\u0004\ufffd%\f|0\ufffd\ufffd\u0000\u0000\u0000\u0000\u0000\u0000"
             ],
             "old": {
               "type": "hashtree",
-              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000system\ufffd\ufffdm\ufffdR\b.Uq\ufffde\ufffd\ufffd\ufffd\ufffd\ufffdU'U8!\u0015c\u0000\u001f\ufffd\ufffd.>\ufffd:\ufffd\ufffd\ufffd=\ufffd\ufffdF\ufffd\ufffd\ufffd$\ufffd\ufffd\ufffdP3\ufffd\u0000\u0000\u0000\u0000\u0000\u0000",
+              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000system\ufffd\u001e\ufffdxyBn\ufffdw\ufffd$\ufffd\"4H\ufffd\ufffd\ufffd\ufffd\u001d\u001a$\ufffd\u007f\ufffdC\ufffd\ufffd\ufffd\ufffdA\ufffd\u007f\ufffd\ufffd\ufffdM/\u001c\n\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\b<\ufffd\ufffd\ufffdikj\ufffd\u0016\u0004\ufffd%\f|0\ufffd\ufffd\u0000\u0000\u0000\u0000\u0000\u0000",
               "root_digest": "",
               "salt": ""
             },
             "new": null
+          },
+          {
+            "key": [
+              "hashtree",
+              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000system\ufffdb\ufffd\ufffd\ufffd\u0011\ufffd\ufffdLP\u000fI+ovI$YL]\ufffd\ufffdF;\ufffd\ufffd\ufffd\ufffd\u001b\ufffd\ufffd5~-\ufffd\ufffd=K\ufffd\ufffdY\ufffdIq\ufffd\ufffd\ufffdcU?\ufffd\ufffd\ufffd\ufffd\ufffd\ufffdyO\ufffd\ufffd;>\ufffd\ufffd\u0000\u0000\u0000\u0000\u0000\u0000"
+            ],
+            "old": null,
+            "new": {
+              "type": "hashtree",
+              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000system\ufffdb\ufffd\ufffd\ufffd\u0011\ufffd\ufffdLP\u000fI+ovI$YL]\ufffd\ufffdF;\ufffd\ufffd\ufffd\ufffd\u001b\ufffd\ufffd5~-\ufffd\ufffd=K\ufffd\ufffdY\ufffdIq\ufffd\ufffd\ufffdcU?\ufffd\ufffd\ufffd\ufffd\ufffd\ufffdyO\ufffd\ufffd;>\ufffd\ufffd\u0000\u0000\u0000\u0000\u0000\u0000",
+              "root_digest": "",
+              "salt": ""
+            }
           }
         ],
         "changed": true
@@ -1012,56 +1057,6 @@
         ]
       }
     },
-    "vbmeta_vendor": {
-      "sha256_changed": true,
-      "size_change": 0,
-      "format_a": "avb_vbmeta",
-      "format_b": "avb_vbmeta",
-      "avb_change": {
-        "changed_fields": [],
-        "descriptor_changes": [
-          {
-            "key": [
-              "hashtree",
-              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000vendor\u0003\ufffd\ufffd\ufffdO\ufffdo\ufffd\ufffd\ufffd\b\u0018\ufffd\ufffd\ufffd_\ufffdE\u007fM\u001b\ufffdH\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\u0014\ufffdK D\ufffd)!\ufffd\ufffd^\u001ex,A\u0000\u0000\u0000\u0000\u0000\u0000"
-            ],
-            "old": null,
-            "new": {
-              "type": "hashtree",
-              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000vendor\u0003\ufffd\ufffd\ufffdO\ufffdo\ufffd\ufffd\ufffd\b\u0018\ufffd\ufffd\ufffd_\ufffdE\u007fM\u001b\ufffdH\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\u0014\ufffdK D\ufffd)!\ufffd\ufffd^\u001ex,A\u0000\u0000\u0000\u0000\u0000\u0000",
-              "root_digest": "",
-              "salt": ""
-            }
-          },
-          {
-            "key": [
-              "hashtree",
-              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000vendor-\ufffdg\ufffd\ufffd\ufffd\ufffd\u0006&\u001f\f\ufffd\ufffdrO\ufffd\ufffd\ufffd\ufffd0J\ufffd\u0010\ufffd\ufffdYl\ufffdA\ufffd\ufffd\ufffdo\u001c\ufffd\ufffdn32E\ufffd\u001d\ufffd\ufffdmz\ufffdD\u0000\u0000\u0000\u0000\u0000\u0000"
-            ],
-            "old": {
-              "type": "hashtree",
-              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000vendor-\ufffdg\ufffd\ufffd\ufffd\ufffd\u0006&\u001f\f\ufffd\ufffdrO\ufffd\ufffd\ufffd\ufffd0J\ufffd\u0010\ufffd\ufffdYl\ufffdA\ufffd\ufffd\ufffdo\u001c\ufffd\ufffdn32E\ufffd\u001d\ufffd\ufffdmz\ufffdD\u0000\u0000\u0000\u0000\u0000\u0000",
-              "root_digest": "",
-              "salt": ""
-            },
-            "new": null
-          }
-        ],
-        "changed": true
-      },
-      "risk": {
-        "role": "boundary",
-        "arb_risk": "confirmed",
-        "key_rotation_risk": "possible",
-        "edl_risk_if_mismatched": false,
-        "must_move_with": [
-          "vbmeta"
-        ],
-        "implications": [
-          "Chained vbmeta for vendor partitions"
-        ]
-      }
-    },
     "vendor_boot": {
       "sha256_changed": true,
       "size_change": 0,
@@ -1076,19 +1071,25 @@
         "implications": []
       }
     },
+    "vm-bootsys": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "opaque_blob",
+      "format_b": "opaque_blob",
+      "risk": {
+        "role": "unknown",
+        "arb_risk": "unknown",
+        "key_rotation_risk": "unknown",
+        "edl_risk_if_mismatched": false,
+        "must_move_with": [],
+        "implications": []
+      }
+    },
     "xbl": {
       "sha256_changed": true,
-      "size_change": 8192,
+      "size_change": 0,
       "format_a": "elf64",
       "format_b": "elf64",
-      "qc_version_change": {
-        "old": "BOOT.MXF.2.5.3-00131-KAANAPALI-1.124230.34",
-        "new": "BOOT.MXF.2.5.3-00199-KAANAPALI-1.131443.21"
-      },
-      "oem_version_change": {
-        "old": "ip-10-195-201-118",
-        "new": "ip-10-195-201-107"
-      },
       "risk": {
         "role": "boot_chain",
         "arb_risk": "likely",
@@ -1118,10 +1119,6 @@
       "size_change": 0,
       "format_a": "elf64",
       "format_b": "elf64",
-      "qc_version_change": {
-        "old": "ACPOLICY.XF.1.0-00302-KAANAPALI-1.124230.5",
-        "new": "ACPOLICY.XF.1.0-00352-KAANAPALI-1.131443.6"
-      },
       "risk": {
         "role": "unknown",
         "arb_risk": "unknown",
@@ -1133,7 +1130,7 @@
     },
     "xbl_config": {
       "sha256_changed": true,
-      "size_change": 8192,
+      "size_change": 0,
       "format_a": "elf64",
       "format_b": "elf64",
       "risk": {
@@ -1152,16 +1149,12 @@
     },
     "xbl_ramdump": {
       "sha256_changed": true,
-      "size_change": 28672,
+      "size_change": 0,
       "format_a": "elf64",
       "format_b": "elf64",
-      "qc_version_change": {
-        "old": "BOOT.MXF.2.5.3-00131-KAANAPALI-1.124230.19",
-        "new": "BOOT.MXF.2.5.3-00199-KAANAPALI-1.131443.21"
-      },
       "oem_version_change": {
-        "old": "kvm-slave-build-s-bp-09339844",
-        "new": "kvm-slave-build-s-bp-09757989"
+        "old": "pangu-build-bp-143522-c59nx-xgt9p-3m135",
+        "new": "pangu-build-bp-189127-w919t-s42sp-qxx8w"
       },
       "risk": {
         "role": "low_priority",
