@@ -9,3 +9,7 @@ venv/
 env/
 .env
 .pytest_cache/
+
+# Dirs
+otas/*
+workdir/*

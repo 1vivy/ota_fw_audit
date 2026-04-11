@@ -68,7 +68,7 @@ def _try_lzma_decompress(data: bytes) -> bytes:
     # then the rest of the compressed data
     if len(data) >= 5 and data[0] == LZMA_PROPS_BYTE:
         try:
-            header = data[:5] + b"\xFF" * 8
+            header = data[:5] + b"\xff" * 8
             compressed = header + data[5:]
             return lzma.decompress(compressed, format=lzma.FORMAT_ALONE)
         except Exception:

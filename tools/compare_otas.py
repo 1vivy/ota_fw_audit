@@ -8,12 +8,11 @@ Usage:
 
 The report contains:
   - Which partitions changed (sha256 diff)
-  - Which version strings changed
-  - Which ARB values changed
-  - Which cert fingerprints changed
+  - Which Qualcomm metadata fields changed
   - Which AVB public keys or rollback indexes changed
+  - Whether UEFI Setup Mode / unsigned EFI loading changed
   - Per-partition risk assessment from the risk dictionary
-  - Summary flags: boot_chain_changed, arb_changed, key_changed, edl_risk
+  - Summary flags for ARB, root keys, Setup Mode, GBL, and EDL risk
 """
 
 import argparse
@@ -194,6 +193,33 @@ def compare_qualcomm_metadata(qm_a: dict, qm_b: dict) -> dict:
     return result
 
 
+def compare_setup_mode(sm_a: dict, sm_b: dict) -> dict:
+    """Compare platform-level UEFI Setup Mode analysis."""
+    result = {
+        "changed_fields": [],
+        "setup_mode_changed": False,
+        "unsigned_efi_load_changed": False,
+        "changed": False,
+    }
+
+    for key in ["overall_verdict", "gbl_loadimage_ok"]:
+        va = sm_a.get(key)
+        vb = sm_b.get(key)
+        if va != vb:
+            result["changed_fields"].append({
+                "field": key,
+                "old": va,
+                "new": vb,
+            })
+            if key == "overall_verdict":
+                result["setup_mode_changed"] = True
+            if key == "gbl_loadimage_ok":
+                result["unsigned_efi_load_changed"] = True
+
+    result["changed"] = bool(result["changed_fields"])
+    return result
+
+
 def compare_partition(name: str, pa: dict, pb: dict) -> dict:
     """Compare metadata for a single partition across two manifests."""
     diff = {
@@ -290,11 +316,16 @@ def main():
     report = {
         "ota_a": ma.get("ota_label", "unknown"),
         "ota_b": mb.get("ota_label", "unknown"),
+        "profile_id_a": ma.get("profile_id"),
+        "profile_id_b": mb.get("profile_id"),
+        "device_codename_a": ma.get("device_codename"),
+        "device_codename_b": mb.get("device_codename"),
         "partitions_compared": 0,
         "changed_partitions": [],
         "unchanged_partitions": [],
         "missing_in_a": [],
         "missing_in_b": [],
+        "platform_diffs": {},
         "summary": {
             "boot_chain_changed": False,
             "arb_changed": False,
@@ -308,12 +339,25 @@ def main():
             "cert_chain_changed": False,
             "avb_key_changed": False,
             "avb_rollback_changed": False,
+            "setup_mode_changed": False,
+            "unsigned_efi_load_changed": False,
             "gbl_exploit_lost": False,
             "gbl_exploit_gained": False,
             "edl_risk_partitions": [],
         },
         "partition_diffs": {},
     }
+
+    setup_a = ma.get("uefi_setup_mode")
+    setup_b = mb.get("uefi_setup_mode")
+    if setup_a and setup_b:
+        setup_diff = compare_setup_mode(setup_a, setup_b)
+        if setup_diff["changed"]:
+            report["platform_diffs"]["uefi_setup_mode_change"] = setup_diff
+            if setup_diff.get("setup_mode_changed"):
+                report["summary"]["setup_mode_changed"] = True
+            if setup_diff.get("unsigned_efi_load_changed"):
+                report["summary"]["unsigned_efi_load_changed"] = True
 
     all_names = sorted(set(
         list(ma.get("partitions", {}).keys()) +
@@ -429,6 +473,10 @@ def main():
         print("*** SIGNING METHOD CHANGED ***", file=sys.stderr)
     if s["lifecycle_changed"]:
         print("*** LIFECYCLE STATE CHANGED ***", file=sys.stderr)
+    if s["setup_mode_changed"]:
+        print("*** UEFI SETUP MODE CHANGED ***", file=sys.stderr)
+    if s["unsigned_efi_load_changed"]:
+        print("*** UNSIGNED EFI LOAD BEHAVIOR CHANGED ***", file=sys.stderr)
     if s["cert_chain_changed"]:
         print("*** CERT CHAIN CHANGED ***", file=sys.stderr)
     if s["gbl_exploit_lost"]:

@@ -17,265 +17,278 @@
 # notes: free-form
 
 xbl:
-  role: boot_chain
-  arb_risk: likely
-  key_rotation_risk: likely
-  edl_risk_if_mismatched: true
-  must_move_with: [xbl_config, abl, uefi, tz, hyp, aop, aop_config, devcfg, keymaster, uefisecapp]
-  implications:
-    - "PBL loads XBL; if auth fails the device enters EDL"
-    - "Contains Qualcomm secure boot cert chain"
-    - "QC_IMAGE_VERSION_STRING tracks Qualcomm BSP version"
-  security_capabilities:
-    - secure_boot_auth
-    - fuse_interaction
-    - cert_chain_validation
-  notes: "Never flash a mismatched xbl without its xbl_config."
+    role: boot_chain
+    arb_risk: likely
+    key_rotation_risk: likely
+    edl_risk_if_mismatched: true
+    must_move_with:
+        [
+            xbl_config,
+            abl,
+            uefi,
+            tz,
+            hyp,
+            aop,
+            aop_config,
+            devcfg,
+            keymaster,
+            uefisecapp,
+        ]
+    implications:
+        - "PBL loads XBL; if auth fails the device enters EDL"
+        - "Contains Qualcomm secure boot cert chain"
+        - "QC_IMAGE_VERSION_STRING tracks Qualcomm BSP version"
+    security_capabilities:
+        - secure_boot_auth
+        - fuse_interaction
+        - cert_chain_validation
+    notes: "Never flash a mismatched xbl without its xbl_config."
 
 xbl_config:
-  role: boot_chain
-  arb_risk: confirmed
-  key_rotation_risk: possible
-  edl_risk_if_mismatched: true
-  must_move_with: [xbl]
-  implications:
-    - "OEM ARB metadata stored in ELF hash segment OEM metadata block"
-    - "xbl_config_arb_check runs as OTA postinstall on OPlus devices"
-  security_capabilities:
-    - arb_metadata_storage
-    - fuse_index_config
-    - sec_config
-  notes: "The ARB value here is what Lineage and community trackers report."
+    role: boot_chain
+    arb_risk: confirmed
+    key_rotation_risk: possible
+    edl_risk_if_mismatched: true
+    must_move_with: [xbl]
+    implications:
+        - "OEM ARB metadata stored in ELF hash segment OEM metadata block"
+        - "xbl_config_arb_check runs as OTA postinstall on OPlus devices"
+    security_capabilities:
+        - arb_metadata_storage
+        - fuse_index_config
+        - sec_config
+    notes: "The ARB value here is what Lineage and community trackers report."
 
 abl:
-  role: boot_chain
-  arb_risk: possible
-  key_rotation_risk: possible
-  edl_risk_if_mismatched: false
-  must_move_with: [xbl, xbl_config, uefi]
-  implications:
-    - "Android Boot Loader; handles fastboot, verified boot handoff"
-    - "Sets androidboot.* cmdline properties"
-    - "References 'General OPLUS Use Key'"
-  notes: "Mismatch with uefi may break fastboot."
+    role: boot_chain
+    arb_risk: possible
+    key_rotation_risk: possible
+    edl_risk_if_mismatched: false
+    must_move_with: [xbl, xbl_config, uefi]
+    implications:
+        - "Android Boot Loader; handles fastboot, verified boot handoff"
+        - "Sets androidboot.* cmdline properties"
+        - "Can have tons of OEM customizations. Linuxloader.efi sits in here."
+    notes: "Mismatch with uefi may break fastboot."
 
 uefi:
-  role: boot_chain
-  arb_risk: possible
-  key_rotation_risk: possible
-  edl_risk_if_mismatched: false
-  must_move_with: [xbl, xbl_config, abl]
-  implications:
-    - "UEFI firmware for ABL; contains SecFuseLib"
-    - "QC_IMAGE_VERSION_STRING tracks UEFI BSP"
-  notes: ""
+    role: boot_chain
+    arb_risk: possible
+    key_rotation_risk: possible
+    edl_risk_if_mismatched: false
+    must_move_with: [xbl, xbl_config, abl]
+    implications:
+        - "UEFI firmware for ABL; contains SecFuseLib"
+        - "QC_IMAGE_VERSION_STRING tracks UEFI BSP"
+    notes: ""
 
 tz:
-  role: boot_chain
-  arb_risk: likely
-  key_rotation_risk: likely
-  edl_risk_if_mismatched: true
-  must_move_with: [xbl, xbl_config, keymaster, uefisecapp, hyp]
-  implications:
-    - "TrustZone / QSEE; runs trusted apps"
-    - "Highest-risk non-xbl image. Controls fuse operations."
-  security_capabilities:
-    - anti_rollback_enforcement
-    - fuse_blow
-    - fuse_read
-    - rpmb_provisioning
-    - rpmb_access
-    - trusted_app_execution
-    - cert_chain_validation
-  notes: "qsee_sfs_is_anti_rollback_enabled, qsee_blow_sw_fuse, qsee_is_sw_fuse_blown all present."
+    role: boot_chain
+    arb_risk: likely
+    key_rotation_risk: likely
+    edl_risk_if_mismatched: true
+    must_move_with: [xbl, xbl_config, keymaster, uefisecapp, hyp]
+    implications:
+        - "TrustZone / QSEE; runs trusted apps"
+        - "Highest-risk non-xbl image. Controls fuse operations."
+    security_capabilities:
+        - anti_rollback_enforcement
+        - fuse_blow
+        - fuse_read
+        - rpmb_provisioning
+        - rpmb_access
+        - trusted_app_execution
+        - cert_chain_validation
+    notes: "qsee_sfs_is_anti_rollback_enabled, qsee_blow_sw_fuse, qsee_is_sw_fuse_blown all present."
 
 hyp:
-  role: boot_chain
-  arb_risk: possible
-  key_rotation_risk: possible
-  edl_risk_if_mismatched: true
-  must_move_with: [xbl, tz]
-  implications:
-    - "Hypervisor; enforces memory isolation"
-  notes: ""
+    role: boot_chain
+    arb_risk: possible
+    key_rotation_risk: possible
+    edl_risk_if_mismatched: true
+    must_move_with: [xbl, tz]
+    implications:
+        - "Hypervisor; enforces memory isolation"
+    notes: ""
 
 aop:
-  role: boot_chain
-  arb_risk: possible
-  key_rotation_risk: none_seen
-  edl_risk_if_mismatched: false
-  must_move_with: [xbl, aop_config]
-  implications:
-    - "Always-On Processor firmware"
-  notes: ""
+    role: boot_chain
+    arb_risk: possible
+    key_rotation_risk: none_seen
+    edl_risk_if_mismatched: false
+    must_move_with: [xbl, aop_config]
+    implications:
+        - "Always-On Processor firmware"
+    notes: ""
 
 aop_config:
-  role: boot_chain
-  arb_risk: none_seen
-  key_rotation_risk: none_seen
-  edl_risk_if_mismatched: false
-  must_move_with: [aop]
-  implications:
-    - "AOP configuration data"
-  notes: ""
+    role: boot_chain
+    arb_risk: none_seen
+    key_rotation_risk: none_seen
+    edl_risk_if_mismatched: false
+    must_move_with: [aop]
+    implications:
+        - "AOP configuration data"
+    notes: ""
 
 devcfg:
-  role: boot_chain
-  arb_risk: none_seen
-  key_rotation_risk: none_seen
-  edl_risk_if_mismatched: false
-  must_move_with: [xbl]
-  implications:
-    - "Device configuration for XBL"
-  notes: ""
+    role: boot_chain
+    arb_risk: none_seen
+    key_rotation_risk: none_seen
+    edl_risk_if_mismatched: false
+    must_move_with: [xbl]
+    implications:
+        - "Device configuration for XBL"
+    notes: ""
 
 engineering_cdt:
-  role: boot_chain
-  arb_risk: none_seen
-  key_rotation_risk: none_seen
-  edl_risk_if_mismatched: false
-  must_move_with: []
-  implications:
-    - "Engineering CDT; hardware configuration table"
-  notes: ""
+    role: boot_chain
+    arb_risk: none_seen
+    key_rotation_risk: none_seen
+    edl_risk_if_mismatched: false
+    must_move_with: []
+    implications:
+        - "Engineering CDT; hardware configuration table"
+    notes: ""
 
 keymaster:
-  role: boot_chain
-  arb_risk: likely
-  key_rotation_risk: likely
-  edl_risk_if_mismatched: false
-  must_move_with: [tz, uefisecapp]
-  implications:
-    - "Hardware-backed keystore; attestation"
-    - "Mismatch with tz can break attestation and key derivation"
-  security_capabilities:
-    - rpmb_provisioning
-    - rollback_resistance
-    - attestation
-    - fuse_check
-  notes: "KM_TAG_ROLLBACK_RESISTANT, RPMB key provisioning, sw_fuse checks."
+    role: boot_chain
+    arb_risk: likely
+    key_rotation_risk: likely
+    edl_risk_if_mismatched: false
+    must_move_with: [tz, uefisecapp]
+    implications:
+        - "Hardware-backed keystore; attestation"
+        - "Mismatch with tz can break attestation and key derivation"
+    security_capabilities:
+        - rpmb_provisioning
+        - rollback_resistance
+        - attestation
+        - fuse_check
+    notes: "KM_TAG_ROLLBACK_RESISTANT, RPMB key provisioning, sw_fuse checks."
 
 uefisecapp:
-  role: boot_chain
-  arb_risk: possible
-  key_rotation_risk: possible
-  edl_risk_if_mismatched: false
-  must_move_with: [tz, keymaster]
-  implications:
-    - "UEFI secure app; runs in TZ context"
-  notes: ""
+    role: boot_chain
+    arb_risk: possible
+    key_rotation_risk: possible
+    edl_risk_if_mismatched: false
+    must_move_with: [tz, keymaster]
+    implications:
+        - "UEFI secure app; runs in TZ context"
+    notes: ""
 
 oplus_sec:
-  role: boot_chain
-  arb_risk: none_seen
-  key_rotation_risk: possible
-  edl_risk_if_mismatched: false
-  must_move_with: []
-  implications:
-    - "OPlus security partition; stayed identical across tested OP13 OTAs"
-  notes: "May contain OEM-specific key material. Monitor for changes."
+    role: boot_chain
+    arb_risk: none_seen
+    key_rotation_risk: possible
+    edl_risk_if_mismatched: false
+    must_move_with: []
+    implications:
+        - "OPlus security partition; stayed identical across tested OP13 OTAs"
+    notes: "May contain OEM-specific key material. Monitor for changes."
 
 pvmfw:
-  role: boot_chain
-  arb_risk: possible
-  key_rotation_risk: possible
-  edl_risk_if_mismatched: false
-  must_move_with: []
-  implications:
-    - "Protected VM firmware; contains AVB verification, DICE chain, rollback logic"
-    - "defer-rollback-protection property handling"
-  notes: "Relevant for pKVM-based virtualization."
+    role: boot_chain
+    arb_risk: possible
+    key_rotation_risk: possible
+    edl_risk_if_mismatched: false
+    must_move_with: []
+    implications:
+        - "Protected VM firmware; contains AVB verification, DICE chain, rollback logic"
+        - "defer-rollback-protection property handling"
+    notes: "Relevant for pKVM-based virtualization."
 
 modem:
-  role: subsystem_firmware
-  arb_risk: none_seen
-  key_rotation_risk: none_seen
-  edl_risk_if_mismatched: false
-  must_move_with: []
-  implications:
-    - "Radio firmware; PIL-loaded by kernel"
-    - "Mismatch can cause radio/IMS failures but not brick"
-  notes: "Usually safe to retain older if radio works."
+    role: subsystem_firmware
+    arb_risk: none_seen
+    key_rotation_risk: none_seen
+    edl_risk_if_mismatched: false
+    must_move_with: []
+    implications:
+        - "Radio firmware; PIL-loaded by kernel"
+        - "Mismatch can cause radio/IMS failures but not brick"
+    notes: "Usually safe to retain older if radio works."
 
 bluetooth:
-  role: subsystem_firmware
-  arb_risk: none_seen
-  key_rotation_risk: none_seen
-  edl_risk_if_mismatched: false
-  must_move_with: []
-  implications:
-    - "BT firmware blob"
-  notes: ""
+    role: subsystem_firmware
+    arb_risk: none_seen
+    key_rotation_risk: none_seen
+    edl_risk_if_mismatched: false
+    must_move_with: []
+    implications:
+        - "BT firmware blob"
+    notes: ""
 
 dsp:
-  role: subsystem_firmware
-  arb_risk: none_seen
-  key_rotation_risk: none_seen
-  edl_risk_if_mismatched: false
-  must_move_with: []
-  implications:
-    - "aDSP/cDSP firmware"
-  notes: ""
+    role: subsystem_firmware
+    arb_risk: none_seen
+    key_rotation_risk: none_seen
+    edl_risk_if_mismatched: false
+    must_move_with: []
+    implications:
+        - "aDSP/cDSP firmware"
+    notes: ""
 
 boot:
-  role: boundary
-  arb_risk: possible
-  key_rotation_risk: none_seen
-  edl_risk_if_mismatched: false
-  must_move_with: [init_boot, vendor_boot, dtbo, vbmeta]
-  implications:
-    - "Android boot image; contains kernel"
-    - "Verified by vbmeta chain"
-  notes: "Should move with target HLOS."
+    role: boundary
+    arb_risk: possible
+    key_rotation_risk: none_seen
+    edl_risk_if_mismatched: false
+    must_move_with: [init_boot, vendor_boot, dtbo, vbmeta]
+    implications:
+        - "Android boot image; contains kernel"
+        - "Verified by vbmeta chain"
+    notes: "Should move with target HLOS."
 
 vbmeta:
-  role: boundary
-  arb_risk: confirmed
-  key_rotation_risk: confirmed
-  edl_risk_if_mismatched: false
-  must_move_with: [boot, init_boot, vendor_boot, dtbo, vbmeta_system, vbmeta_vendor]
-  implications:
-    - "Root of Android Verified Boot chain"
-    - "Contains rollback index and public key"
-    - "Key change here invalidates all chained partitions"
-  notes: "Compare public_key_sha256 across OTAs."
+    role: boundary
+    arb_risk: confirmed
+    key_rotation_risk: confirmed
+    edl_risk_if_mismatched: false
+    must_move_with:
+        [boot, init_boot, vendor_boot, dtbo, vbmeta_system, vbmeta_vendor]
+    implications:
+        - "Root of Android Verified Boot chain"
+        - "Contains rollback index and public key"
+        - "Key change here invalidates all chained partitions"
+    notes: "Compare public_key_sha256 across OTAs."
 
 vbmeta_system:
-  role: boundary
-  arb_risk: confirmed
-  key_rotation_risk: possible
-  edl_risk_if_mismatched: false
-  must_move_with: [vbmeta]
-  implications:
-    - "Chained vbmeta for system partitions"
-  notes: ""
+    role: boundary
+    arb_risk: confirmed
+    key_rotation_risk: possible
+    edl_risk_if_mismatched: false
+    must_move_with: [vbmeta]
+    implications:
+        - "Chained vbmeta for system partitions"
+    notes: ""
 
 vbmeta_vendor:
-  role: boundary
-  arb_risk: confirmed
-  key_rotation_risk: possible
-  edl_risk_if_mismatched: false
-  must_move_with: [vbmeta]
-  implications:
-    - "Chained vbmeta for vendor partitions"
-  notes: ""
+    role: boundary
+    arb_risk: confirmed
+    key_rotation_risk: possible
+    edl_risk_if_mismatched: false
+    must_move_with: [vbmeta]
+    implications:
+        - "Chained vbmeta for vendor partitions"
+    notes: ""
 
 splash:
-  role: low_priority
-  arb_risk: none_seen
-  key_rotation_risk: none_seen
-  edl_risk_if_mismatched: false
-  must_move_with: []
-  implications:
-    - "Boot splash screen; cosmetic only"
-  notes: ""
+    role: low_priority
+    arb_risk: none_seen
+    key_rotation_risk: none_seen
+    edl_risk_if_mismatched: false
+    must_move_with: []
+    implications:
+        - "Boot splash screen; cosmetic only"
+    notes: ""
 
 xbl_ramdump:
-  role: low_priority
-  arb_risk: none_seen
-  key_rotation_risk: none_seen
-  edl_risk_if_mismatched: false
-  must_move_with: []
-  implications:
-    - "Crash dump collection; debug only"
-  notes: ""
+    role: low_priority
+    arb_risk: none_seen
+    key_rotation_risk: none_seen
+    edl_risk_if_mismatched: false
+    must_move_with: []
+    implications:
+        - "Crash dump collection; debug only"
+    notes: ""
