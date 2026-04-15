@@ -343,6 +343,8 @@ def main():
             "unsigned_efi_load_changed": False,
             "gbl_exploit_lost": False,
             "gbl_exploit_gained": False,
+            "bootloader_coupled_partitions": [],
+            "late_boot_risk_partitions": [],
             "edl_risk_partitions": [],
         },
         "partition_diffs": {},
@@ -391,6 +393,9 @@ def main():
             "arb_risk": risk.get("arb_risk", "unknown"),
             "key_rotation_risk": risk.get("key_rotation_risk", "unknown"),
             "edl_risk_if_mismatched": risk.get("edl_risk_if_mismatched", False),
+            "bootloader_coupled": risk.get("bootloader_coupled", False),
+            "late_boot_risk_if_mismatched": risk.get("late_boot_risk_if_mismatched", False),
+            "bringup_path": risk.get("bringup_path", []),
             "must_move_with": risk.get("must_move_with", []),
             "implications": risk.get("implications", []),
         }
@@ -446,6 +451,10 @@ def main():
             if gbl_change.get("gained"):
                 report["summary"]["gbl_exploit_gained"] = True
 
+        if risk.get("bootloader_coupled"):
+            report["summary"]["bootloader_coupled_partitions"].append(name)
+        if risk.get("late_boot_risk_if_mismatched"):
+            report["summary"]["late_boot_risk_partitions"].append(name)
         if risk.get("edl_risk_if_mismatched"):
             report["summary"]["edl_risk_partitions"].append(name)
 
@@ -485,6 +494,16 @@ def main():
         print("*** GBL EXPLOIT GAINED (efisp present in new ABL) ***", file=sys.stderr)
     if s["avb_key_changed"]:
         print("*** AVB PUBLIC KEY CHANGED ***", file=sys.stderr)
+    if s["bootloader_coupled_partitions"]:
+        print(
+            f"*** BOOTLOADER-COUPLED firmware changed: {', '.join(s['bootloader_coupled_partitions'])} ***",
+            file=sys.stderr,
+        )
+    if s["late_boot_risk_partitions"]:
+        print(
+            f"*** LATE-BOOT-RISK firmware changed: {', '.join(s['late_boot_risk_partitions'])} ***",
+            file=sys.stderr,
+        )
     if s["edl_risk_partitions"]:
         print(f"*** EDL RISK partitions changed: {', '.join(s['edl_risk_partitions'])} ***",
               file=sys.stderr)

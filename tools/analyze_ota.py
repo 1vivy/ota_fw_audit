@@ -24,10 +24,10 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
-import tempfile
 from pathlib import Path
 
 import yaml
@@ -41,9 +41,12 @@ from lib import (
     cert_extractor,
     elf_parser,
     gbl_detector,
+    linux_loader,
     ota_metadata,
     uefi_setup_mode,
     version_strings,
+    xbl_config_payloads,
+    xbl_splitter,
     xbl_config,
 )
 
@@ -67,6 +70,14 @@ def detect_format(data: bytes) -> str:
     return "opaque_blob"
 
 
+def slugify(value: str) -> str:
+    """Convert an OTA filename into a filesystem-safe directory name."""
+    value = value.strip().lower()
+    value = re.sub(r"[^a-z0-9._-]+", "-", value)
+    value = re.sub(r"-+", "-", value).strip("-.")
+    return value or "ota"
+
+
 def clear_tracked_images(directory: Path, partitions: list[str]) -> None:
     """Delete tracked image files from a reused work dir."""
     directory.mkdir(parents=True, exist_ok=True)
@@ -77,34 +88,31 @@ def clear_tracked_images(directory: Path, partitions: list[str]) -> None:
 
 
 def prepare_extract_layout(
-    work_dir: str | None, has_base_ota: bool
-) -> tuple[Path, Path, Path | None, bool]:
-    """Return work_root, target_dir, base_dir, cleanup_work_root.
+    work_dir: str | None, ota_path: str, has_base_ota: bool
+) -> tuple[Path, Path, Path, Path | None]:
+    """Return work_root, analysis_dir, target_dir, base_dir.
 
-    `--work-dir` is only a convenience override for payload extraction.
-    - Full OTA: extract directly into `work_dir`.
-    - Incremental OTA: use `<work_dir>/base` and `<work_dir>/target`.
-    - No `--work-dir`: use a temp dir and clean it up afterward.
+    All extracted artifacts live under `<work_root>/<ota-stem>/`.
+    - Full OTA: `<analysis_dir>/target`
+    - Incremental OTA: `<analysis_dir>/base` and `<analysis_dir>/target`
+    - Helper outputs: `<analysis_dir>/derived`
     """
-    if work_dir:
-        work_root = Path(work_dir)
-        cleanup_work_root = False
-    else:
-        work_root = Path(tempfile.mkdtemp(prefix="fw_audit_"))
-        cleanup_work_root = True
-
+    default_root = Path(__file__).resolve().parent.parent / "workdir"
+    work_root = Path(work_dir) if work_dir else default_root
     work_root.mkdir(parents=True, exist_ok=True)
 
-    if has_base_ota:
-        base_dir = work_root / "base"
-        target_dir = work_root / "target"
-        base_dir.mkdir(parents=True, exist_ok=True)
-        target_dir.mkdir(parents=True, exist_ok=True)
-    else:
-        base_dir = None
-        target_dir = work_root
+    analysis_dir = work_root / slugify(Path(ota_path).stem)
+    analysis_dir.mkdir(parents=True, exist_ok=True)
 
-    return work_root, target_dir, base_dir, cleanup_work_root
+    target_dir = analysis_dir / "target"
+    target_dir.mkdir(parents=True, exist_ok=True)
+
+    base_dir = None
+    if has_base_ota:
+        base_dir = analysis_dir / "base"
+        base_dir.mkdir(parents=True, exist_ok=True)
+
+    return work_root, analysis_dir, target_dir, base_dir
 
 
 def find_payload_dumper() -> str:
@@ -158,7 +166,18 @@ def extract_partitions(
     return extracted
 
 
-def analyze_image(name: str, path: str) -> dict:
+def prepare_derived_dir(work_root: Path, name: str) -> Path:
+    """Return a stable directory for helper extractor outputs."""
+    derived_root = work_root / "derived"
+    derived_root.mkdir(parents=True, exist_ok=True)
+    output_dir = derived_root / name
+    if output_dir.exists():
+        shutil.rmtree(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+    return output_dir
+
+
+def analyze_image(name: str, path: str, work_root: Path) -> dict:
     """Analyze a single firmware image and return its metadata dict."""
     data = Path(path).read_bytes()
     fmt = detect_format(data)
@@ -209,6 +228,25 @@ def analyze_image(name: str, path: str) -> dict:
     if name == "abl":
         gbl = gbl_detector.detect_gbl_vulnerability(data)
         result["gbl"] = gbl
+        loader = linux_loader.inspect_abl(
+            path, output_dir=str(prepare_derived_dir(work_root, "abl"))
+        )
+        if loader is not None:
+            result["linux_loader"] = loader
+
+    if name == "xbl":
+        components = xbl_splitter.inspect_xbl(
+            path, output_dir=str(prepare_derived_dir(work_root, "xbl"))
+        )
+        if components is not None:
+            result["xbl_components"] = components
+
+    if name == "xbl_config":
+        payloads = xbl_config_payloads.inspect_xbl_config(
+            path, output_dir=str(prepare_derived_dir(work_root, "xbl_config"))
+        )
+        if payloads is not None:
+            result["xbl_config_payloads"] = payloads
 
     return result
 
@@ -294,72 +332,68 @@ def main():
 
     dumper = find_payload_dumper()
 
-    work_root, extract_dir, base_extract_dir, cleanup_work_root = prepare_extract_layout(
-        args.work_dir, bool(args.base_ota)
+    work_root, analysis_dir, extract_dir, base_extract_dir = prepare_extract_layout(
+        args.work_dir, args.ota, bool(args.base_ota)
     )
 
-    try:
-        if args.base_ota and base_extract_dir is not None:
-            clear_tracked_images(base_extract_dir, all_partitions)
-            print(f"Extracting source partitions from base OTA: {args.base_ota}...")
-            base_extracted = extract_partitions(
-                args.base_ota,
-                all_partitions,
-                str(base_extract_dir),
-                dumper,
-            )
-            print(f"Extracted {len(base_extracted)} source images.")
-
-        clear_tracked_images(extract_dir, all_partitions)
-        print(f"Extracting {len(all_partitions)} partitions from target OTA...")
-        extracted = extract_partitions(
-            args.ota,
+    if args.base_ota and base_extract_dir is not None:
+        clear_tracked_images(base_extract_dir, all_partitions)
+        print(f"Extracting source partitions from base OTA: {args.base_ota}...")
+        base_extracted = extract_partitions(
+            args.base_ota,
             all_partitions,
-            str(extract_dir),
+            str(base_extract_dir),
             dumper,
-            source_dir=str(base_extract_dir) if base_extract_dir else None,
         )
-        print(f"Extracted {len(extracted)} images.")
+        print(f"Extracted {len(base_extracted)} source images.")
 
-        setup_mode = uefi_setup_mode.check_setup_mode(str(extract_dir))
+    clear_tracked_images(extract_dir, all_partitions)
+    print(f"Extracting {len(all_partitions)} partitions from target OTA...")
+    extracted = extract_partitions(
+        args.ota,
+        all_partitions,
+        str(extract_dir),
+        dumper,
+        source_dir=str(base_extract_dir) if base_extract_dir else None,
+    )
+    print(f"Extracted {len(extracted)} images.")
 
-        # Analyze each image
-        partitions_data = {}
-        for name in all_partitions:
-            if name not in extracted:
-                continue
-            print(f"  Analyzing {name}...")
-            partitions_data[name] = analyze_image(name, extracted[name])
+    setup_mode = uefi_setup_mode.check_setup_mode(str(extract_dir))
 
-        # Build manifest
-        manifest = {
-            "ota_label": ota_label,
-            "ota_metadata": meta,
-            "profile_id": profile_meta["profile_id"],
-            "profile_file": profile_meta["profile_file"],
-            "manufacturer": profile_meta["manufacturer"],
-            "device_name": profile_meta["device_name"],
-            "device_codename": profile_meta["device_codename"],
-            "device_aliases": profile_meta["device_aliases"],
-            "soc": profile_meta["soc"],
-            "model_numbers": profile_meta["model_numbers"],
-            "source_ota": args.ota,
-            "base_ota": args.base_ota,
-            "ota_kind": "incremental" if args.base_ota else "full",
-            "uefi_setup_mode": setup_mode,
-            "partitions_analyzed": len(partitions_data),
-            "partitions": partitions_data,
-        }
+    # Analyze each image
+    partitions_data = {}
+    for name in all_partitions:
+        if name not in extracted:
+            continue
+        print(f"  Analyzing {name}...")
+        partitions_data[name] = analyze_image(name, extracted[name], analysis_dir)
 
-        # Write output
-        os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)
-        with open(args.out, "w") as f:
-            json.dump(manifest, f, indent=2, sort_keys=False)
+    # Build manifest
+    manifest = {
+        "ota_label": ota_label,
+        "ota_metadata": meta,
+        "profile_id": profile_meta["profile_id"],
+        "profile_file": profile_meta["profile_file"],
+        "manufacturer": profile_meta["manufacturer"],
+        "device_name": profile_meta["device_name"],
+        "device_codename": profile_meta["device_codename"],
+        "device_aliases": profile_meta["device_aliases"],
+        "soc": profile_meta["soc"],
+        "model_numbers": profile_meta["model_numbers"],
+        "source_ota": args.ota,
+        "base_ota": args.base_ota,
+        "ota_kind": "incremental" if args.base_ota else "full",
+        "uefi_setup_mode": setup_mode,
+        "partitions_analyzed": len(partitions_data),
+        "partitions": partitions_data,
+    }
 
-        print(f"Manifest written to {args.out}")
-    finally:
-        if cleanup_work_root:
-            shutil.rmtree(work_root, ignore_errors=True)
+    # Write output
+    os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)
+    with open(args.out, "w") as f:
+        json.dump(manifest, f, indent=2, sort_keys=False)
+
+    print(f"Manifest written to {args.out}")
 
 
 if __name__ == "__main__":

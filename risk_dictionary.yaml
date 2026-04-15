@@ -9,6 +9,12 @@
 # edl_risk_if_mismatched:
 #   true  = wrong version/mix with boot chain peers can cause EDL
 #   false = mismatch more likely causes a soft failure or nothing
+# bootloader_coupled:
+#   true  = bootloader / TZ / hyp / devcfg visibly participate in bring-up,
+#           auth, or configuration of this image family
+# late_boot_risk_if_mismatched:
+#   true  = mismatch is likely to break late boot or services even if BL handoff succeeds
+# bringup_path: list of boot-chain images seen referencing or controlling this image family
 # must_move_with: list of partitions that should stay at the same baseline
 # implications: human-readable list of what this partition does
 # security_capabilities: static list of what security mechanisms this
@@ -203,31 +209,334 @@ modem:
     arb_risk: none_seen
     key_rotation_risk: none_seen
     edl_risk_if_mismatched: false
+    bootloader_coupled: true
+    late_boot_risk_if_mismatched: true
+    bringup_path: [tz, hyp]
     must_move_with: []
     implications:
         - "Radio firmware; PIL-loaded by kernel"
-        - "Mismatch can cause radio/IMS failures but not brick"
-    notes: "Usually safe to retain older if radio works."
+        - "Mismatch can cause radio/IMS failures and may also stall late boot on vendor stacks"
+    notes: "TZ/HYP strings show modem auth and bring-up control. Not ordinary userspace-only firmware."
 
 bluetooth:
     role: subsystem_firmware
     arb_risk: none_seen
     key_rotation_risk: none_seen
     edl_risk_if_mismatched: false
+    bootloader_coupled: true
+    late_boot_risk_if_mismatched: true
+    bringup_path: [tz]
     must_move_with: []
     implications:
         - "BT firmware blob"
-    notes: ""
+    notes: "TZ exposes enable_bluetooth paths; treat as more coupled than a pure optional peripheral blob."
 
 dsp:
     role: subsystem_firmware
     arb_risk: none_seen
     key_rotation_risk: none_seen
     edl_risk_if_mismatched: false
+    bootloader_coupled: true
+    late_boot_risk_if_mismatched: true
+    bringup_path: [hyp]
     must_move_with: []
     implications:
         - "aDSP/cDSP firmware"
-    notes: ""
+    notes: "Hyp strings show CDSP bring-up/tear-down paths."
+
+qupfw:
+    role: control_plane_firmware
+    arb_risk: none_seen
+    key_rotation_risk: none_seen
+    edl_risk_if_mismatched: false
+    bootloader_coupled: true
+    late_boot_risk_if_mismatched: true
+    bringup_path: [xbl, tz]
+    must_move_with: []
+    implications:
+        - "Firmware for Qualcomm QUP/GENI peripheral engines (I2C/SPI/UART/I3C)"
+        - "xbl and tz strings show QUP firmware load paths and access-control logic"
+    notes: "Peripheral or charging-sideband failures can break late boot or hardware bring-up."
+
+shrm:
+    role: control_plane_firmware
+    arb_risk: none_seen
+    key_rotation_risk: none_seen
+    edl_risk_if_mismatched: false
+    bootloader_coupled: true
+    late_boot_risk_if_mismatched: true
+    bringup_path: [xbl]
+    must_move_with: [cpucp, pdp, pdp_cdb]
+    implications:
+        - "Shared Resource / DDR coordination firmware"
+        - "xbl contains explicit SHRM and DDR initialization references"
+    notes: "Not first-stage EDL risk, but very plausible late-boot or bring-up risk."
+
+cpucp:
+    role: control_plane_firmware
+    arb_risk: none_seen
+    key_rotation_risk: none_seen
+    edl_risk_if_mismatched: false
+    bootloader_coupled: true
+    late_boot_risk_if_mismatched: true
+    bringup_path: [xbl, tz, devcfg]
+    must_move_with: [cpucp_dtb, pdp, pdp_cdb, shrm]
+    implications:
+        - "CPU Control Processor firmware for CPUSS power and frequency management"
+        - "xbl references boot_prepare_cpucp and boot_reset_cpucp directly"
+    notes: "Treat as early-chain-coupled, not ordinary runtime firmware."
+
+cpucp_dtb:
+    role: control_plane_firmware
+    arb_risk: none_seen
+    key_rotation_risk: none_seen
+    edl_risk_if_mismatched: false
+    bootloader_coupled: true
+    late_boot_risk_if_mismatched: true
+    bringup_path: [xbl, devcfg]
+    must_move_with: [cpucp]
+    implications:
+        - "CPUCP companion DT/config blob"
+    notes: "Treat as inseparable from cpucp."
+
+pdp:
+    role: control_plane_firmware
+    arb_risk: none_seen
+    key_rotation_risk: none_seen
+    edl_risk_if_mismatched: false
+    bootloader_coupled: true
+    late_boot_risk_if_mismatched: true
+    bringup_path: [xbl, cpucp]
+    must_move_with: [pdp_cdb, cpucp]
+    implications:
+        - "Power / cluster-management MCU firmware"
+        - "Observed local strings show Zephyr build and CPUCP-managed PDP boot flows"
+    notes: "Likely important for cluster bring-up and runtime control."
+
+pdp_cdb:
+    role: control_plane_firmware
+    arb_risk: none_seen
+    key_rotation_risk: none_seen
+    edl_risk_if_mismatched: false
+    bootloader_coupled: true
+    late_boot_risk_if_mismatched: true
+    bringup_path: [xbl]
+    must_move_with: [pdp]
+    implications:
+        - "PDP companion configuration / database blob"
+        - "Referenced directly in xbl as PDP_CDB"
+    notes: "Treat as coupled to pdp."
+
+soccp:
+    role: control_plane_firmware
+    arb_risk: none_seen
+    key_rotation_risk: none_seen
+    edl_risk_if_mismatched: false
+    bootloader_coupled: true
+    late_boot_risk_if_mismatched: true
+    bringup_path: [xbl, tz, hyp]
+    must_move_with: [soccp_dcd, soccp_debug]
+    implications:
+        - "SoC Control Processor firmware for USB Type-C, charging, and control-plane tasks"
+        - "Upstream Kaanapali docs describe it as early-boot loaded and auto-booted"
+    notes: "A strong candidate for late boot failure when mixed with older chain firmware."
+
+soccp_dcd:
+    role: control_plane_firmware
+    arb_risk: none_seen
+    key_rotation_risk: none_seen
+    edl_risk_if_mismatched: false
+    bootloader_coupled: true
+    late_boot_risk_if_mismatched: true
+    bringup_path: [xbl]
+    must_move_with: [soccp]
+    implications:
+        - "SoCCP companion config/data blob"
+    notes: "Treat as coupled to soccp."
+
+soccp_debug:
+    role: control_plane_firmware
+    arb_risk: none_seen
+    key_rotation_risk: none_seen
+    edl_risk_if_mismatched: false
+    bootloader_coupled: true
+    late_boot_risk_if_mismatched: true
+    bringup_path: [xbl]
+    must_move_with: [soccp]
+    implications:
+        - "SoCCP debug companion image"
+    notes: "Likely less critical than soccp, but still part of the same bring-up family."
+
+dcp:
+    role: display_firmware
+    arb_risk: none_seen
+    key_rotation_risk: none_seen
+    edl_risk_if_mismatched: false
+    bootloader_coupled: true
+    late_boot_risk_if_mismatched: true
+    bringup_path: [xbl, hyp]
+    must_move_with: []
+    implications:
+        - "Display Co-Processor firmware for MDSS/DPU/DSI display bring-up"
+        - "xbl and hyp contain explicit dcp bring-up and partition references"
+    notes: "One of the strongest suspects when boot reaches logo/animation then flickers or powers off."
+
+imagefv:
+    role: boot_visuals
+    arb_risk: none_seen
+    key_rotation_risk: possible
+    edl_risk_if_mismatched: false
+    bootloader_coupled: true
+    late_boot_risk_if_mismatched: false
+    bringup_path: [abl]
+    must_move_with: []
+    implications:
+        - "UEFI firmware volume containing boot / charging / warning graphics"
+    notes: "Usually not the primary cause of Android boot animation loops."
+
+featenabler:
+    role: feature_policy_firmware
+    arb_risk: none_seen
+    key_rotation_risk: none_seen
+    edl_risk_if_mismatched: false
+    bootloader_coupled: false
+    late_boot_risk_if_mismatched: true
+    bringup_path: [tz]
+    must_move_with: []
+    implications:
+        - "RPMB-backed feature licensing / enablement service"
+        - "Strings reference display, video, and QWES feature enablement plus SW fuse configuration"
+    notes: "Can plausibly break late boot or feature init without being a first-stage loader blob."
+
+spuservice:
+    role: secure_service_firmware
+    arb_risk: none_seen
+    key_rotation_risk: possible
+    edl_risk_if_mismatched: false
+    bootloader_coupled: false
+    late_boot_risk_if_mismatched: true
+    bringup_path: [devcfg, keymaster]
+    must_move_with: []
+    implications:
+        - "Secure Processing Unit provisioning / secret-sharing service"
+    notes: "Security-service mismatch can break provisioning or keystore-adjacent services."
+
+multiimgqti:
+    role: signing_container
+    arb_risk: none_seen
+    key_rotation_risk: possible
+    edl_risk_if_mismatched: false
+    bootloader_coupled: false
+    late_boot_risk_if_mismatched: false
+    bringup_path: []
+    must_move_with: [multiimgoem]
+    implications:
+        - "QTI multi-image signing/container bundle"
+    notes: "Looks more like trust/package metadata than active runtime firmware."
+
+multiimgoem:
+    role: signing_container
+    arb_risk: none_seen
+    key_rotation_risk: possible
+    edl_risk_if_mismatched: false
+    bootloader_coupled: false
+    late_boot_risk_if_mismatched: false
+    bringup_path: []
+    must_move_with: [multiimgqti]
+    implications:
+        - "OEM multi-image signing/container bundle"
+    notes: "Looks more like trust/package metadata than active runtime firmware."
+
+tme_fw:
+    role: memory_security_firmware
+    arb_risk: possible
+    key_rotation_risk: possible
+    edl_risk_if_mismatched: false
+    bootloader_coupled: true
+    late_boot_risk_if_mismatched: true
+    bringup_path: [tz, keymaster]
+    must_move_with: [tme_config]
+    implications:
+        - "Trusted Memory Engine firmware for memory protection and cryptographic services"
+    notes: "Likely important for security services and protected memory regions."
+
+tme_config:
+    role: memory_security_firmware
+    arb_risk: possible
+    key_rotation_risk: possible
+    edl_risk_if_mismatched: false
+    bootloader_coupled: true
+    late_boot_risk_if_mismatched: true
+    bringup_path: [tz, devcfg]
+    must_move_with: [tme_fw]
+    implications:
+        - "TME policy / configuration blob"
+    notes: "Treat as coupled to tme_fw."
+
+secretkeeper:
+    role: boot_chain
+    arb_risk: possible
+    key_rotation_risk: likely
+    edl_risk_if_mismatched: false
+    bootloader_coupled: true
+    late_boot_risk_if_mismatched: true
+    bringup_path: [tz, keymaster]
+    must_move_with: [keymaster, tz]
+    implications:
+        - "Secure secret storage companion to keymaster / TEE services"
+    notes: "Should not be treated as ordinary subsystem firmware."
+
+tz_ac_config:
+    role: boot_chain
+    arb_risk: possible
+    key_rotation_risk: possible
+    edl_risk_if_mismatched: false
+    bootloader_coupled: true
+    late_boot_risk_if_mismatched: true
+    bringup_path: [tz]
+    must_move_with: [tz]
+    implications:
+        - "TrustZone access-control policy blob"
+    notes: "Treat as coupled to tz."
+
+tz_qti_config:
+    role: boot_chain
+    arb_risk: possible
+    key_rotation_risk: possible
+    edl_risk_if_mismatched: false
+    bootloader_coupled: true
+    late_boot_risk_if_mismatched: true
+    bringup_path: [tz]
+    must_move_with: [tz]
+    implications:
+        - "TrustZone QTI configuration blob"
+    notes: "Treat as coupled to tz."
+
+hyp_ac_config:
+    role: boot_chain
+    arb_risk: possible
+    key_rotation_risk: possible
+    edl_risk_if_mismatched: false
+    bootloader_coupled: true
+    late_boot_risk_if_mismatched: true
+    bringup_path: [hyp]
+    must_move_with: [hyp]
+    implications:
+        - "Hypervisor access-control policy blob"
+    notes: "Treat as coupled to hyp."
+
+xbl_ac_config:
+    role: boot_chain
+    arb_risk: possible
+    key_rotation_risk: possible
+    edl_risk_if_mismatched: false
+    bootloader_coupled: true
+    late_boot_risk_if_mismatched: true
+    bringup_path: [xbl]
+    must_move_with: [xbl, xbl_config]
+    implications:
+        - "XBL access-control policy blob"
+    notes: "Treat as coupled to xbl/xbl_config."
 
 boot:
     role: boundary

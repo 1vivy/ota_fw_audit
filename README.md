@@ -10,6 +10,7 @@ It is built for questions like:
 - Did signing or hardware-binding metadata change?
 - Is ABL still GBL-vulnerable?
 - Would UEFI Secure Boot block unsigned EFI loading even if ABL still has the GBL path?
+- Which changed firmware blobs are bootloader-coupled and likely to break late boot if mixed?
 
 ## Layout
 
@@ -80,11 +81,17 @@ python3 fw_audit/tools/analyze_ota.py \
   --out fw_audit/manifests/CPH2747_11.C.01_1010.json
 ```
 
-By default, extraction uses a temporary directory and cleans it up after analysis.
-You can override the extraction location with `--work-dir`.
+By default, extraction uses `fw_audit/workdir`.
+You can override the root extraction location with `--work-dir`.
 
-- Full OTA: extract directly into `--work-dir`
-- Incremental OTA: extract into `--work-dir/base` and `--work-dir/target`
+- Full OTA: extract into `--work-dir/<ota-stem>/target`
+- Incremental OTA: extract into `--work-dir/<ota-stem>/base` and `--work-dir/<ota-stem>/target`
+
+Additional extracted helper artifacts are also written under `--work-dir/<ota-stem>/derived/`, including:
+
+- `xbl_config` payload files
+- `LinuxLoader.efi` extracted from `abl`
+- `xbl` split outputs when supported by `xbltools`
 
 Tracked `.img` files in those directories are deleted before extraction to avoid stale results.
 The working directory is internal scratch/output state and is not embedded in manifests.
@@ -98,6 +105,16 @@ python3 fw_audit/tools/compare_otas.py \
   fw_audit/manifests/new.json \
   --out fw_audit/reports/diff.json
 ```
+
+The report summary now separates:
+
+- `edl_risk_partitions`
+- `bootloader_coupled_partitions`
+- `late_boot_risk_partitions`
+
+This matters because some firmware blobs are not part of the first-stage boot chain,
+but are still directly referenced by `xbl`, `tz`, `hyp`, or `devcfg` and can break
+late boot if mixed.
 
 ## Manifest Highlights
 
@@ -122,8 +139,11 @@ Per-partition fields include:
 - `qc_image_version`
 - `oem_image_version`
 - `qualcomm_metadata`
+- `xbl_config_payloads` for `xbl_config`
+- `xbl_components` for `xbl`
 - `avb`
 - `gbl` for `abl`
+- `linux_loader` for `abl`
 
 ## Security-Specific Checks
 
@@ -148,6 +168,26 @@ This captures:
 
 The detector scans raw ABL data and embedded LZMA-compressed UEFI payloads.
 
+### XBL and xbl_config extraction
+
+`xbl_config` can optionally be unpacked with `XBLConfigReader`.
+This exposes payloads such as:
+
+- `pre-ddr.dtbs.bin`
+- `post-ddr.dtbs.bin`
+- `*_dcb.bin`
+
+`xbl` can optionally be unpacked with `xbltools`.
+On some newer SM8750/SM8850 vendor images this currently fails, which is still
+useful information because it suggests the older `unpackxbl` heuristics do not
+fully match current vendor packaging.
+
+### LinuxLoader extraction
+
+`abl` can optionally be unpacked with `extractfv` from `gbl_root_canoe`.
+This extracts `LinuxLoader.efi`, which helps confirm whether the `efisp` path is
+still present inside the PE payload rather than only in the wrapped ABL image.
+
 ### UEFI Setup Mode
 
 `uefi_setup_mode` is a platform-level check derived from `uefi.img`, `xbl.img`, and `uefisecapp.img`.
@@ -165,5 +205,8 @@ Relevant fields:
 
 - `payload_dumper` is used for OTA extraction.
 - `androidtool` from `Android_Tool_RUST` is used for Qualcomm signing metadata when available.
+- `XBLConfigReader` is used for SM8450+ `xbl_config` payload extraction when available.
+- `xbltools` is used for `xbl` component splitting when available.
+- `extractfv` from `gbl_root_canoe` is used for `LinuxLoader.efi` extraction when available.
 - The comparison report is JSON-only by design.
 - The risk dictionary is intentionally human-maintained and conservative.
