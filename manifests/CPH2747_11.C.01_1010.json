@@ -172,6 +172,13 @@
           "oem_signature_size": 104,
           "oem_cert_chain_size": 3360
         }
+      },
+      "xbl_components": {
+        "tool": "unpackxbl",
+        "success": false,
+        "components": {},
+        "log": "Failed to find XBL_Core program header\n\n\nAll done!",
+        "error": "Failed to find XBL_Core program header\n\n\nAll done!"
       }
     },
     "xbl_config": {
@@ -257,6 +264,46 @@
           "oem_signature_size": 104,
           "oem_cert_chain_size": 3360
         }
+      },
+      "xbl_config_payloads": {
+        "tool": "xcreader",
+        "success": true,
+        "cfgl_offset": 456,
+        "file_count": 4,
+        "files": [
+          {
+            "name": "pre-ddr.dtbs.bin",
+            "extracted_name": "pre-ddr.dtbs.bin",
+            "size": 69672,
+            "offset": 228,
+            "sha256": "806d322887c2a05361b46ce1537f37c74ee912e2f5c2abe0eb94e1e7a5906704",
+            "extracted_size": 69672
+          },
+          {
+            "name": "post-ddr.dtbs.bin",
+            "extracted_name": "post-ddr.dtbs.bin",
+            "size": 210960,
+            "offset": 69900,
+            "sha256": "8abc28a3a84487d22d0ad8c7f00d9dc758cb1255408a41c45dd4639e36b98107",
+            "extracted_size": 210960
+          },
+          {
+            "name": "/A01B_8_0100_1_dcb.bin",
+            "extracted_name": "A01B_8_0100_1_dcb.bin",
+            "size": 53252,
+            "offset": 280860,
+            "sha256": "91df3818a0a59ee9edfd64867213e0a330aa86053506e944918bad4dc0812a46",
+            "extracted_size": 53252
+          },
+          {
+            "name": "/A01B_8_0200_1_dcb.bin",
+            "extracted_name": "A01B_8_0200_1_dcb.bin",
+            "size": 53252,
+            "offset": 334112,
+            "sha256": "0c71bc453280ea56dd1e1b5c838ad2ad8dc34338ca9e0651f4bbf29a0b71c7df",
+            "extracted_size": 53252
+          }
+        ]
       }
     },
     "xbl_ac_config": {
@@ -354,6 +401,15 @@
         "gbl_vulnerable": true,
         "efisp_count": 1,
         "found_in": "decompressed"
+      },
+      "linux_loader": {
+        "tool": "extractfv",
+        "success": true,
+        "size": 778240,
+        "sha256": "0c7409ba0c7a6a48b1724109a8210df00be11f891d1b0eaedf741cd79667f760",
+        "has_efisp_string": true,
+        "efisp_count": 1,
+        "mz_header": true
       }
     },
     "uefi": {

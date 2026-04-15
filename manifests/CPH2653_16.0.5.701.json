@@ -90,7 +90,14 @@
       "size": 1191936,
       "format": "opaque_blob",
       "qc_image_version": "BOOT.MXF.2.5.1-00265-PAKALA-1.104700.25",
-      "oem_image_version": "ip-10-195-201-50"
+      "oem_image_version": "ip-10-195-201-50",
+      "xbl_components": {
+        "tool": "unpackxbl",
+        "success": false,
+        "components": {},
+        "log": "Only 64-bit ELF supported\n\n\nAll done!",
+        "error": "Only 64-bit ELF supported\n\n\nAll done!"
+      }
     },
     "xbl_config": {
       "sha256": "1b83b73a1276c5323d2faeaeeffb28672dfd3171bb89aa1f569db64016af57a3",
@@ -175,6 +182,102 @@
           "oem_signature_size": 104,
           "oem_cert_chain_size": 3360
         }
+      },
+      "xbl_config_payloads": {
+        "tool": "xcreader",
+        "success": true,
+        "cfgl_offset": 848,
+        "file_count": 11,
+        "files": [
+          {
+            "name": "pre-ddr-pakala-1.0.dtb",
+            "extracted_name": "pre-ddr-pakala-1.0.dtb",
+            "size": 33028,
+            "offset": 692,
+            "sha256": "4737aa9b240057f243aab827f0b5a7c3e1df0ceebde105f39c6b75d69987f471",
+            "extracted_size": 33028
+          },
+          {
+            "name": "post-ddr-pakala-1.0.dtb",
+            "extracted_name": "post-ddr-pakala-1.0.dtb",
+            "size": 153420,
+            "offset": 33720,
+            "sha256": "83ebaeb3eeca20dcb97b785ac7d3f5c9eb02621a41c1d9d0076d355f2aa5f8c9",
+            "extracted_size": 153420
+          },
+          {
+            "name": "/A012_8_0100_0_dcb.bin",
+            "extracted_name": "A012_8_0100_0_dcb.bin",
+            "size": 51204,
+            "offset": 187140,
+            "sha256": "92a25bd8e78de9e113b2aee254da7598f7a60cb62b569a6fcaddfb3dde14b862",
+            "extracted_size": 51204
+          },
+          {
+            "name": "/cpr.bin",
+            "extracted_name": "cpr.bin",
+            "size": 1552,
+            "offset": 238344,
+            "sha256": "f4f595e81441cf0c42135581a6b627cbc2958be17efbf2abd0d33ec7f013ce12",
+            "extracted_size": 1552
+          },
+          {
+            "name": "/A012_8_0100_1_dcb.bin",
+            "extracted_name": "A012_8_0100_1_dcb.bin",
+            "size": 51204,
+            "offset": 239896,
+            "sha256": "9912d216187e1ec1ff97f76d614d19eb56714d70e8c6038a7db01df72836f81b",
+            "extracted_size": 51204
+          },
+          {
+            "name": "pre-ddr-pakala-R2-2.0-overlay.dtbo",
+            "extracted_name": "pre-ddr-pakala-R2-2.0-overlay.dtbo",
+            "size": 2404,
+            "offset": 291100,
+            "sha256": "1b74e4c9587dbefa2d5f338d093cd68feaad788a643af9c42b1ebab9867df253",
+            "extracted_size": 2404
+          },
+          {
+            "name": "/A012_8_0200_1_dcb.bin",
+            "extracted_name": "A012_8_0200_1_dcb.bin",
+            "size": 51204,
+            "offset": 293504,
+            "sha256": "41f2289a297f70bd9974497a67310dbf6d0f18f5516a815d21ffd3c368ca49dd",
+            "extracted_size": 51204
+          },
+          {
+            "name": "post-ddr-pakala-R2-2.0-overlay.dtbo",
+            "extracted_name": "post-ddr-pakala-R2-2.0-overlay.dtbo",
+            "size": 2404,
+            "offset": 344708,
+            "sha256": "1b74e4c9587dbefa2d5f338d093cd68feaad788a643af9c42b1ebab9867df253",
+            "extracted_size": 2404
+          },
+          {
+            "name": "post-ddr-pakala-qrd-1.0-overlay.dtbo",
+            "extracted_name": "post-ddr-pakala-qrd-1.0-overlay.dtbo",
+            "size": 908,
+            "offset": 347112,
+            "sha256": "5cb707da83a321dd04c2e323acc5da93dcb5ff45595fe853e938f770cd697fab",
+            "extracted_size": 908
+          },
+          {
+            "name": "post-ddr-pakala-atp-1.0-overlay.dtbo",
+            "extracted_name": "post-ddr-pakala-atp-1.0-overlay.dtbo",
+            "size": 324,
+            "offset": 348020,
+            "sha256": "8cc50d72039026ddffbd0b46368e5f8784af1c5c0be3174850c1d701ce5cb0b4",
+            "extracted_size": 324
+          },
+          {
+            "name": "post-ddr-pakala-hdk-1.0-overlay.dtbo",
+            "extracted_name": "post-ddr-pakala-hdk-1.0-overlay.dtbo",
+            "size": 316,
+            "offset": 348344,
+            "sha256": "9f6b9f309e727e7668c4b3241194764a81a2f50fe054c653783b531bd54e0f79",
+            "extracted_size": 316
+          }
+        ]
       }
     },
     "abl": {
@@ -187,6 +290,15 @@
         "gbl_vulnerable": false,
         "efisp_count": 0,
         "found_in": "not_found"
+      },
+      "linux_loader": {
+        "tool": "extractfv",
+        "success": true,
+        "size": 802816,
+        "sha256": "e4287908b5ffe9ee7335fc9c5275b5a6f75ecf50d8b06e60928caf8fb182b098",
+        "has_efisp_string": false,
+        "efisp_count": 0,
+        "mz_header": true
       }
     },
     "uefi": {

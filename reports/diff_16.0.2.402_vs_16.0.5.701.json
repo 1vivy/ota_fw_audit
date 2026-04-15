@@ -69,6 +69,32 @@
     "unsigned_efi_load_changed": false,
     "gbl_exploit_lost": false,
     "gbl_exploit_gained": false,
+    "bootloader_coupled_partitions": [
+      "bluetooth",
+      "cpucp",
+      "cpucp_dtb",
+      "imagefv",
+      "modem",
+      "pdp",
+      "pdp_cdb",
+      "qupfw",
+      "shrm",
+      "soccp_dcd",
+      "soccp_debug"
+    ],
+    "late_boot_risk_partitions": [
+      "bluetooth",
+      "cpucp",
+      "cpucp_dtb",
+      "featenabler",
+      "modem",
+      "pdp",
+      "pdp_cdb",
+      "qupfw",
+      "shrm",
+      "soccp_dcd",
+      "soccp_debug"
+    ],
     "edl_risk_partitions": [
       "hyp",
       "tz",
@@ -87,6 +113,9 @@
         "arb_risk": "possible",
         "key_rotation_risk": "possible",
         "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
         "must_move_with": [
           "xbl",
           "xbl_config",
@@ -109,6 +138,9 @@
         "arb_risk": "possible",
         "key_rotation_risk": "none_seen",
         "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
         "must_move_with": [
           "xbl",
           "aop_config"
@@ -128,6 +160,9 @@
         "arb_risk": "none_seen",
         "key_rotation_risk": "none_seen",
         "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
         "must_move_with": [
           "aop"
         ],
@@ -146,6 +181,11 @@
         "arb_risk": "none_seen",
         "key_rotation_risk": "none_seen",
         "edl_risk_if_mismatched": false,
+        "bootloader_coupled": true,
+        "late_boot_risk_if_mismatched": true,
+        "bringup_path": [
+          "tz"
+        ],
         "must_move_with": [],
         "implications": [
           "BT firmware blob"
@@ -162,6 +202,9 @@
         "arb_risk": "possible",
         "key_rotation_risk": "none_seen",
         "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
         "must_move_with": [
           "init_boot",
           "vendor_boot",
@@ -180,12 +223,27 @@
       "format_a": "elf64",
       "format_b": "elf64",
       "risk": {
-        "role": "unknown",
-        "arb_risk": "unknown",
-        "key_rotation_risk": "unknown",
+        "role": "control_plane_firmware",
+        "arb_risk": "none_seen",
+        "key_rotation_risk": "none_seen",
         "edl_risk_if_mismatched": false,
-        "must_move_with": [],
-        "implications": []
+        "bootloader_coupled": true,
+        "late_boot_risk_if_mismatched": true,
+        "bringup_path": [
+          "xbl",
+          "tz",
+          "devcfg"
+        ],
+        "must_move_with": [
+          "cpucp_dtb",
+          "pdp",
+          "pdp_cdb",
+          "shrm"
+        ],
+        "implications": [
+          "CPU Control Processor firmware for CPUSS power and frequency management",
+          "xbl references boot_prepare_cpucp and boot_reset_cpucp directly"
+        ]
       }
     },
     "cpucp_dtb": {
@@ -194,12 +252,22 @@
       "format_a": "elf64",
       "format_b": "elf64",
       "risk": {
-        "role": "unknown",
-        "arb_risk": "unknown",
-        "key_rotation_risk": "unknown",
+        "role": "control_plane_firmware",
+        "arb_risk": "none_seen",
+        "key_rotation_risk": "none_seen",
         "edl_risk_if_mismatched": false,
-        "must_move_with": [],
-        "implications": []
+        "bootloader_coupled": true,
+        "late_boot_risk_if_mismatched": true,
+        "bringup_path": [
+          "xbl",
+          "devcfg"
+        ],
+        "must_move_with": [
+          "cpucp"
+        ],
+        "implications": [
+          "CPUCP companion DT/config blob"
+        ]
       }
     },
     "devcfg": {
@@ -212,6 +280,9 @@
         "arb_risk": "none_seen",
         "key_rotation_risk": "none_seen",
         "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
         "must_move_with": [
           "xbl"
         ],
@@ -230,6 +301,9 @@
         "arb_risk": "unknown",
         "key_rotation_risk": "unknown",
         "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
         "must_move_with": [],
         "implications": []
       }
@@ -244,6 +318,9 @@
         "arb_risk": "none_seen",
         "key_rotation_risk": "none_seen",
         "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
         "must_move_with": [],
         "implications": [
           "Engineering CDT; hardware configuration table"
@@ -256,12 +333,20 @@
       "format_a": "elf64",
       "format_b": "elf64",
       "risk": {
-        "role": "unknown",
-        "arb_risk": "unknown",
-        "key_rotation_risk": "unknown",
+        "role": "feature_policy_firmware",
+        "arb_risk": "none_seen",
+        "key_rotation_risk": "none_seen",
         "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": true,
+        "bringup_path": [
+          "tz"
+        ],
         "must_move_with": [],
-        "implications": []
+        "implications": [
+          "RPMB-backed feature licensing / enablement service",
+          "Strings reference display, video, and QWES feature enablement plus SW fuse configuration"
+        ]
       }
     },
     "hyp": {
@@ -282,6 +367,9 @@
         "arb_risk": "possible",
         "key_rotation_risk": "possible",
         "edl_risk_if_mismatched": true,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
         "must_move_with": [
           "xbl",
           "tz"
@@ -297,12 +385,19 @@
       "format_a": "opaque_blob",
       "format_b": "opaque_blob",
       "risk": {
-        "role": "unknown",
-        "arb_risk": "unknown",
-        "key_rotation_risk": "unknown",
+        "role": "boot_visuals",
+        "arb_risk": "none_seen",
+        "key_rotation_risk": "possible",
         "edl_risk_if_mismatched": false,
+        "bootloader_coupled": true,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [
+          "abl"
+        ],
         "must_move_with": [],
-        "implications": []
+        "implications": [
+          "UEFI firmware volume containing boot / charging / warning graphics"
+        ]
       }
     },
     "init_boot": {
@@ -315,6 +410,9 @@
         "arb_risk": "unknown",
         "key_rotation_risk": "unknown",
         "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
         "must_move_with": [],
         "implications": []
       }
@@ -329,6 +427,9 @@
         "arb_risk": "likely",
         "key_rotation_risk": "likely",
         "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
         "must_move_with": [
           "tz",
           "uefisecapp"
@@ -349,10 +450,16 @@
         "arb_risk": "none_seen",
         "key_rotation_risk": "none_seen",
         "edl_risk_if_mismatched": false,
+        "bootloader_coupled": true,
+        "late_boot_risk_if_mismatched": true,
+        "bringup_path": [
+          "tz",
+          "hyp"
+        ],
         "must_move_with": [],
         "implications": [
           "Radio firmware; PIL-loaded by kernel",
-          "Mismatch can cause radio/IMS failures but not brick"
+          "Mismatch can cause radio/IMS failures and may also stall late boot on vendor stacks"
         ]
       }
     },
@@ -366,6 +473,9 @@
         "arb_risk": "unknown",
         "key_rotation_risk": "unknown",
         "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
         "must_move_with": [],
         "implications": []
       }
@@ -376,12 +486,24 @@
       "format_a": "opaque_blob",
       "format_b": "opaque_blob",
       "risk": {
-        "role": "unknown",
-        "arb_risk": "unknown",
-        "key_rotation_risk": "unknown",
+        "role": "control_plane_firmware",
+        "arb_risk": "none_seen",
+        "key_rotation_risk": "none_seen",
         "edl_risk_if_mismatched": false,
-        "must_move_with": [],
-        "implications": []
+        "bootloader_coupled": true,
+        "late_boot_risk_if_mismatched": true,
+        "bringup_path": [
+          "xbl",
+          "cpucp"
+        ],
+        "must_move_with": [
+          "pdp_cdb",
+          "cpucp"
+        ],
+        "implications": [
+          "Power / cluster-management MCU firmware",
+          "Observed local strings show Zephyr build and CPUCP-managed PDP boot flows"
+        ]
       }
     },
     "pdp_cdb": {
@@ -390,12 +512,22 @@
       "format_a": "opaque_blob",
       "format_b": "opaque_blob",
       "risk": {
-        "role": "unknown",
-        "arb_risk": "unknown",
-        "key_rotation_risk": "unknown",
+        "role": "control_plane_firmware",
+        "arb_risk": "none_seen",
+        "key_rotation_risk": "none_seen",
         "edl_risk_if_mismatched": false,
-        "must_move_with": [],
-        "implications": []
+        "bootloader_coupled": true,
+        "late_boot_risk_if_mismatched": true,
+        "bringup_path": [
+          "xbl"
+        ],
+        "must_move_with": [
+          "pdp"
+        ],
+        "implications": [
+          "PDP companion configuration / database blob",
+          "Referenced directly in xbl as PDP_CDB"
+        ]
       }
     },
     "pvmfw": {
@@ -408,6 +540,9 @@
         "arb_risk": "possible",
         "key_rotation_risk": "possible",
         "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
         "must_move_with": [],
         "implications": [
           "Protected VM firmware; contains AVB verification, DICE chain, rollback logic",
@@ -421,12 +556,21 @@
       "format_a": "opaque_blob",
       "format_b": "opaque_blob",
       "risk": {
-        "role": "unknown",
-        "arb_risk": "unknown",
-        "key_rotation_risk": "unknown",
+        "role": "control_plane_firmware",
+        "arb_risk": "none_seen",
+        "key_rotation_risk": "none_seen",
         "edl_risk_if_mismatched": false,
+        "bootloader_coupled": true,
+        "late_boot_risk_if_mismatched": true,
+        "bringup_path": [
+          "xbl",
+          "tz"
+        ],
         "must_move_with": [],
-        "implications": []
+        "implications": [
+          "Firmware for Qualcomm QUP/GENI peripheral engines (I2C/SPI/UART/I3C)",
+          "xbl and tz strings show QUP firmware load paths and access-control logic"
+        ]
       }
     },
     "recovery": {
@@ -439,6 +583,9 @@
         "arb_risk": "unknown",
         "key_rotation_risk": "unknown",
         "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
         "must_move_with": [],
         "implications": []
       }
@@ -449,12 +596,24 @@
       "format_a": "opaque_blob",
       "format_b": "opaque_blob",
       "risk": {
-        "role": "unknown",
-        "arb_risk": "unknown",
-        "key_rotation_risk": "unknown",
+        "role": "control_plane_firmware",
+        "arb_risk": "none_seen",
+        "key_rotation_risk": "none_seen",
         "edl_risk_if_mismatched": false,
-        "must_move_with": [],
-        "implications": []
+        "bootloader_coupled": true,
+        "late_boot_risk_if_mismatched": true,
+        "bringup_path": [
+          "xbl"
+        ],
+        "must_move_with": [
+          "cpucp",
+          "pdp",
+          "pdp_cdb"
+        ],
+        "implications": [
+          "Shared Resource / DDR coordination firmware",
+          "xbl contains explicit SHRM and DDR initialization references"
+        ]
       }
     },
     "soccp_dcd": {
@@ -463,12 +622,21 @@
       "format_a": "opaque_blob",
       "format_b": "opaque_blob",
       "risk": {
-        "role": "unknown",
-        "arb_risk": "unknown",
-        "key_rotation_risk": "unknown",
+        "role": "control_plane_firmware",
+        "arb_risk": "none_seen",
+        "key_rotation_risk": "none_seen",
         "edl_risk_if_mismatched": false,
-        "must_move_with": [],
-        "implications": []
+        "bootloader_coupled": true,
+        "late_boot_risk_if_mismatched": true,
+        "bringup_path": [
+          "xbl"
+        ],
+        "must_move_with": [
+          "soccp"
+        ],
+        "implications": [
+          "SoCCP companion config/data blob"
+        ]
       }
     },
     "soccp_debug": {
@@ -477,12 +645,21 @@
       "format_a": "opaque_blob",
       "format_b": "opaque_blob",
       "risk": {
-        "role": "unknown",
-        "arb_risk": "unknown",
-        "key_rotation_risk": "unknown",
+        "role": "control_plane_firmware",
+        "arb_risk": "none_seen",
+        "key_rotation_risk": "none_seen",
         "edl_risk_if_mismatched": false,
-        "must_move_with": [],
-        "implications": []
+        "bootloader_coupled": true,
+        "late_boot_risk_if_mismatched": true,
+        "bringup_path": [
+          "xbl"
+        ],
+        "must_move_with": [
+          "soccp"
+        ],
+        "implications": [
+          "SoCCP debug companion image"
+        ]
       }
     },
     "tz": {
@@ -503,6 +680,9 @@
         "arb_risk": "likely",
         "key_rotation_risk": "likely",
         "edl_risk_if_mismatched": true,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
         "must_move_with": [
           "xbl",
           "xbl_config",
@@ -526,6 +706,9 @@
         "arb_risk": "possible",
         "key_rotation_risk": "possible",
         "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
         "must_move_with": [
           "xbl",
           "xbl_config",
@@ -547,6 +730,9 @@
         "arb_risk": "possible",
         "key_rotation_risk": "possible",
         "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
         "must_move_with": [
           "tz",
           "keymaster"
@@ -660,6 +846,9 @@
         "arb_risk": "confirmed",
         "key_rotation_risk": "confirmed",
         "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
         "must_move_with": [
           "boot",
           "init_boot",
@@ -795,6 +984,9 @@
         "arb_risk": "confirmed",
         "key_rotation_risk": "possible",
         "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
         "must_move_with": [
           "vbmeta"
         ],
@@ -851,6 +1043,9 @@
         "arb_risk": "confirmed",
         "key_rotation_risk": "possible",
         "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
         "must_move_with": [
           "vbmeta"
         ],
@@ -869,6 +1064,9 @@
         "arb_risk": "unknown",
         "key_rotation_risk": "unknown",
         "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
         "must_move_with": [],
         "implications": []
       }
@@ -891,6 +1089,9 @@
         "arb_risk": "likely",
         "key_rotation_risk": "likely",
         "edl_risk_if_mismatched": true,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
         "must_move_with": [
           "xbl_config",
           "abl",
@@ -939,6 +1140,9 @@
         "arb_risk": "confirmed",
         "key_rotation_risk": "possible",
         "edl_risk_if_mismatched": true,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
         "must_move_with": [
           "xbl"
         ],
@@ -962,6 +1166,9 @@
         "arb_risk": "none_seen",
         "key_rotation_risk": "none_seen",
         "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
         "must_move_with": [],
         "implications": [
           "Crash dump collection; debug only"
