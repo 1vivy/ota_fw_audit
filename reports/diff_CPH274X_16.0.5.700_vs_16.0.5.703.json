@@ -1,0 +1,1327 @@
+{
+  "ota_a": "CPH2747_16.0.5.700(EX01)",
+  "ota_b": "CPH2745_16.0.5.703(EX01)",
+  "profile_id_a": "oneplus_infiniti_sm8850",
+  "profile_id_b": "oneplus_infiniti_sm8850",
+  "device_codename_a": "infiniti",
+  "device_codename_b": "infiniti",
+  "partitions_compared": 50,
+  "changed_partitions": [
+    "abl",
+    "aop",
+    "aop_config",
+    "bluetooth",
+    "boot",
+    "cpucp",
+    "cpucp_dtb",
+    "dcp",
+    "devcfg",
+    "dtbo",
+    "engineering_cdt",
+    "featenabler",
+    "hyp",
+    "hyp_ac_config",
+    "imagefv",
+    "init_boot",
+    "keymaster",
+    "modem",
+    "multiimgoem",
+    "pdp",
+    "pdp_cdb",
+    "pvmfw",
+    "qupfw",
+    "recovery",
+    "secretkeeper",
+    "shrm",
+    "soccp",
+    "soccp_dcd",
+    "soccp_debug",
+    "tme_config",
+    "tme_fw",
+    "tz",
+    "tz_ac_config",
+    "tz_qti_config",
+    "uefi",
+    "uefisecapp",
+    "vbmeta",
+    "vbmeta_system",
+    "vbmeta_vendor",
+    "vendor_boot",
+    "xbl",
+    "xbl_ac_config",
+    "xbl_config",
+    "xbl_ramdump"
+  ],
+  "unchanged_partitions": [
+    "dsp",
+    "multiimgqti",
+    "oplus_sec",
+    "splash",
+    "spuservice",
+    "tme_seq_patch"
+  ],
+  "missing_in_a": [],
+  "missing_in_b": [],
+  "platform_diffs": {},
+  "summary": {
+    "boot_chain_changed": true,
+    "arb_changed": false,
+    "arb_incremented": false,
+    "root_cert_hash_changed": false,
+    "oem_id_changed": false,
+    "soc_hw_version_changed": false,
+    "binding_changed": false,
+    "signing_changed": false,
+    "lifecycle_changed": false,
+    "cert_chain_changed": false,
+    "avb_key_changed": false,
+    "avb_rollback_changed": true,
+    "setup_mode_changed": false,
+    "unsigned_efi_load_changed": false,
+    "gbl_exploit_lost": false,
+    "gbl_exploit_gained": false,
+    "bootloader_coupled_partitions": [
+      "bluetooth",
+      "cpucp",
+      "cpucp_dtb",
+      "dcp",
+      "hyp_ac_config",
+      "imagefv",
+      "modem",
+      "pdp",
+      "pdp_cdb",
+      "qupfw",
+      "secretkeeper",
+      "shrm",
+      "soccp",
+      "soccp_dcd",
+      "soccp_debug",
+      "tme_config",
+      "tme_fw",
+      "tz_ac_config",
+      "tz_qti_config",
+      "xbl_ac_config"
+    ],
+    "late_boot_risk_partitions": [
+      "bluetooth",
+      "cpucp",
+      "cpucp_dtb",
+      "dcp",
+      "featenabler",
+      "hyp_ac_config",
+      "modem",
+      "pdp",
+      "pdp_cdb",
+      "qupfw",
+      "secretkeeper",
+      "shrm",
+      "soccp",
+      "soccp_dcd",
+      "soccp_debug",
+      "tme_config",
+      "tme_fw",
+      "tz_ac_config",
+      "tz_qti_config",
+      "xbl_ac_config"
+    ],
+    "edl_risk_partitions": [
+      "hyp",
+      "tz",
+      "xbl",
+      "xbl_config"
+    ]
+  },
+  "partition_diffs": {
+    "abl": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "opaque_blob",
+      "format_b": "opaque_blob",
+      "risk": {
+        "role": "boot_chain",
+        "arb_risk": "possible",
+        "key_rotation_risk": "possible",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
+        "must_move_with": [
+          "xbl",
+          "xbl_config",
+          "uefi"
+        ],
+        "implications": [
+          "Android Boot Loader; handles fastboot, verified boot handoff",
+          "Sets androidboot.* cmdline properties",
+          "Can have tons of OEM customizations. Linuxloader.efi sits in here."
+        ]
+      }
+    },
+    "aop": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "opaque_blob",
+      "format_b": "opaque_blob",
+      "risk": {
+        "role": "boot_chain",
+        "arb_risk": "possible",
+        "key_rotation_risk": "none_seen",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
+        "must_move_with": [
+          "xbl",
+          "aop_config"
+        ],
+        "implications": [
+          "Always-On Processor firmware"
+        ]
+      }
+    },
+    "aop_config": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "opaque_blob",
+      "format_b": "opaque_blob",
+      "risk": {
+        "role": "boot_chain",
+        "arb_risk": "none_seen",
+        "key_rotation_risk": "none_seen",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
+        "must_move_with": [
+          "aop"
+        ],
+        "implications": [
+          "AOP configuration data"
+        ]
+      }
+    },
+    "bluetooth": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "fat_mbr",
+      "format_b": "fat_mbr",
+      "risk": {
+        "role": "subsystem_firmware",
+        "arb_risk": "none_seen",
+        "key_rotation_risk": "none_seen",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": true,
+        "late_boot_risk_if_mismatched": true,
+        "bringup_path": [
+          "tz"
+        ],
+        "must_move_with": [],
+        "implications": [
+          "BT firmware blob"
+        ]
+      }
+    },
+    "boot": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "android_bootimg",
+      "format_b": "android_bootimg",
+      "risk": {
+        "role": "boundary",
+        "arb_risk": "possible",
+        "key_rotation_risk": "none_seen",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
+        "must_move_with": [
+          "init_boot",
+          "vendor_boot",
+          "dtbo",
+          "vbmeta"
+        ],
+        "implications": [
+          "Android boot image; contains kernel",
+          "Verified by vbmeta chain"
+        ]
+      }
+    },
+    "cpucp": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "elf64",
+      "format_b": "elf64",
+      "risk": {
+        "role": "control_plane_firmware",
+        "arb_risk": "none_seen",
+        "key_rotation_risk": "none_seen",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": true,
+        "late_boot_risk_if_mismatched": true,
+        "bringup_path": [
+          "xbl",
+          "tz",
+          "devcfg"
+        ],
+        "must_move_with": [
+          "cpucp_dtb",
+          "pdp",
+          "pdp_cdb",
+          "shrm"
+        ],
+        "implications": [
+          "CPU Control Processor firmware for CPUSS power and frequency management",
+          "xbl references boot_prepare_cpucp and boot_reset_cpucp directly"
+        ]
+      }
+    },
+    "cpucp_dtb": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "elf64",
+      "format_b": "elf64",
+      "risk": {
+        "role": "control_plane_firmware",
+        "arb_risk": "none_seen",
+        "key_rotation_risk": "none_seen",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": true,
+        "late_boot_risk_if_mismatched": true,
+        "bringup_path": [
+          "xbl",
+          "devcfg"
+        ],
+        "must_move_with": [
+          "cpucp"
+        ],
+        "implications": [
+          "CPUCP companion DT/config blob"
+        ]
+      }
+    },
+    "dcp": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "fat_mbr",
+      "format_b": "fat_mbr",
+      "risk": {
+        "role": "display_firmware",
+        "arb_risk": "none_seen",
+        "key_rotation_risk": "none_seen",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": true,
+        "late_boot_risk_if_mismatched": true,
+        "bringup_path": [
+          "xbl",
+          "hyp"
+        ],
+        "must_move_with": [],
+        "implications": [
+          "Display Co-Processor firmware for MDSS/DPU/DSI display bring-up",
+          "xbl and hyp contain explicit dcp bring-up and partition references"
+        ]
+      }
+    },
+    "devcfg": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "elf64",
+      "format_b": "elf64",
+      "oem_version_change": {
+        "old": "kvm-slave-build-s-bp-09339844",
+        "new": "kvm-slave-build-s-bp-10473226"
+      },
+      "risk": {
+        "role": "boot_chain",
+        "arb_risk": "none_seen",
+        "key_rotation_risk": "none_seen",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
+        "must_move_with": [
+          "xbl"
+        ],
+        "implications": [
+          "Device configuration for XBL"
+        ]
+      }
+    },
+    "dtbo": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "opaque_blob",
+      "format_b": "opaque_blob",
+      "risk": {
+        "role": "unknown",
+        "arb_risk": "unknown",
+        "key_rotation_risk": "unknown",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
+        "must_move_with": [],
+        "implications": []
+      }
+    },
+    "engineering_cdt": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "opaque_blob",
+      "format_b": "opaque_blob",
+      "risk": {
+        "role": "boot_chain",
+        "arb_risk": "none_seen",
+        "key_rotation_risk": "none_seen",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
+        "must_move_with": [],
+        "implications": [
+          "Engineering CDT; hardware configuration table"
+        ]
+      }
+    },
+    "featenabler": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "elf64",
+      "format_b": "elf64",
+      "risk": {
+        "role": "feature_policy_firmware",
+        "arb_risk": "none_seen",
+        "key_rotation_risk": "none_seen",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": true,
+        "bringup_path": [
+          "tz"
+        ],
+        "must_move_with": [],
+        "implications": [
+          "RPMB-backed feature licensing / enablement service",
+          "Strings reference display, video, and QWES feature enablement plus SW fuse configuration"
+        ]
+      }
+    },
+    "hyp": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "elf64",
+      "format_b": "elf64",
+      "risk": {
+        "role": "boot_chain",
+        "arb_risk": "possible",
+        "key_rotation_risk": "possible",
+        "edl_risk_if_mismatched": true,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
+        "must_move_with": [
+          "xbl",
+          "tz"
+        ],
+        "implications": [
+          "Hypervisor; enforces memory isolation"
+        ]
+      }
+    },
+    "hyp_ac_config": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "elf64",
+      "format_b": "elf64",
+      "risk": {
+        "role": "boot_chain",
+        "arb_risk": "possible",
+        "key_rotation_risk": "possible",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": true,
+        "late_boot_risk_if_mismatched": true,
+        "bringup_path": [
+          "hyp"
+        ],
+        "must_move_with": [
+          "hyp"
+        ],
+        "implications": [
+          "Hypervisor access-control policy blob"
+        ]
+      }
+    },
+    "imagefv": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "opaque_blob",
+      "format_b": "opaque_blob",
+      "risk": {
+        "role": "boot_visuals",
+        "arb_risk": "none_seen",
+        "key_rotation_risk": "possible",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": true,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [
+          "abl"
+        ],
+        "must_move_with": [],
+        "implications": [
+          "UEFI firmware volume containing boot / charging / warning graphics"
+        ]
+      }
+    },
+    "init_boot": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "android_bootimg",
+      "format_b": "android_bootimg",
+      "risk": {
+        "role": "unknown",
+        "arb_risk": "unknown",
+        "key_rotation_risk": "unknown",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
+        "must_move_with": [],
+        "implications": []
+      }
+    },
+    "keymaster": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "elf64",
+      "format_b": "elf64",
+      "risk": {
+        "role": "boot_chain",
+        "arb_risk": "likely",
+        "key_rotation_risk": "likely",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
+        "must_move_with": [
+          "tz",
+          "uefisecapp"
+        ],
+        "implications": [
+          "Hardware-backed keystore; attestation",
+          "Mismatch with tz can break attestation and key derivation"
+        ]
+      }
+    },
+    "modem": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "fat_mbr",
+      "format_b": "fat_mbr",
+      "risk": {
+        "role": "subsystem_firmware",
+        "arb_risk": "none_seen",
+        "key_rotation_risk": "none_seen",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": true,
+        "late_boot_risk_if_mismatched": true,
+        "bringup_path": [
+          "tz",
+          "hyp"
+        ],
+        "must_move_with": [],
+        "implications": [
+          "Radio firmware; PIL-loaded by kernel",
+          "Mismatch can cause radio/IMS failures and may also stall late boot on vendor stacks"
+        ]
+      }
+    },
+    "multiimgoem": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "elf64",
+      "format_b": "elf64",
+      "risk": {
+        "role": "signing_container",
+        "arb_risk": "none_seen",
+        "key_rotation_risk": "possible",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
+        "must_move_with": [
+          "multiimgqti"
+        ],
+        "implications": [
+          "OEM multi-image signing/container bundle"
+        ]
+      }
+    },
+    "pdp": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "opaque_blob",
+      "format_b": "opaque_blob",
+      "risk": {
+        "role": "control_plane_firmware",
+        "arb_risk": "none_seen",
+        "key_rotation_risk": "none_seen",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": true,
+        "late_boot_risk_if_mismatched": true,
+        "bringup_path": [
+          "xbl",
+          "cpucp"
+        ],
+        "must_move_with": [
+          "pdp_cdb",
+          "cpucp"
+        ],
+        "implications": [
+          "Power / cluster-management MCU firmware",
+          "Observed local strings show Zephyr build and CPUCP-managed PDP boot flows"
+        ]
+      }
+    },
+    "pdp_cdb": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "opaque_blob",
+      "format_b": "opaque_blob",
+      "risk": {
+        "role": "control_plane_firmware",
+        "arb_risk": "none_seen",
+        "key_rotation_risk": "none_seen",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": true,
+        "late_boot_risk_if_mismatched": true,
+        "bringup_path": [
+          "xbl"
+        ],
+        "must_move_with": [
+          "pdp"
+        ],
+        "implications": [
+          "PDP companion configuration / database blob",
+          "Referenced directly in xbl as PDP_CDB"
+        ]
+      }
+    },
+    "pvmfw": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "android_bootimg",
+      "format_b": "android_bootimg",
+      "risk": {
+        "role": "boot_chain",
+        "arb_risk": "possible",
+        "key_rotation_risk": "possible",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
+        "must_move_with": [],
+        "implications": [
+          "Protected VM firmware; contains AVB verification, DICE chain, rollback logic",
+          "defer-rollback-protection property handling"
+        ]
+      }
+    },
+    "qupfw": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "opaque_blob",
+      "format_b": "opaque_blob",
+      "risk": {
+        "role": "control_plane_firmware",
+        "arb_risk": "none_seen",
+        "key_rotation_risk": "none_seen",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": true,
+        "late_boot_risk_if_mismatched": true,
+        "bringup_path": [
+          "xbl",
+          "tz"
+        ],
+        "must_move_with": [],
+        "implications": [
+          "Firmware for Qualcomm QUP/GENI peripheral engines (I2C/SPI/UART/I3C)",
+          "xbl and tz strings show QUP firmware load paths and access-control logic"
+        ]
+      }
+    },
+    "recovery": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "android_bootimg",
+      "format_b": "android_bootimg",
+      "risk": {
+        "role": "unknown",
+        "arb_risk": "unknown",
+        "key_rotation_risk": "unknown",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
+        "must_move_with": [],
+        "implications": []
+      }
+    },
+    "secretkeeper": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "elf64",
+      "format_b": "elf64",
+      "risk": {
+        "role": "boot_chain",
+        "arb_risk": "possible",
+        "key_rotation_risk": "likely",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": true,
+        "late_boot_risk_if_mismatched": true,
+        "bringup_path": [
+          "tz",
+          "keymaster"
+        ],
+        "must_move_with": [
+          "keymaster",
+          "tz"
+        ],
+        "implications": [
+          "Secure secret storage companion to keymaster / TEE services"
+        ]
+      }
+    },
+    "shrm": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "opaque_blob",
+      "format_b": "opaque_blob",
+      "risk": {
+        "role": "control_plane_firmware",
+        "arb_risk": "none_seen",
+        "key_rotation_risk": "none_seen",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": true,
+        "late_boot_risk_if_mismatched": true,
+        "bringup_path": [
+          "xbl"
+        ],
+        "must_move_with": [
+          "cpucp",
+          "pdp",
+          "pdp_cdb"
+        ],
+        "implications": [
+          "Shared Resource / DDR coordination firmware",
+          "xbl contains explicit SHRM and DDR initialization references"
+        ]
+      }
+    },
+    "soccp": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "fat_mbr",
+      "format_b": "fat_mbr",
+      "oem_version_change": {
+        "old": "kvm-slave-build-s-bp-09339844",
+        "new": "kvm-slave-build-s-bp-10473226"
+      },
+      "risk": {
+        "role": "control_plane_firmware",
+        "arb_risk": "none_seen",
+        "key_rotation_risk": "none_seen",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": true,
+        "late_boot_risk_if_mismatched": true,
+        "bringup_path": [
+          "xbl",
+          "tz",
+          "hyp"
+        ],
+        "must_move_with": [
+          "soccp_dcd",
+          "soccp_debug"
+        ],
+        "implications": [
+          "SoC Control Processor firmware for USB Type-C, charging, and control-plane tasks",
+          "Upstream Kaanapali docs describe it as early-boot loaded and auto-booted"
+        ]
+      }
+    },
+    "soccp_dcd": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "opaque_blob",
+      "format_b": "opaque_blob",
+      "risk": {
+        "role": "control_plane_firmware",
+        "arb_risk": "none_seen",
+        "key_rotation_risk": "none_seen",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": true,
+        "late_boot_risk_if_mismatched": true,
+        "bringup_path": [
+          "xbl"
+        ],
+        "must_move_with": [
+          "soccp"
+        ],
+        "implications": [
+          "SoCCP companion config/data blob"
+        ]
+      }
+    },
+    "soccp_debug": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "opaque_blob",
+      "format_b": "opaque_blob",
+      "risk": {
+        "role": "control_plane_firmware",
+        "arb_risk": "none_seen",
+        "key_rotation_risk": "none_seen",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": true,
+        "late_boot_risk_if_mismatched": true,
+        "bringup_path": [
+          "xbl"
+        ],
+        "must_move_with": [
+          "soccp"
+        ],
+        "implications": [
+          "SoCCP debug companion image"
+        ]
+      }
+    },
+    "tme_config": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "opaque_blob",
+      "format_b": "opaque_blob",
+      "risk": {
+        "role": "memory_security_firmware",
+        "arb_risk": "possible",
+        "key_rotation_risk": "possible",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": true,
+        "late_boot_risk_if_mismatched": true,
+        "bringup_path": [
+          "tz",
+          "devcfg"
+        ],
+        "must_move_with": [
+          "tme_fw"
+        ],
+        "implications": [
+          "TME policy / configuration blob"
+        ]
+      }
+    },
+    "tme_fw": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "opaque_blob",
+      "format_b": "opaque_blob",
+      "risk": {
+        "role": "memory_security_firmware",
+        "arb_risk": "possible",
+        "key_rotation_risk": "possible",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": true,
+        "late_boot_risk_if_mismatched": true,
+        "bringup_path": [
+          "tz",
+          "keymaster"
+        ],
+        "must_move_with": [
+          "tme_config"
+        ],
+        "implications": [
+          "Trusted Memory Engine firmware for memory protection and cryptographic services"
+        ]
+      }
+    },
+    "tz": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "elf64",
+      "format_b": "elf64",
+      "risk": {
+        "role": "boot_chain",
+        "arb_risk": "likely",
+        "key_rotation_risk": "likely",
+        "edl_risk_if_mismatched": true,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
+        "must_move_with": [
+          "xbl",
+          "xbl_config",
+          "keymaster",
+          "uefisecapp",
+          "hyp"
+        ],
+        "implications": [
+          "TrustZone / QSEE; runs trusted apps",
+          "Highest-risk non-xbl image. Controls fuse operations."
+        ]
+      }
+    },
+    "tz_ac_config": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "elf64",
+      "format_b": "elf64",
+      "risk": {
+        "role": "boot_chain",
+        "arb_risk": "possible",
+        "key_rotation_risk": "possible",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": true,
+        "late_boot_risk_if_mismatched": true,
+        "bringup_path": [
+          "tz"
+        ],
+        "must_move_with": [
+          "tz"
+        ],
+        "implications": [
+          "TrustZone access-control policy blob"
+        ]
+      }
+    },
+    "tz_qti_config": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "elf64",
+      "format_b": "elf64",
+      "risk": {
+        "role": "boot_chain",
+        "arb_risk": "possible",
+        "key_rotation_risk": "possible",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": true,
+        "late_boot_risk_if_mismatched": true,
+        "bringup_path": [
+          "tz"
+        ],
+        "must_move_with": [
+          "tz"
+        ],
+        "implications": [
+          "TrustZone QTI configuration blob"
+        ]
+      }
+    },
+    "uefi": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "elf64",
+      "format_b": "elf64",
+      "risk": {
+        "role": "boot_chain",
+        "arb_risk": "possible",
+        "key_rotation_risk": "possible",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
+        "must_move_with": [
+          "xbl",
+          "xbl_config",
+          "abl"
+        ],
+        "implications": [
+          "UEFI firmware for ABL; contains SecFuseLib",
+          "QC_IMAGE_VERSION_STRING tracks UEFI BSP"
+        ]
+      }
+    },
+    "uefisecapp": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "elf64",
+      "format_b": "elf64",
+      "risk": {
+        "role": "boot_chain",
+        "arb_risk": "possible",
+        "key_rotation_risk": "possible",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
+        "must_move_with": [
+          "tz",
+          "keymaster"
+        ],
+        "implications": [
+          "UEFI secure app; runs in TZ context"
+        ]
+      }
+    },
+    "vbmeta": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "avb_vbmeta",
+      "format_b": "avb_vbmeta",
+      "avb_change": {
+        "changed_fields": [],
+        "descriptor_changes": [
+          {
+            "key": [
+              "hashtree",
+              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000vendor_dlkm\ufffd\ufffd:)\ufffdz\ufffd+ew\ufffd\u0000I)l\u001d\u000e\"QY'|[\u0013\ufffd\ufffd\ufffd\ufffd\ufffd<?\ufffd\b\\\ufffd\ufffd\ufffd`\ufffd/Ex\ufffd\ufffdOBY'\ufffd\ufffdvD\ufffd\ufffd\ufffd\u0013\ufffd\ufffd\ufffd\ufffd\u007f\ufffd\u0018q\u0000"
+            ],
+            "old": null,
+            "new": {
+              "type": "hashtree",
+              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000vendor_dlkm\ufffd\ufffd:)\ufffdz\ufffd+ew\ufffd\u0000I)l\u001d\u000e\"QY'|[\u0013\ufffd\ufffd\ufffd\ufffd\ufffd<?\ufffd\b\\\ufffd\ufffd\ufffd`\ufffd/Ex\ufffd\ufffdOBY'\ufffd\ufffdvD\ufffd\ufffd\ufffd\u0013\ufffd\ufffd\ufffd\ufffd\u007f\ufffd\u0018q\u0000",
+              "root_digest": "",
+              "salt": ""
+            }
+          },
+          {
+            "key": [
+              "hashtree",
+              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000vendor_dlkm\ufffd\ufffd\\\u0013\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\u0002\ufffd[\u0004\ufffd\u0013m\ufffd4\ufffd\ufffdv\u0014\ufffdH\u001bh\ufffd1\ufffd^a\ufffd]\ufffdx\ufffd\ufffd\ufffdv'\ufffd\nM\ufffd\ufffd\ufffdP\ufffd7oL\ufffd:?r\ufffd\ufffd/\u0014d\u000f\ufffd=\u0000"
+            ],
+            "old": {
+              "type": "hashtree",
+              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000vendor_dlkm\ufffd\ufffd\\\u0013\ufffd\ufffd\ufffd\ufffd\ufffd\ufffd\u0002\ufffd[\u0004\ufffd\u0013m\ufffd4\ufffd\ufffdv\u0014\ufffdH\u001bh\ufffd1\ufffd^a\ufffd]\ufffdx\ufffd\ufffd\ufffdv'\ufffd\nM\ufffd\ufffd\ufffdP\ufffd7oL\ufffd:?r\ufffd\ufffd/\u0014d\u000f\ufffd=\u0000",
+              "root_digest": "",
+              "salt": ""
+            },
+            "new": null
+          },
+          {
+            "key": [
+              "property",
+              ""
+            ],
+            "old": {
+              "type": "property",
+              "key": "com.android.build.vendor_dlkm.fingerprint",
+              "value": "qti/canoe/canoe:16/BP2A.250605.015/1770826586321:user/release-keys"
+            },
+            "new": {
+              "type": "property",
+              "key": "com.android.build.vendor_dlkm.fingerprint",
+              "value": "qti/canoe/canoe:16/BP2A.250605.015/1775818680478:user/release-keys"
+            }
+          }
+        ],
+        "changed": true
+      },
+      "risk": {
+        "role": "boundary",
+        "arb_risk": "confirmed",
+        "key_rotation_risk": "confirmed",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
+        "must_move_with": [
+          "boot",
+          "init_boot",
+          "vendor_boot",
+          "dtbo",
+          "vbmeta_system",
+          "vbmeta_vendor"
+        ],
+        "implications": [
+          "Root of Android Verified Boot chain",
+          "Contains rollback index and public key",
+          "Key change here invalidates all chained partitions"
+        ]
+      }
+    },
+    "vbmeta_system": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "avb_vbmeta",
+      "format_b": "avb_vbmeta",
+      "avb_change": {
+        "changed_fields": [
+          {
+            "field": "rollback_index",
+            "old": 1772323200,
+            "new": 1775001600
+          }
+        ],
+        "descriptor_changes": [
+          {
+            "key": [
+              "hashtree",
+              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000product\u0013\ufffd\u0007\ufffd\ufffdh\ufffd\ufffdK\ufffd\ufffdU\ufffd\ufffd>\ufffd\u000ex\ufffd\ufffd\u00015\ufffd+77\ufffdfMc)HU\ufffd\ufffdZS\ufffd3\ufffd\u0001\ufffd\u0016\ufffd+\u0005\u0013\ufffd\u0000\u0000\u0000\u0000\u0000"
+            ],
+            "old": null,
+            "new": {
+              "type": "hashtree",
+              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000product\u0013\ufffd\u0007\ufffd\ufffdh\ufffd\ufffdK\ufffd\ufffdU\ufffd\ufffd>\ufffd\u000ex\ufffd\ufffd\u00015\ufffd+77\ufffdfMc)HU\ufffd\ufffdZS\ufffd3\ufffd\u0001\ufffd\u0016\ufffd+\u0005\u0013\ufffd\u0000\u0000\u0000\u0000\u0000",
+              "root_digest": "",
+              "salt": ""
+            }
+          },
+          {
+            "key": [
+              "hashtree",
+              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000product\ufffd\ufffd\u0007\ufffd\ufffd\ufffd)E\ufffd\ufffd\ufffdm\ufffd\u0003\ufffd\ufffdn\ufffd\ufffd\ufffdZv\ufffd\u0001\ufffd\ufffd\ufffdO\u0000\ufffdm\u007fS\ufffd\ufffd?c\ufffd\u0013W\ufffd\"\ufffdar:\ufffd\ufffd\u0000\u0000\u0000\u0000\u0000"
+            ],
+            "old": {
+              "type": "hashtree",
+              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000product\ufffd\ufffd\u0007\ufffd\ufffd\ufffd)E\ufffd\ufffd\ufffdm\ufffd\u0003\ufffd\ufffdn\ufffd\ufffd\ufffdZv\ufffd\u0001\ufffd\ufffd\ufffdO\u0000\ufffdm\u007fS\ufffd\ufffd?c\ufffd\u0013W\ufffd\"\ufffdar:\ufffd\ufffd\u0000\u0000\u0000\u0000\u0000",
+              "root_digest": "",
+              "salt": ""
+            },
+            "new": null
+          },
+          {
+            "key": [
+              "hashtree",
+              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000system/`\ufffd-\ufffd:\ufffdV=\ufffd\u0004\ufffdm4\ufffdS\ufffd\u0007\ufffd\ufffd\ufffd\ufffd\ufffd1\ufffd\ufffd\ufffdU\ufffd\ufffd\u001e\ufffdH?\ufffd\fk\u0000\ufffdQ\ufffd\t87y\ufffd\u001e\ufffd\u0000\u0000\u0000\u0000\u0000\u0000"
+            ],
+            "old": null,
+            "new": {
+              "type": "hashtree",
+              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000system/`\ufffd-\ufffd:\ufffdV=\ufffd\u0004\ufffdm4\ufffdS\ufffd\u0007\ufffd\ufffd\ufffd\ufffd\ufffd1\ufffd\ufffd\ufffdU\ufffd\ufffd\u001e\ufffdH?\ufffd\fk\u0000\ufffdQ\ufffd\t87y\ufffd\u001e\ufffd\u0000\u0000\u0000\u0000\u0000\u0000",
+              "root_digest": "",
+              "salt": ""
+            }
+          },
+          {
+            "key": [
+              "hashtree",
+              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000system_ext\r\ufffd\u001c\ufffd\ufffd\u0015m;\ufffd_!\ufffdq&\ufffd\ufffdl\ufffd\ufffdO\ufffd\ufffd\u0018\u0017}\n\ufffd\ufffd\ufffd\b\ufffd\ufffd=\u001e\u000f>e\ufffdnp\ufffd\u0013\u001f\ufffd\ufffdCH\ufffd\u0000\u0000"
+            ],
+            "old": {
+              "type": "hashtree",
+              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000system_ext\r\ufffd\u001c\ufffd\ufffd\u0015m;\ufffd_!\ufffdq&\ufffd\ufffdl\ufffd\ufffdO\ufffd\ufffd\u0018\u0017}\n\ufffd\ufffd\ufffd\b\ufffd\ufffd=\u001e\u000f>e\ufffdnp\ufffd\u0013\u001f\ufffd\ufffdCH\ufffd\u0000\u0000",
+              "root_digest": "",
+              "salt": ""
+            },
+            "new": null
+          },
+          {
+            "key": [
+              "hashtree",
+              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000system_ext\ufffd\u0003\"\bX\ufffd\u0018~:#\ufffd\ufffd:\u0004\ufffdP6\ufffd7\ufffd\ufffd\ufffdm\ufffd\ufffd~c[\ufffd4\ufffd\ufffd\ufffd\ufffd\u0004\ufffd\ufffd\ufffd\u001c\ufffdT\u0003)\ufffdiD\ufffdI\u0000\u0000"
+            ],
+            "old": null,
+            "new": {
+              "type": "hashtree",
+              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000system_ext\ufffd\u0003\"\bX\ufffd\u0018~:#\ufffd\ufffd:\u0004\ufffdP6\ufffd7\ufffd\ufffd\ufffdm\ufffd\ufffd~c[\ufffd4\ufffd\ufffd\ufffd\ufffd\u0004\ufffd\ufffd\ufffd\u001c\ufffdT\u0003)\ufffdiD\ufffdI\u0000\u0000",
+              "root_digest": "",
+              "salt": ""
+            }
+          },
+          {
+            "key": [
+              "hashtree",
+              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000system\ufffd\ufffdm\ufffdR\b.Uq\ufffde\ufffd\ufffd\ufffd\ufffd\ufffdU'U8!\u0015c\u0000\u001f\ufffd\ufffd.>\ufffd:\ufffd\ufffd\ufffd=\ufffd\ufffdF\ufffd\ufffd\ufffd$\ufffd\ufffd\ufffdP3\ufffd\u0000\u0000\u0000\u0000\u0000\u0000"
+            ],
+            "old": {
+              "type": "hashtree",
+              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000system\ufffd\ufffdm\ufffdR\b.Uq\ufffde\ufffd\ufffd\ufffd\ufffd\ufffdU'U8!\u0015c\u0000\u001f\ufffd\ufffd.>\ufffd:\ufffd\ufffd\ufffd=\ufffd\ufffdF\ufffd\ufffd\ufffd$\ufffd\ufffd\ufffdP3\ufffd\u0000\u0000\u0000\u0000\u0000\u0000",
+              "root_digest": "",
+              "salt": ""
+            },
+            "new": null
+          }
+        ],
+        "changed": true
+      },
+      "risk": {
+        "role": "boundary",
+        "arb_risk": "confirmed",
+        "key_rotation_risk": "possible",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
+        "must_move_with": [
+          "vbmeta"
+        ],
+        "implications": [
+          "Chained vbmeta for system partitions"
+        ]
+      }
+    },
+    "vbmeta_vendor": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "avb_vbmeta",
+      "format_b": "avb_vbmeta",
+      "avb_change": {
+        "changed_fields": [
+          {
+            "field": "rollback_index",
+            "old": 1772323200,
+            "new": 1775001600
+          }
+        ],
+        "descriptor_changes": [
+          {
+            "key": [
+              "hashtree",
+              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000vendor-\ufffdg\ufffd\ufffd\ufffd\ufffd\u0006&\u001f\f\ufffd\ufffdrO\ufffd\ufffd\ufffd\ufffd0J\ufffd\u0010\ufffd\ufffdYl\ufffdA\ufffd\ufffd\ufffdo\u001c\ufffd\ufffdn32E\ufffd\u001d\ufffd\ufffdmz\ufffdD\u0000\u0000\u0000\u0000\u0000\u0000"
+            ],
+            "old": {
+              "type": "hashtree",
+              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000vendor-\ufffdg\ufffd\ufffd\ufffd\ufffd\u0006&\u001f\f\ufffd\ufffdrO\ufffd\ufffd\ufffd\ufffd0J\ufffd\u0010\ufffd\ufffdYl\ufffdA\ufffd\ufffd\ufffdo\u001c\ufffd\ufffdn32E\ufffd\u001d\ufffd\ufffdmz\ufffdD\u0000\u0000\u0000\u0000\u0000\u0000",
+              "root_digest": "",
+              "salt": ""
+            },
+            "new": null
+          },
+          {
+            "key": [
+              "hashtree",
+              "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000vendor\ufffd\ufffd\ufffd\u0015\ufffd\ufffd\ufffd\ufffd\ufffdkf\ufffd\u0005\ufffd\n\u0015y\ufffd\ufffd\u0015\ufffd\ufffd\ufffd\ufffd\u0012\u0001:\ufffd\b\ufffd\ufffdp-\ufffd\u0018\ufffd\ufffdGq\u00000\ufffd\ufffd\u0001f\ufffd\ufffd\u0007\u0000\u0000\u0000\u0000\u0000\u0000"
+            ],
+            "old": null,
+            "new": {
+              "type": "hashtree",
+              "partition_name": "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000vendor\ufffd\ufffd\ufffd\u0015\ufffd\ufffd\ufffd\ufffd\ufffdkf\ufffd\u0005\ufffd\n\u0015y\ufffd\ufffd\u0015\ufffd\ufffd\ufffd\ufffd\u0012\u0001:\ufffd\b\ufffd\ufffdp-\ufffd\u0018\ufffd\ufffdGq\u00000\ufffd\ufffd\u0001f\ufffd\ufffd\u0007\u0000\u0000\u0000\u0000\u0000\u0000",
+              "root_digest": "",
+              "salt": ""
+            }
+          }
+        ],
+        "changed": true
+      },
+      "risk": {
+        "role": "boundary",
+        "arb_risk": "confirmed",
+        "key_rotation_risk": "possible",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
+        "must_move_with": [
+          "vbmeta"
+        ],
+        "implications": [
+          "Chained vbmeta for vendor partitions"
+        ]
+      }
+    },
+    "vendor_boot": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "vendor_bootimg",
+      "format_b": "vendor_bootimg",
+      "risk": {
+        "role": "unknown",
+        "arb_risk": "unknown",
+        "key_rotation_risk": "unknown",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
+        "must_move_with": [],
+        "implications": []
+      }
+    },
+    "xbl": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "elf64",
+      "format_b": "elf64",
+      "risk": {
+        "role": "boot_chain",
+        "arb_risk": "likely",
+        "key_rotation_risk": "likely",
+        "edl_risk_if_mismatched": true,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
+        "must_move_with": [
+          "xbl_config",
+          "abl",
+          "uefi",
+          "tz",
+          "hyp",
+          "aop",
+          "aop_config",
+          "devcfg",
+          "keymaster",
+          "uefisecapp"
+        ],
+        "implications": [
+          "PBL loads XBL; if auth fails the device enters EDL",
+          "Contains Qualcomm secure boot cert chain",
+          "QC_IMAGE_VERSION_STRING tracks Qualcomm BSP version"
+        ]
+      }
+    },
+    "xbl_ac_config": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "elf64",
+      "format_b": "elf64",
+      "risk": {
+        "role": "boot_chain",
+        "arb_risk": "possible",
+        "key_rotation_risk": "possible",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": true,
+        "late_boot_risk_if_mismatched": true,
+        "bringup_path": [
+          "xbl"
+        ],
+        "must_move_with": [
+          "xbl",
+          "xbl_config"
+        ],
+        "implications": [
+          "XBL access-control policy blob"
+        ]
+      }
+    },
+    "xbl_config": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "elf64",
+      "format_b": "elf64",
+      "risk": {
+        "role": "boot_chain",
+        "arb_risk": "confirmed",
+        "key_rotation_risk": "possible",
+        "edl_risk_if_mismatched": true,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
+        "must_move_with": [
+          "xbl"
+        ],
+        "implications": [
+          "OEM ARB metadata stored in ELF hash segment OEM metadata block",
+          "xbl_config_arb_check runs as OTA postinstall on OPlus devices"
+        ]
+      }
+    },
+    "xbl_ramdump": {
+      "sha256_changed": true,
+      "size_change": 0,
+      "format_a": "elf64",
+      "format_b": "elf64",
+      "oem_version_change": {
+        "old": "kvm-slave-build-s-bp-09339844",
+        "new": "kvm-slave-build-s-bp-10473226"
+      },
+      "risk": {
+        "role": "low_priority",
+        "arb_risk": "none_seen",
+        "key_rotation_risk": "none_seen",
+        "edl_risk_if_mismatched": false,
+        "bootloader_coupled": false,
+        "late_boot_risk_if_mismatched": false,
+        "bringup_path": [],
+        "must_move_with": [],
+        "implications": [
+          "Crash dump collection; debug only"
+        ]
+      }
+    }
+  }
+}
