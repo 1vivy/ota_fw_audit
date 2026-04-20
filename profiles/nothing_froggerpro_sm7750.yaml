@@ -1,0 +1,57 @@
+profile_id: nothing_froggerpro_sm7750
+manufacturer: Nothing
+device_name: Nothing Phone (4a) Pro
+codename: froggerpro
+aliases:
+  - FroggerPro
+soc: sm7750
+model_numbers: []
+source_references:
+  - OTA payload partition list from FroggerPro_B4.1-260323-1635.zip
+  - https://github.com/twrpdtgen/android_device_nothing_FroggerPro
+notes:
+  - Seeded from the full OTA partition list.
+  - Some Nothing-specific low-level partition relationships may need refinement after more reverse engineering.
+
+partitions:
+  boot_chain:
+    - xbl
+    - xbl_config
+    - abl
+    - uefi
+    - tz
+    - hyp
+    - aop
+    - aop_config
+    - devcfg
+    - keymaster
+    - uefisecapp
+    - pvmfw
+
+  subsystem_firmware:
+    - modem
+    - bluetooth
+    - dsp
+    - qupfw
+    - cpucp
+    - cpucp_dtb
+    - shrm
+    - soccp_dcd
+    - soccp_debug
+    - imagefv
+    - featenabler
+    - multiimgqti
+    - multiimgoem
+
+  low_priority:
+    - xbl_ramdump
+
+  boundary:
+    - boot
+    - init_boot
+    - vendor_boot
+    - dtbo
+    - recovery
+    - vbmeta
+    - vbmeta_system
+    - vbmeta_vendor

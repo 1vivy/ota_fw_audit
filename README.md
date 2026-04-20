@@ -37,6 +37,7 @@ Current reference profiles:
 
 - `profiles/boilerplate.yaml`
 - `profiles/generic_sm8850.yaml`
+- `profiles/nothing_froggerpro_sm7750.yaml`
 - `profiles/oneplus_dodge_sm8750.yaml`
 - `profiles/oneplus_infiniti_sm8850.yaml`
 - `profiles/xiaomi_pudding_sm8850.yaml`
