@@ -86,8 +86,54 @@ def compare_avb(avb_a: dict, avb_b: dict) -> dict:
     return result
 
 
+_SIGNING_PARTIES = ("qti", "oem")
+
+# Interoperability-critical signing metadata keys
+_METADATA_KEYS = [
+    "anti_rollback_version", "root_certificate_index",
+    "soc_hw_version", "product_segment_id", "jtag_id",
+    "oem_id", "oem_product_id", "oem_lifecycle_state",
+    "oem_root_cert_hash_algo",
+    "bound_to_soc_hardware_versions", "bound_to_product_segment_id",
+    "bound_to_jtag_id", "bound_to_serial_numbers",
+    "bound_to_oem_id", "bound_to_oem_product_id",
+    "bound_to_soc_lifecycle_state", "bound_to_oem_lifecycle_state",
+    "bound_to_oem_root_certificate_hash",
+    "jtag_debug", "transfer_root",
+    "major_version", "minor_version",
+]
+
+_ROOT_CERT_KEYS = ["root_cert_hash_sha256", "root_cert_hash_sha384"]
+_SIGNATURE_KEYS = ["algorithm", "hash_algorithm", "curve", "key_size"]
+_COMMON_KEYS = ["software_id", "secondary_software_id", "hash_algorithm"]
+
+
+def diff_section(
+    section: str, a: dict, b: dict, keys: list, both_present: bool = False
+) -> list:
+    """Return changed-field records for one metadata section.
+
+    With `both_present`, a field is only reported when both sides carry a
+    value, so a section absent from one image is not reported field by field.
+    """
+    changes = []
+    for key in keys:
+        va = a.get(key)
+        vb = b.get(key)
+        if va == vb:
+            continue
+        if both_present and (va is None or vb is None):
+            continue
+        changes.append({"section": section, "field": key, "old": va, "new": vb})
+    return changes
+
+
 def compare_qualcomm_metadata(qm_a: dict, qm_b: dict) -> dict:
-    """Compare qualcomm_metadata blocks from androidtool.
+    """Compare qualcomm_metadata blocks across two manifests.
+
+    Both QTI and OEM signing parties are compared, because an image can be
+    signed by either or both, and a change in which party signs it is itself
+    interoperability-critical.
 
     Returns dict with changed_fields list and boolean flags for
     interoperability-critical changes.
@@ -97,44 +143,44 @@ def compare_qualcomm_metadata(qm_a: dict, qm_b: dict) -> dict:
         "arb_changed": False,
         "arb_incremented": False,
         "root_cert_hash_changed": False,
+        "qti_root_cert_hash_changed": False,
         "oem_id_changed": False,
         "soc_hw_version_changed": False,
         "binding_changed": False,
         "signing_changed": False,
+        "signing_parties_changed": False,
         "lifecycle_changed": False,
         "changed": False,
     }
 
-    # Compare OEM metadata fields
-    oem_a = qm_a.get("oem_metadata", {}) or {}
-    oem_b = qm_b.get("oem_metadata", {}) or {}
-
-    # Interoperability-critical OEM metadata keys
-    for key in [
-        "anti_rollback_version", "root_certificate_index",
-        "soc_hw_version", "product_segment_id", "jtag_id",
-        "oem_id", "oem_product_id", "oem_lifecycle_state",
-        "oem_root_cert_hash_algo",
-        "bound_to_soc_hardware_versions", "bound_to_product_segment_id",
-        "bound_to_jtag_id", "bound_to_serial_numbers",
-        "bound_to_oem_id", "bound_to_oem_product_id",
-        "bound_to_soc_lifecycle_state", "bound_to_oem_lifecycle_state",
-        "bound_to_oem_root_certificate_hash",
-        "jtag_debug", "transfer_root",
-        "major_version", "minor_version",
-    ]:
-        va = oem_a.get(key)
-        vb = oem_b.get(key)
-        if va != vb:
-            result["changed_fields"].append({
-                "section": "oem_metadata",
-                "field": key,
-                "old": va,
-                "new": vb,
-            })
+    for party in _SIGNING_PARTIES:
+        md_a = qm_a.get(f"{party}_metadata") or {}
+        md_b = qm_b.get(f"{party}_metadata") or {}
+        if bool(md_a) != bool(md_b):
+            # The whole section appeared or disappeared. Reporting each field
+            # as a change would claim the OEM rotated IDs or binding when it
+            # only started (or stopped) signing; record the presence change
+            # and let signing_parties_changed carry the meaning.
+            metadata_changes = [{
+                "section": f"{party}_metadata",
+                "field": "present",
+                "old": bool(md_a),
+                "new": bool(md_b),
+            }]
+            result["changed_fields"].extend(metadata_changes)
+            metadata_changes = []
+        else:
+            metadata_changes = diff_section(
+                f"{party}_metadata", md_a, md_b, _METADATA_KEYS
+            )
+            result["changed_fields"].extend(metadata_changes)
+        for change in metadata_changes:
+            key = change["field"]
+            old = change["old"]
+            new = change["new"]
             if key == "anti_rollback_version":
                 result["arb_changed"] = True
-                if va is not None and vb is not None and vb > va:
+                if old is not None and new is not None and new > old:
                     result["arb_incremented"] = True
             if key == "oem_id":
                 result["oem_id_changed"] = True
@@ -145,49 +191,47 @@ def compare_qualcomm_metadata(qm_a: dict, qm_b: dict) -> dict:
             if key.startswith("bound_to_"):
                 result["binding_changed"] = True
 
-    # Compare root cert hashes
-    root_a = qm_a.get("oem_root_cert", {}) or {}
-    root_b = qm_b.get("oem_root_cert", {}) or {}
-    for key in ["root_cert_hash_sha256", "root_cert_hash_sha384"]:
-        va = root_a.get(key)
-        vb = root_b.get(key)
-        if va != vb and va is not None and vb is not None:
-            result["changed_fields"].append({
-                "section": "oem_root_cert",
-                "field": key,
-                "old": va,
-                "new": vb,
-            })
-            result["root_cert_hash_changed"] = True
+        root_changes = diff_section(
+            f"{party}_root_cert",
+            qm_a.get(f"{party}_root_cert") or {},
+            qm_b.get(f"{party}_root_cert") or {},
+            _ROOT_CERT_KEYS,
+            both_present=True,
+        )
+        result["changed_fields"].extend(root_changes)
+        if root_changes:
+            flag = "root_cert_hash_changed" if party == "oem" else "qti_root_cert_hash_changed"
+            result[flag] = True
 
-    # Compare signature properties
-    sig_a = qm_a.get("oem_signature", {}) or {}
-    sig_b = qm_b.get("oem_signature", {}) or {}
-    for key in ["algorithm", "hash_algorithm", "curve", "key_size"]:
-        va = sig_a.get(key)
-        vb = sig_b.get(key)
-        if va != vb and va is not None and vb is not None:
-            result["changed_fields"].append({
-                "section": "oem_signature",
-                "field": key,
-                "old": va,
-                "new": vb,
-            })
+        signature_changes = diff_section(
+            f"{party}_signature",
+            qm_a.get(f"{party}_signature") or {},
+            qm_b.get(f"{party}_signature") or {},
+            _SIGNATURE_KEYS,
+            both_present=True,
+        )
+        result["changed_fields"].extend(signature_changes)
+        if signature_changes:
             result["signing_changed"] = True
 
-    # Compare common metadata
-    cm_a = qm_a.get("common_metadata", {}) or {}
-    cm_b = qm_b.get("common_metadata", {}) or {}
-    for key in ["software_id", "secondary_software_id", "hash_algorithm"]:
-        va = cm_a.get(key)
-        vb = cm_b.get(key)
-        if va != vb and va is not None and vb is not None:
-            result["changed_fields"].append({
-                "section": "common_metadata",
-                "field": key,
-                "old": va,
-                "new": vb,
-            })
+    parties_a = sorted(p for p in _SIGNING_PARTIES if qm_a.get(f"{p}_cert_chain"))
+    parties_b = sorted(p for p in _SIGNING_PARTIES if qm_b.get(f"{p}_cert_chain"))
+    if parties_a != parties_b:
+        result["signing_parties_changed"] = True
+        result["changed_fields"].append({
+            "section": "signing_parties",
+            "field": "parties",
+            "old": parties_a,
+            "new": parties_b,
+        })
+
+    result["changed_fields"].extend(diff_section(
+        "common_metadata",
+        qm_a.get("common_metadata") or {},
+        qm_b.get("common_metadata") or {},
+        _COMMON_KEYS,
+        both_present=True,
+    ))
 
     result["changed"] = bool(result["changed_fields"])
     return result
@@ -331,10 +375,12 @@ def main():
             "arb_changed": False,
             "arb_incremented": False,
             "root_cert_hash_changed": False,
+            "qti_root_cert_hash_changed": False,
             "oem_id_changed": False,
             "soc_hw_version_changed": False,
             "binding_changed": False,
             "signing_changed": False,
+            "signing_parties_changed": False,
             "lifecycle_changed": False,
             "cert_chain_changed": False,
             "avb_key_changed": False,
@@ -415,6 +461,8 @@ def main():
                 report["summary"]["arb_incremented"] = True
             if qm_diff.get("root_cert_hash_changed"):
                 report["summary"]["root_cert_hash_changed"] = True
+            if qm_diff.get("qti_root_cert_hash_changed"):
+                report["summary"]["qti_root_cert_hash_changed"] = True
             if qm_diff.get("oem_id_changed"):
                 report["summary"]["oem_id_changed"] = True
             if qm_diff.get("soc_hw_version_changed"):
@@ -423,6 +471,8 @@ def main():
                 report["summary"]["binding_changed"] = True
             if qm_diff.get("signing_changed"):
                 report["summary"]["signing_changed"] = True
+            if qm_diff.get("signing_parties_changed"):
+                report["summary"]["signing_parties_changed"] = True
             if qm_diff.get("lifecycle_changed"):
                 report["summary"]["lifecycle_changed"] = True
 
@@ -472,6 +522,8 @@ def main():
         print("*** ARB INCREMENTED ***", file=sys.stderr)
     if s["root_cert_hash_changed"]:
         print("*** ROOT CERT HASH CHANGED (key rotation) ***", file=sys.stderr)
+    if s["qti_root_cert_hash_changed"]:
+        print("*** QTI ROOT CERT HASH CHANGED (key rotation) ***", file=sys.stderr)
     if s["oem_id_changed"]:
         print("*** OEM ID CHANGED ***", file=sys.stderr)
     if s["soc_hw_version_changed"]:
@@ -480,6 +532,8 @@ def main():
         print("*** BINDING FLAGS CHANGED ***", file=sys.stderr)
     if s["signing_changed"]:
         print("*** SIGNING METHOD CHANGED ***", file=sys.stderr)
+    if s["signing_parties_changed"]:
+        print("*** SIGNING PARTIES CHANGED (QTI/OEM) ***", file=sys.stderr)
     if s["lifecycle_changed"]:
         print("*** LIFECYCLE STATE CHANGED ***", file=sys.stderr)
     if s["setup_mode_changed"]:
