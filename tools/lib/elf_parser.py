@@ -94,8 +94,8 @@ def read_hash_segment(data: bytes, phdr: dict) -> bytes:
 #   [3]  oem_metadata_size
 #   [4]  hash_table_size
 #   [5]  qti_signature_size
-#   [6]  oem_signature_size
-#   [7]  qti_cert_chain_size
+#   [6]  qti_cert_chain_size
+#   [7]  oem_signature_size
 #   [8]  oem_cert_chain_size
 #
 # Total header size: 9 x 4 = 36 bytes.
@@ -112,15 +112,15 @@ def locate_hash_table_header(segment: bytes) -> Optional[dict]:
         header_offset, header_size,
         hash_header_version, common_metadata_size,
         qti_metadata_size, oem_metadata_size, hash_table_size,
-        qti_signature_size, oem_signature_size,
-        qti_cert_chain_size, oem_cert_chain_size
+        qti_signature_size, qti_cert_chain_size,
+        oem_signature_size, oem_cert_chain_size
     or None if not found.
     """
     limit = min(len(segment), HASH_HDR_SCAN_LIMIT)
     for off in range(0, limit - HASH_HDR_SIZE + 1, 4):
         vals = struct.unpack_from("<9I", segment, off)
         (version, common_sz, qti_sz, oem_sz, hash_tbl_sz,
-         qti_sig_sz, oem_sig_sz, qti_cert_sz, oem_cert_sz) = vals
+         qti_sig_sz, qti_cert_sz, oem_sig_sz, oem_cert_sz) = vals
 
         if version < 1 or version > 10:
             continue
@@ -171,9 +171,9 @@ def get_hash_segment_regions(segment: bytes, hdr: dict) -> dict:
     oem_off = qti_off + hdr["qti_metadata_size"]
     hash_off = oem_off + hdr["oem_metadata_size"]
     qti_sig_off = hash_off + hdr["hash_table_size"]
-    oem_sig_off = qti_sig_off + hdr.get("qti_signature_size", 0)
-    qti_cert_off = oem_sig_off + hdr.get("oem_signature_size", 0)
-    oem_cert_off = qti_cert_off + hdr.get("qti_cert_chain_size", 0)
+    qti_cert_off = qti_sig_off + hdr.get("qti_signature_size", 0)
+    oem_sig_off = qti_cert_off + hdr.get("qti_cert_chain_size", 0)
+    oem_cert_off = oem_sig_off + hdr.get("oem_signature_size", 0)
     post_all_off = oem_cert_off + hdr.get("oem_cert_chain_size", 0)
     post_all_sz = max(0, len(segment) - post_all_off)
 
