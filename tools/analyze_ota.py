@@ -1,18 +1,24 @@
 #!/usr/bin/env python3
 """
-analyze_ota.py - Extract firmware metadata from a full or incremental OTA zip.
+analyze_ota.py - Extract firmware metadata from an OTA or raw firmware zip.
 
 Usage:
     python3 analyze_ota.py --profile <profile.yaml> --ota <ota.zip> --out <manifest.json>
     python3 analyze_ota.py --profile <profile.yaml> --ota <incremental.zip> \
         --base-ota <full-source.zip> --out <manifest.json>
+    python3 analyze_ota.py --profile <profile.yaml> --ota <images.zip> \
+        --name <label> --out <manifest.json>
 
-If the OTA metadata does not contain a usable label, the script falls back to
-`post-build-incremental` or the OTA filename.
+Two package shapes are supported and detected automatically:
+  - payload OTAs (full or incremental), read with `payload_dumper`
+  - raw firmware zips holding flat `<partition>.img` members, read directly
+
+Raw firmware zips carry no OTA metadata, so pass `--name` to label them.
+Otherwise the script falls back to `post-build-incremental` or the filename.
 
 The script:
-  1. Reads OTA metadata from the target zip
-  2. Extracts tracked firmware partition images from the OTA payload
+  1. Detects the package shape and reads OTA metadata when present
+  2. Extracts tracked firmware partition images from the package
   3. Reconstructs incremental/partial OTAs when `--base-ota` is provided
   4. Records per-image metadata: hashes, format, Qualcomm signing metadata,
      AVB data, GBL status, and fallback version information
@@ -40,6 +46,7 @@ from lib import (
     cert_extractor,
     elf_parser,
     gbl_detector,
+    image_zip,
     linux_loader,
     ota_metadata,
     qcom_secimage,
@@ -308,11 +315,14 @@ def main():
     for group in ["boot_chain", "subsystem_firmware", "low_priority", "boundary"]:
         all_partitions.extend(profile.get("partitions", {}).get(group, []))
 
+    # Determine the package shape; only payload packages need payload_dumper
+    source_kind = image_zip.detect_kind(args.ota)
+    print(f"Package kind: {source_kind}")
+
     # Read OTA metadata
-    meta = {}
     print(f"Reading OTA metadata from {args.ota}...")
     meta = ota_metadata.extract_ota_metadata(args.ota) or {}
-    if not meta:
+    if not meta and source_kind != "raw_images":
         print("WARNING: Could not read OTA metadata from zip", file=sys.stderr)
 
     # Determine OTA label
@@ -332,32 +342,48 @@ def main():
 
     print(f"OTA label: {ota_label}")
 
-    dumper = find_payload_dumper()
-
     work_root, analysis_dir, extract_dir, base_extract_dir = prepare_extract_layout(
         args.work_dir, args.ota, bool(args.base_ota)
     )
 
-    if args.base_ota and base_extract_dir is not None:
-        clear_tracked_images(base_extract_dir, all_partitions)
-        print(f"Extracting source partitions from base OTA: {args.base_ota}...")
-        base_extracted = extract_partitions(
-            args.base_ota,
-            all_partitions,
-            str(base_extract_dir),
-            dumper,
-        )
-        print(f"Extracted {len(base_extracted)} source images.")
+    match source_kind:
+        case "raw_images":
+            if args.base_ota:
+                print(
+                    "ERROR: --base-ota applies to payload OTAs, not raw image zips",
+                    file=sys.stderr,
+                )
+                sys.exit(1)
+            clear_tracked_images(extract_dir, all_partitions)
+            print(f"Extracting {len(all_partitions)} partitions from raw image zip...")
+            extracted = image_zip.extract_images(
+                args.ota, all_partitions, str(extract_dir)
+            )
+        case _:
+            dumper = find_payload_dumper()
 
-    clear_tracked_images(extract_dir, all_partitions)
-    print(f"Extracting {len(all_partitions)} partitions from target OTA...")
-    extracted = extract_partitions(
-        args.ota,
-        all_partitions,
-        str(extract_dir),
-        dumper,
-        source_dir=str(base_extract_dir) if base_extract_dir else None,
-    )
+            if args.base_ota and base_extract_dir is not None:
+                clear_tracked_images(base_extract_dir, all_partitions)
+                print(
+                    f"Extracting source partitions from base OTA: {args.base_ota}..."
+                )
+                base_extracted = extract_partitions(
+                    args.base_ota,
+                    all_partitions,
+                    str(base_extract_dir),
+                    dumper,
+                )
+                print(f"Extracted {len(base_extracted)} source images.")
+
+            clear_tracked_images(extract_dir, all_partitions)
+            print(f"Extracting {len(all_partitions)} partitions from target OTA...")
+            extracted = extract_partitions(
+                args.ota,
+                all_partitions,
+                str(extract_dir),
+                dumper,
+                source_dir=str(base_extract_dir) if base_extract_dir else None,
+            )
     print(f"Extracted {len(extracted)} images.")
 
     setup_mode = uefi_setup_mode.check_setup_mode(str(extract_dir))
@@ -384,7 +410,13 @@ def main():
         "model_numbers": profile_meta["model_numbers"],
         "source_ota": args.ota,
         "base_ota": args.base_ota,
-        "ota_kind": "incremental" if args.base_ota else "full",
+        "ota_kind": (
+            "raw_images"
+            if source_kind == "raw_images"
+            else "incremental"
+            if args.base_ota
+            else "full"
+        ),
         "uefi_setup_mode": setup_mode,
         "partitions_analyzed": len(partitions_data),
         "partitions": partitions_data,
