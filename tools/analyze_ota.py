@@ -36,13 +36,13 @@ import yaml
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__))))
 
 from lib import (
-    androidtool_parser,
     avb_parser,
     cert_extractor,
     elf_parser,
     gbl_detector,
     linux_loader,
     ota_metadata,
+    qcom_secimage,
     uefi_setup_mode,
     version_strings,
     xbl_config_payloads,
@@ -195,22 +195,24 @@ def analyze_image(name: str, path: str, work_root: Path) -> dict:
     result["qc_image_version"] = vinfo["qc_image_version"]
     result["oem_image_version"] = vinfo["oem_image_version"]
 
-    # Qualcomm metadata via androidtool (primary source for ELF images)
-    # This gives us structured OEM metadata, binding flags, root cert hashes,
-    # signature properties, and cert chain breakdown.
-    qc_meta = androidtool_parser.inspect_image(path)
+    # Qualcomm signing metadata (primary source for signed ELF images).
+    # This gives us structured QTI/OEM metadata, binding flags, root cert
+    # hashes, signature properties, and cert chain breakdown.
+    qc_meta = qcom_secimage.inspect_image(data)
     if qc_meta is not None:
         result["qualcomm_metadata"] = qc_meta
 
     # ELF-specific fallback: our own cert extraction + xbl_config ARB
     if fmt == "elf64":
-        # Only add our cert_chain if androidtool didn't provide cert data
-        if qc_meta is None or qc_meta.get("oem_root_cert") is None:
+        # Only add our cert_chain if neither signing party yielded cert data
+        if qc_meta is None or not (
+            qc_meta.get("oem_root_cert") or qc_meta.get("qti_root_cert")
+        ):
             certs = cert_extractor.extract_certs_from_image(data)
             if certs:
                 result["cert_chain"] = certs
 
-        # xbl_config ARB fallback (in case androidtool fails)
+        # xbl_config ARB fallback (in case metadata parsing fails)
         if name == "xbl_config" and (
             qc_meta is None or qc_meta.get("oem_metadata") is None
         ):
