@@ -1,0 +1,87 @@
+profile_id: oneplus_ossi_sm8850
+manufacturer: OnePlus
+device_name: OnePlus 15
+codename: ossi
+aliases:
+    - OP60FFL1
+soc: sm8850
+model_numbers:
+    - PLK110
+source_references:
+    - oplus/ossi/ossi:16/BP2A.250605.015/1789230386515:user/release-keys
+    - OnePlus/PLK110/OP60FFL1:17/CP2A.260605.016/B.3e2f3d0-1859d0c-1859d08:user/release-keys
+notes:
+    - Seeded from a raw firmware zip (c17_qcom.zip), not an OTA package.
+    - >-
+        Distinct device from oneplus_infiniti_sm8850: this one is device code
+        OP60FFL1 / model PLK110, whereas infiniti is OP611FL1 /
+        CPH2745+CPH2747. Both ship SM8850 on the `canoe` platform and are
+        marketed as OnePlus 15 (this one as the CN 一加 15).
+    - >-
+        `ossi` is the codename carried by the vendor partition
+        (ro.product.vendor.device); PLK110/OP60FFL1 come from the my_manifest
+        product overlay, which is the authoritative product identity.
+    - >-
+        The vendor partition is still fingerprinted at Android 16 while the
+        product overlay is Android 17 / OxygenOS V17.0.0, so this is an early
+        Android 17 build rather than a shipped retail package.
+    - Partition set matches infiniti exactly; all 50 tracked images are present.
+
+partitions:
+    boot_chain:
+        - xbl
+        - xbl_config
+        - xbl_ac_config
+        - abl
+        - uefi
+        - tz
+        - tz_ac_config
+        - tz_qti_config
+        - hyp
+        - hyp_ac_config
+        - aop
+        - aop_config
+        - devcfg
+        - engineering_cdt
+        - keymaster
+        - uefisecapp
+        - oplus_sec
+        - pvmfw
+        - secretkeeper
+
+    subsystem_firmware:
+        - modem
+        - bluetooth
+        - dsp
+        - qupfw
+        - cpucp
+        - cpucp_dtb
+        - soccp
+        - soccp_debug
+        - soccp_dcd
+        - shrm
+        - pdp
+        - pdp_cdb
+        - dcp
+        - tme_fw
+        - tme_config
+        - tme_seq_patch
+        - multiimgqti
+        - multiimgoem
+        - spuservice
+        - imagefv
+        - featenabler
+
+    low_priority:
+        - splash
+        - xbl_ramdump
+
+    boundary:
+        - boot
+        - init_boot
+        - vendor_boot
+        - dtbo
+        - vbmeta
+        - vbmeta_system
+        - vbmeta_vendor
+        - recovery
