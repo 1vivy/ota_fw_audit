@@ -40,6 +40,7 @@ Current reference profiles:
 - `profiles/nothing_froggerpro_sm7750.yaml`
 - `profiles/oneplus_dodge_sm8750.yaml`
 - `profiles/oneplus_infiniti_sm8850.yaml`
+- `profiles/oneplus_ossi_sm8850.yaml`
 - `profiles/xiaomi_pudding_sm8850.yaml`
 
 Profile schema:
@@ -82,11 +83,25 @@ python3 fw_audit/tools/analyze_ota.py \
   --out fw_audit/manifests/CPH2747_11.C.01_1010.json
 ```
 
+Analyze a raw firmware zip — a flat zip of `<partition>.img` members with no
+`payload.bin` and no OTA metadata. The package shape is detected
+automatically, so `payload_dumper` is not required. These zips carry no
+version metadata, so pass `--name` to label them:
+
+```bash
+python3 fw_audit/tools/analyze_ota.py \
+  --profile fw_audit/profiles/oneplus_ossi_sm8850.yaml \
+  --ota c17_qcom.zip \
+  --name 'PLK110_17.0.0.100(SP09CN01)' \
+  --out fw_audit/manifests/PLK110_11.C.61_1610.json
+```
+
 By default, extraction uses `fw_audit/workdir`.
 You can override the root extraction location with `--work-dir`.
 
 - Full OTA: extract into `--work-dir/<ota-stem>/target`
 - Incremental OTA: extract into `--work-dir/<ota-stem>/base` and `--work-dir/<ota-stem>/target`
+- Raw firmware zip: extract into `--work-dir/<ota-stem>/target`
 
 Additional extracted helper artifacts are also written under `--work-dir/<ota-stem>/derived/`, including:
 
@@ -117,6 +132,16 @@ This matters because some firmware blobs are not part of the first-stage boot ch
 but are still directly referenced by `xbl`, `tz`, `hyp`, or `devcfg` and can break
 late boot if mixed.
 
+Signing changes are reported per party, because an image can be signed by
+QTI, by the OEM, or by both:
+
+- `root_cert_hash_changed` / `qti_root_cert_hash_changed`
+- `signing_parties_changed` when the set of signing parties changes
+
+When a whole metadata section appears or disappears, the report records a
+single `present` change rather than every field, so an image that merely
+gained a QTI signature is not reported as an OEM key or binding rotation.
+
 ## Manifest Highlights
 
 Top-level manifest fields include:
@@ -129,7 +154,7 @@ Top-level manifest fields include:
 - `ota_metadata`
 - `source_ota`
 - `base_ota`
-- `ota_kind`
+- `ota_kind` — `full`, `incremental`, or `raw_images`
 - `uefi_setup_mode`
 - `partitions`
 
@@ -150,15 +175,23 @@ Per-partition fields include:
 
 ### Qualcomm metadata
 
-For supported ELF firmware images, `androidtool` output is parsed into `qualcomm_metadata`.
+Signed Qualcomm ELF images (MBN hash-table header v7) are decoded directly
+into `qualcomm_metadata`; no external tool is required.
 
-This captures:
+This captures, per signing party (`qti_*` and `oem_*`):
 
 - ARB values
 - root certificate hashes
 - SoC and OEM binding
 - signing algorithm and curve
 - cert chain structure
+
+The 224-byte v7 metadata layout and its tri-state flag encoding follow the
+MBN format parser at <https://github.com/NichtsHsu/mbn-rs>. The decoder was
+verified field-for-field against SM8850 manifests recorded earlier with
+`androidtool`, and resolved two partitions (`spuservice`, `multiimgqti`)
+where that tool had reported a root certificate that is provably absent from
+the image bytes.
 
 ### GBL exploit state
 
@@ -204,8 +237,8 @@ Relevant fields:
 
 ## Notes
 
-- `payload_dumper` is used for OTA extraction.
-- `androidtool` from `Android_Tool_RUST` is used for Qualcomm signing metadata when available.
+- `payload_dumper` is used for OTA extraction; raw firmware zips are read directly.
+- Qualcomm signing metadata is decoded in-tree, with no external tool.
 - `XBLConfigReader` is used for SM8450+ `xbl_config` payload extraction when available.
 - `xbltools` is used for `xbl` component splitting when available.
 - `extractfv` from `gbl_root_canoe` is used for `LinuxLoader.efi` extraction when available.
